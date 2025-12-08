@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
+
 
 class HeroSection(models.Model):
     title = models.CharField(max_length=255)
@@ -232,3 +234,68 @@ class VendorDocument(models.Model):
 
     def __str__(self):
         return f"{self.document_type} - {self.vendor.business_name}"
+    
+
+
+
+class BlogCategory(models.Model):
+    title = models.CharField(max_length=150)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+
+class Blog(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
+    category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True)
+    thumbnail = models.ImageField(upload_to="blogs/")
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    author = models.CharField(max_length=100, default="Admin")
+    views = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title    
+    
+
+class ContactPage(models.Model):
+    hero_title = models.CharField(max_length=255, default="Contact TravelBiz")
+    hero_subtitle = models.CharField(max_length=255, blank=True, null=True)
+    hero_image = models.ImageField(upload_to="contact/", blank=True, null=True)
+
+    help_center_title = models.CharField(max_length=255, default="Help Center")
+    help_center_phone = models.CharField(max_length=50, blank=True, null=True)
+    help_center_email = models.CharField(max_length=100, blank=True, null=True)
+
+    address_title = models.CharField(max_length=255, default="Address")
+    address_text = models.CharField(max_length=255, blank=True, null=True)
+
+    business_title = models.CharField(max_length=255, default="Business Queries")
+    business_phone = models.CharField(max_length=50, blank=True, null=True)
+    business_email = models.CharField(max_length=100, blank=True, null=True)
+
+    map_embed_url = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Paste the Google Maps Embed URL here"
+    )
+
+    class Meta:
+        verbose_name = "Contact Page"
+        verbose_name_plural = "Contact Page Settings"
+
+    def __str__(self):
+        return "Contact Page Settings"
+

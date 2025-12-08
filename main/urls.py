@@ -5,6 +5,10 @@ from .views import (
     vendor_login,
     vendor_dashboard,
     vendor_success,
+    blog_list,
+    blog_detail,
+    contact_page,
+
 )
 
 urlpatterns = [
@@ -21,4 +25,13 @@ urlpatterns = [
 
     # Vendor Success
     path("vendor-success/", vendor_success, name="vendor_success"),
+    
+    # BLOG PAGE
+    path("blog/", blog_list, name="blog_list"),
+    path("blog/<slug:slug>/", blog_detail, name="blog_detail"),
+
+    path('contact/', contact_page, name='contact'),
+
+
+
 ]

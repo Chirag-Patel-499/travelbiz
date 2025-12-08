@@ -396,6 +396,9 @@ $(document).ready(function(){
 								<a href="{{ link.url }}">{{ link.title }}</a>
 							</li>
 							{% endfor %}
+							   <!-- ADD BLOG MANUALLY -->
+    						<li><a href="{% url 'blog_list' %}">Blog</a></li>
+							<li><a href="{% url 'contact' %}">Contact</a></li>
 						</ul>
 
 					</div>

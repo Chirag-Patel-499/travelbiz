@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ blog.title }} - TravelBiz</title>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header_in clearfix">
+    <div class="container">
+        <div id="logo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'img/logo.svg' %}" width="140" height="35" alt="">
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="container margin_60_40">
+
+    <div class="row">
+
+        <!-- LEFT CONTENT -->
+        <div class="col-lg-9">
+
+            <div class="singlepost">
+
+                <figure>
+                    <img src="{{ blog.thumbnail.url }}" alt="{{ blog.title }}" class="img-fluid">
+                </figure>
+
+                <h1>{{ blog.title }}</h1>
+
+                <small>{{ blog.category.title }} — {{ blog.created_at|date:"d M Y" }}</small>
+
+                <div class="post-content mt-3">
+                    {{ blog.content|safe }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="col-lg-3">
+
+            <div class="widget">
+                <div class="widget-title">
+                    <h4>Latest Posts</h4>
+                </div>
+
+                <ul class="comments-list">
+                    {% for p in latest_posts %}
+                    <li>
+                        <div class="alignleft">
+                            <a href="{% url 'blog_detail' p.slug %}">
+                                <img src="{{ p.thumbnail.url }}" alt="{{ p.title }}">
+                            </a>
+                        </div>
+                        <small>{{ p.created_at|date:"d M Y" }}</small>
+                        <h3>
+                            <a href="{% url 'blog_detail' p.slug %}">
+                                {{ p.title|truncatewords:6 }}
+                            </a>
+                        </h3>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>
+
+<script src="{% static 'js/common_scripts.min.js' %}"></script>
+<script src="{% static 'js/common_func.js' %}"></script>
+
+</body>
+</html>

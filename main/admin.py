@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HeroSection, Category, Destination, MiddleBanner, Deal, CallSection, FooterQuickLink, FooterCategory, FooterContact, SocialLink, Vendor, VendorDocument
+from .models import HeroSection, Category, Destination, MiddleBanner, Deal, CallSection, FooterQuickLink, FooterCategory, FooterContact, SocialLink, Vendor, VendorDocument, Blog, BlogCategory, ContactPage
 
 @admin.register(HeroSection)
 class HeroSectionAdmin(admin.ModelAdmin):
@@ -63,7 +63,7 @@ class VendorDocumentInline(admin.TabularInline):
 class VendorAdmin(admin.ModelAdmin):
     list_display = ("business_name", "user", "phone", "verified", "status", "city", "country")
     list_filter = ("verified", "status", "country")
-    search_fields = ("business_name", "user__username" "phone")
+    search_fields = ("business_name", "user__username", "phone")
     inlines = [VendorDocumentInline]
 
     @admin.action(description="Approve Selected Vendors")
@@ -87,3 +87,23 @@ class VendorDocumentAdmin(admin.ModelAdmin):
     list_display = ("vendor", "document_type", "approved", "uploaded_at")
     list_filter = ("approved", "document_type")
     search_fields = ("vendor__business_name", "document_type")    
+
+
+@admin.register(BlogCategory)
+class BlogCategoryAdmin(admin.ModelAdmin):
+    list_display = ("title", "slug")
+    prepopulated_fields = {"slug": ("title",)}
+
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ("title", "category", "author", "created_at", "views")
+    list_filter = ("category", "created_at")
+    search_fields = ("title", "content")
+    prepopulated_fields = {"slug": ("title",)}
+
+
+
+
+@admin.register(ContactPage)
+class ContactPageAdmin(admin.ModelAdmin):
+    list_display = ("hero_title",)

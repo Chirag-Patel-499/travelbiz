@@ -1,12 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+
 
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Vendor
+    SocialLink, Vendor, Blog, BlogCategory
 )
 
 from main.forms import VendorRegisterForm
@@ -138,3 +140,57 @@ def vendor_dashboard(request):
 # ----------------------------------------------------
 def vendor_success(request):
     return render(request, "vendor/vendor_success.html")
+
+
+# ----------------------------------------------------
+# BLOG LIST PAGE (DYNAMIC)
+# ----------------------------------------------------
+def blog_list(request):
+    search = request.GET.get("q")
+    category_slug = request.GET.get("category")
+
+    blogs = Blog.objects.all().order_by("-created_at")
+
+    # SEARCH
+    if search:
+        blogs = blogs.filter(title__icontains=search)
+
+    # CATEGORY FILTER
+    if category_slug:
+        blogs = blogs.filter(category__slug=category_slug)
+
+    # PAGINATION
+    paginator = Paginator(blogs, 6)
+    page = request.GET.get("page")
+    blogs = paginator.get_page(page)
+
+    categories = BlogCategory.objects.all()
+    latest_posts = Blog.objects.order_by("-created_at")[:3]
+
+    context = {
+        "blogs": blogs,
+        "categories": categories,
+        "latest_posts": latest_posts,
+    }
+    return render(request, "blog.html", context)
+
+
+
+# ----------------------------------------------------
+# BLOG DETAIL PAGE
+# ----------------------------------------------------
+def blog_detail(request, slug):
+    blog = get_object_or_404(Blog, slug=slug)
+
+    # latest posts sidebar
+    latest_posts = Blog.objects.exclude(id=blog.id).order_by("-created_at")[:3]
+
+    context = {
+        "blog": blog,
+        "latest_posts": latest_posts
+    }
+    return render(request, "blog_detail.html", context)
+
+
+def contact_page(request):
+    return render(request, 'contact.html')
