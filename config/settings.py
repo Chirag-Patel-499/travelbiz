@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main', 
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "TravelBiz Admin",
     "site_header": "TravelBiz",
     "site_brand": "TravelBiz Admin Panel",
-    "site_logo": "img/logon.png",
+    # "site_logo": "img/logon.png",
     "site_logo_classes": "img-fluid",
     "site_logo_width": 150, 
     "welcome_sign": "Welcome to TravelBiz Dashboard",
@@ -187,6 +188,9 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+AUTH_USER_MODEL = "accounts.User"
 
 
 # Default primary key field type

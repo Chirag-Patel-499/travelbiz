@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Register as Vendor - TravelBiz</title>
+
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/style.css' %}" rel="stylesheet">
+	<link href="{% static 'css/home.css' %}" rel="stylesheet">
+
+	<style>
+		.register-box {
+			background: #fff;
+			border-radius: 12px;
+			padding: 30px 35px;
+			box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+			margin-top: 40px;
+		}
+
+		h3.title {
+			font-size: 28px;
+			font-weight: 600;
+			margin-bottom: 25px;
+			text-align: center;
+		}
+
+		.form-group label {
+			font-weight: 500;
+			margin-bottom: 5px;
+		}
+
+		.form-control {
+			border-radius: 8px;
+			padding: 10px 12px;
+			box-shadow: none;
+			border: 1px solid #ddd;
+			font-size: 15px;
+		}
+
+		textarea.form-control {
+			height: 120px;
+			resize: none;
+		}
+
+		.btn-submit {
+			background: #3fb57f;
+			border: none;
+			padding: 12px;
+			font-size: 18px;
+			width: 100%;
+			border-radius: 8px;
+			color: #fff;
+			margin-top: 20px;
+		}
+
+		.btn-submit:hover {
+			background: #34a26f;
+		}
+
+		.bottom-link {
+			text-align: center;
+			margin-top: 15px;
+			font-size: 14px;
+		}
+
+		.bottom-link a {
+			color: #2ca0df;
+			font-weight: 500;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="row justify-content-center">
+			
+			<div class="col-xl-6 col-lg-7 col-md-9">
+
+				<div class="register-box">
+
+					<h3 class="title">Register as Vendor</h3>
+
+					<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+
+						<!-- EMAIL -->
+						<div class="form-group mb-3">
+							<label>Email</label>
+							<input type="email" name="email" class="form-control" required>
+						</div>
+
+						<!-- PASSWORD -->
+						<div class="form-group mb-3">
+							<label>Password</label>
+							<input type="password" name="password" class="form-control" required>
+						</div>
+
+						<!-- BUSINESS NAME -->
+						<div class="form-group mb-3">
+							<label>Business Name</label>
+							<input type="text" name="business_name" class="form-control" required>
+						</div>
+
+						<!-- TAGLINE -->
+						<div class="form-group mb-3">
+							<label>Tagline</label>
+							<input type="text" name="tagline" class="form-control">
+						</div>
+
+						<!-- DESCRIPTION -->
+						<div class="form-group mb-3">
+							<label>Description</label>
+							<textarea name="description" class="form-control"></textarea>
+						</div>
+
+						<!-- ADDRESS -->
+						<div class="form-group mb-3">
+							<label>Address</label>
+							<input type="text" name="address" class="form-control" required>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label>City</label>
+								<input type="text" name="city" class="form-control" required>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<label>State</label>
+								<input type="text" name="state" class="form-control" required>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label>Country</label>
+								<input type="text" name="country" class="form-control" required>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<label>GST Number</label>
+								<input type="text" name="gst_number" class="form-control">
+							</div>
+						</div>
+
+						<!-- LOGO -->
+						<div class="form-group mb-3">
+							<label>Logo</label>
+							<input type="file" name="logo" class="form-control">
+						</div>
+
+						<button type="submit" class="btn-submit">Submit Vendor Application</button>
+
+						<p class="bottom-link">
+							Already a vendor?
+							<a href="{% url 'vendor_login' %}">Login</a>
+						</p>
+
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,6 +1,24 @@
-from django.shortcuts import render
-from .models import HeroSection, Category, Destination, MiddleBanner, Deal, CallSection, FooterQuickLink, FooterCategory, FooterContact, SocialLink
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+from .models import (
+    HeroSection, Category, Destination, MiddleBanner, Deal,
+    CallSection, FooterQuickLink, FooterCategory, FooterContact,
+    SocialLink, Vendor
+)
+
+from main.forms import VendorRegisterForm
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+
+# ----------------------------------------------------
+# HOME PAGE
+# ----------------------------------------------------
 def home(request):
     hero = HeroSection.objects.first()
     categories = Category.objects.all()
@@ -14,12 +32,7 @@ def home(request):
     footer_contact = FooterContact.objects.first()
     social_links = SocialLink.objects.all()
 
-
-
-
-
-
-
+    vendors = Vendor.objects.filter(verified=True).order_by("-rating")[:6]
 
     context = {
         "hero": hero,
@@ -33,11 +46,95 @@ def home(request):
         "footer_categories": footer_categories,
         "footer_contact": footer_contact,
         "social_links": social_links,
-
-
-
-
-
-
+        "vendors": vendors,
     }
     return render(request, "index.html", context)
+
+
+
+# ----------------------------------------------------
+# VENDOR REGISTRATION (NO LOGIN REQUIRED)
+# ----------------------------------------------------
+def vendor_register(request):
+
+    if request.method == "POST":
+        form = VendorRegisterForm(request.POST, request.FILES)
+
+        if form.is_valid():
+
+            email = request.POST.get("email")
+            password = request.POST.get("password")
+            phone = request.POST.get("phone")
+
+            # 1) USER ACCOUNT CREATE
+            if User.objects.filter(username=email).exists():
+                messages.error(request, "Email already registered! Please login.")
+                return redirect("vendor_login")
+
+            user = User.objects.create_user(
+                username=email,
+                email=email,
+                password=password
+            )
+
+            user.role = "vendor"
+            user.phone = phone
+
+            user.save()
+
+            # 2) CREATE VENDOR PROFILE
+            vendor = form.save(commit=False)
+            vendor.user = user
+            vendor.save()
+
+            # 3) AUTO LOGIN AFTER REGISTER
+            login(request, user)
+
+            return redirect("vendor_success")
+
+    else:
+        form = VendorRegisterForm()
+
+    return render(request, "vendor/vendor_register.html", {"form": form})
+
+
+
+# ----------------------------------------------------
+# VENDOR LOGIN (FINAL — only ONE definition)
+# ----------------------------------------------------
+def vendor_login(request):
+
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        user = authenticate(username=email, password=password)
+
+        if user:
+            if user.role == "vendor":
+                login(request, user)
+                return redirect("vendor_dashboard")
+            else:
+                messages.error(request, "This is not a vendor account.")
+        else:
+            messages.error(request, "Invalid email or password.")
+
+    return render(request, "vendor/vendor_login.html")
+
+
+
+# ----------------------------------------------------
+# VENDOR DASHBOARD
+# ----------------------------------------------------
+@login_required
+def vendor_dashboard(request):
+    vendor = Vendor.objects.filter(user=request.user).first()
+    return render(request, "vendor/vendor_dashboard.html", {"vendor": vendor})
+
+
+
+# ----------------------------------------------------
+# VENDOR SUCCESS PAGE
+# ----------------------------------------------------
+def vendor_success(request):
+    return render(request, "vendor/vendor_success.html")

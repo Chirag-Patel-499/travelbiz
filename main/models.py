@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 class HeroSection(models.Model):
     title = models.CharField(max_length=255)
@@ -163,3 +164,71 @@ class SocialLink(models.Model):
 
     def __str__(self):
         return self.platform
+
+
+
+
+def vendor_logo_upload(instance, filename):
+    return f"vendors/logos/{instance.user.username}/{filename}"
+
+def vendor_document_upload(instance, filename):
+    return f"vendors/documents/{instance.vendor.user.username}/{filename}"
+
+
+class Vendor(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="vendor_profile"
+    )
+
+    business_name = models.CharField(max_length=255)
+    logo = models.ImageField(upload_to=vendor_logo_upload, blank=True, null=True)
+    tagline = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True) 
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    gst_number = models.CharField(max_length=50, blank=True, null=True)
+
+    verified = models.BooleanField(default=False)
+    rating = models.FloatField(default=0)
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ("active", "Active"),
+            ("inactive", "Inactive"),
+            ("blocked", "Blocked")
+        ],
+        default="inactive"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Vendor"
+        verbose_name_plural = "Vendors"
+
+    def __str__(self):
+        return f"{self.business_name} ({self.user.username})"
+
+
+class VendorDocument(models.Model):
+    vendor = models.ForeignKey(
+        Vendor,
+        on_delete=models.CASCADE,
+        related_name="documents"
+    )
+    document_type = models.CharField(max_length=100)
+    document_file = models.FileField(upload_to=vendor_document_upload)
+    approved = models.BooleanField(default=False)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Vendor Document"
+        verbose_name_plural = "Vendor Documents"
+
+    def __str__(self):
+        return f"{self.document_type} - {self.vendor.business_name}"

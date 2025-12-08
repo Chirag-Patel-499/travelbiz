@@ -64,7 +64,8 @@ $(document).ready(function(){
 			</a>
 		</div>
 		<ul id="top_menu">
-			<li><a href="#sign-in-dialog" id="sign-in" class="login">Sign In</a></li>
+			<li><a href="{% url 'vendor_login' %}" class="login">Vendor Login</a></li>
+
 			<li><a href="wishlist.html" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
 		</ul>
 		<a href="#0" class="open_close">
@@ -326,6 +327,41 @@ $(document).ready(function(){
 			<!-- /button visibile on tablet/mobile only -->
 		</div>
 		<!-- /container -->
+
+		<div class="container margin_60_40">
+    <div class="main_title">
+        <span><em></em></span>
+        <h2>Top Verified Vendors</h2>
+        <p>Trusted travel partners with top quality services.</p>
+    </div>
+
+    <div class="row">
+        {% for v in vendors %}
+        <div class="col-lg-4 col-md-6">
+            <div class="strip">
+                <figure>
+                    {% if v.logo %}
+                    <img src="{{ v.logo.url }}" alt="{{ v.business_name }}" style="height:200px; object-fit:cover;">
+                    {% else %}
+                    <img src="{% static 'img/vendor_default.jpg' %}" alt="Vendor">
+                    {% endif %}
+                </figure>
+                <ul>
+                    <li><strong>{{ v.business_name }}</strong></li>
+                    <li>{{ v.city }}, {{ v.country }}</li>
+                    <li>
+                        <div class="score">
+                            <strong>{{ v.rating }}</strong>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
 
 		<div class="call_section lazy" 
 			data-bg="url({{ call_section.background_image.url }})">

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HeroSection, Category, Destination, MiddleBanner, Deal, CallSection, FooterQuickLink, FooterCategory, FooterContact, SocialLink
+from .models import HeroSection, Category, Destination, MiddleBanner, Deal, CallSection, FooterQuickLink, FooterCategory, FooterContact, SocialLink, Vendor, VendorDocument
 
 @admin.register(HeroSection)
 class HeroSectionAdmin(admin.ModelAdmin):
@@ -50,3 +50,40 @@ class FooterContactAdmin(admin.ModelAdmin):
 @admin.register(SocialLink)
 class SocialLinkAdmin(admin.ModelAdmin):
     list_display = ("platform", "url")    
+
+
+
+
+class VendorDocumentInline(admin.TabularInline):
+    model = VendorDocument
+    extra = 1
+
+
+@admin.register(Vendor)
+class VendorAdmin(admin.ModelAdmin):
+    list_display = ("business_name", "user", "phone", "verified", "status", "city", "country")
+    list_filter = ("verified", "status", "country")
+    search_fields = ("business_name", "user__username" "phone")
+    inlines = [VendorDocumentInline]
+
+    @admin.action(description="Approve Selected Vendors")
+    def approve_vendors(self, request, queryset):
+        queryset.update(verified=True, status="active")
+
+    @admin.action(description="Mark Selected Vendors as Inactive")
+    def make_inactive(self, request, queryset):
+        queryset.update(status="inactive")
+
+    @admin.action(description="Block Selected Vendors")
+    def block_vendors(self, request, queryset):
+        queryset.update(status="blocked")
+
+    actions = ["approve_vendors", "make_inactive", "block_vendors"]
+
+
+
+@admin.register(VendorDocument)
+class VendorDocumentAdmin(admin.ModelAdmin):
+    list_display = ("vendor", "document_type", "approved", "uploaded_at")
+    list_filter = ("approved", "document_type")
+    search_fields = ("vendor__business_name", "document_type")    
