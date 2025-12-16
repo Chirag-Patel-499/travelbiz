@@ -3,12 +3,13 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication  
+    SocialLink, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination
 )
 
 from main.forms import VendorRegisterForm
@@ -279,3 +280,24 @@ def help_page(request):
         "social_links": social_links,
     }
     return render(request, "help.html", context)
+
+
+def search_results(request):
+    query = request.GET.get("q")
+    date = request.GET.get("date")
+
+    destinations = Destination.objects.all()
+
+    if query:
+        destinations = destinations.filter(
+            Q(title__icontains=query) |
+            Q(country_category__icontains=query)
+        )
+
+    context = {
+        "query": query,
+        "date": date,
+        "destinations": destinations
+    }
+
+    return render(request, "search_results.html", context)

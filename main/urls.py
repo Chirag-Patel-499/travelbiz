@@ -11,7 +11,8 @@ from .views import (
     wishlist_page,
     become_driver,
     my_account,
-    help_page
+    help_page,
+    search_results
     
 
 )
@@ -46,7 +47,7 @@ urlpatterns = [
 
     path("help/", help_page, name="help"),
 
-
+    path("search/", search_results, name="search_results"),
 
 
 

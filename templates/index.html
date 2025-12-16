@@ -118,31 +118,43 @@ $(document).ready(function(){
 							<h1>{{ hero.title }}</h1>
 							<p>{{ hero.subtitle }}</p>
 
-							<form method="get" action="grid-destinations.html">
+							<form method="get" action="{% url 'search_results' %}">
 								<div class="row g-0 custom-search-input">
+
+									<!-- BOX 1: Destination / Experience -->
 									<div class="col-lg-4">
 										<div class="form-group">
-											<input class="form-control" 
-												name="q" 
-												type="text" 
-												placeholder="{{ hero.search_placeholder_1 }}">
+											<input
+												class="form-control"
+												name="q"
+												type="text"
+												placeholder="{{ hero.search_placeholder_1 }}"
+											>
 											<i class="icon_search"></i>
 										</div>
 									</div>
+
+									<!-- BOX 2: Dates / Flexible -->
 									<div class="col-lg-5">
 										<div class="form-group">
-											<input class="form-control no_border_r" 
-												name="location" 
-												type="text" 
-												placeholder="{{ hero.search_placeholder_2 }}">
+											<input
+												class="form-control no_border_r"
+												name="date"
+												type="text"
+												placeholder="{{ hero.search_placeholder_2 }}"
+											>
 											<i class="icon_calendar"></i>
 										</div>
 									</div>
+
+									<!-- SEARCH BUTTON -->
 									<div class="col-lg-3">
 										<input type="submit" value="Search">
 									</div>
+
 								</div>
 							</form>
+
 
 						</div>
 					</div>
