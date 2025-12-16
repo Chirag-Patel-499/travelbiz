@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HeroSection, Category, Destination, MiddleBanner, Deal, CallSection, FooterQuickLink, FooterCategory, FooterContact, SocialLink, Vendor, VendorDocument, Blog, BlogCategory, ContactPage
+from .models import HeroSection, Category, Destination, MiddleBanner, Deal,CallSection,FooterQuickLink, FooterCategory, FooterContact, SocialLink, Vendor, VendorDocument, Blog, BlogCategory, ContactPage, Wishlist, WishlistBanner, DriverApplication
 
 @admin.register(HeroSection)
 class HeroSectionAdmin(admin.ModelAdmin):
@@ -107,3 +107,28 @@ class BlogAdmin(admin.ModelAdmin):
 @admin.register(ContactPage)
 class ContactPageAdmin(admin.ModelAdmin):
     list_display = ("hero_title",)
+
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ("title", "category", "location", "rating", "discount")
+    search_fields = ("title", "location", "category")
+    list_filter = ("category", "rating")    
+
+
+@admin.register(WishlistBanner)
+class WishlistBannerAdmin(admin.ModelAdmin):
+    list_display = ("title",)    
+
+
+@admin.register(DriverApplication)
+class DriverApplicationAdmin(admin.ModelAdmin):
+    list_display = (
+        "full_name",
+        "city",
+        "vehicle_type",
+        "phone",
+        "created_at",
+    )
+    search_fields = ("full_name", "phone", "city")
+    list_filter = ("city", "vehicle_type")    

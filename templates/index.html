@@ -66,7 +66,7 @@ $(document).ready(function(){
 		<ul id="top_menu">
 			<li><a href="{% url 'vendor_login' %}" class="login">Vendor Login</a></li>
 
-			<li><a href="wishlist.html" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
+			<li><a href="{% url 'wishlist' %}" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
 		</ul>
 		<a href="#0" class="open_close">
 			<i class="icon_menu"></i><span>Menu</span>
@@ -85,30 +85,22 @@ $(document).ready(function(){
 					<a href="#0" class="show-submenu">Home</a>
 					<ul>
 						<li><a href="{% url 'home' %}">Default</a></li>
-						<li><a href="destinations.html">Destinations</a></li>
-						<li><a href="tours.html">Tours</a></li>
-						<li><a href="hotels.html">Hotels</a></li>
 					</ul>
 				</li>
 				<li class="submenu">
 					<a href="#0" class="show-submenu">Explore</a>
 					<ul>
-						<li><a href="grid-destinations.html">All Destinations</a></li>
-						<li><a href="offers.html">Offers & Deals</a></li>
-						<li><a href="blog.html">Travel Tips</a></li>
-						<li><a href="contacts.html">Contact</a></li>
+						<li><a href="{% url 'blog_list' %}">Travel Tips</a></li>
+						<li><a href="{% url 'contact' %}">Contact</a></li>
 					</ul>
 				</li>
 				<li class="submenu">
 					<a href="#0" class="show-submenu">Other Pages</a>
 					<ul>
-						<li><a href="help.html">Help and Faq</a></li>
+						<li><a href="{% url 'help' %}">Help & FAQ</a></li>
 						<li><a href="account.html">Sign Up</a></li>
-						<li><a href="submit-trip.html">Submit Trip</a></li>
 					</ul>
 				</li>
-				<li><a href="submit-trip.html">Submit</a></li>
-				<li><a href="#0">Buy this template</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -399,6 +391,9 @@ $(document).ready(function(){
 							   <!-- ADD BLOG MANUALLY -->
     						<li><a href="{% url 'blog_list' %}">Blog</a></li>
 							<li><a href="{% url 'contact' %}">Contact</a></li>
+							<li><a href="{% url 'become_driver' %}">Become Driver</a></li>
+							<li><a href="{% url 'my_account' %}">My Account</a></li>
+							<li><a href="{% url 'help' %}">Help & FAQ</a></li>
 						</ul>
 
 					</div>

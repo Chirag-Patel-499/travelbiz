@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Vendor, Blog, BlogCategory
+    SocialLink, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication  
 )
 
 from main.forms import VendorRegisterForm
@@ -194,3 +194,88 @@ def blog_detail(request, slug):
 
 def contact_page(request):
     return render(request, 'contact.html')
+
+
+def wishlist_page(request):
+    wishlist = Wishlist.objects.all()
+    banner = WishlistBanner.objects.first()
+    return render(request, "wishlist.html", {
+        "wishlist": wishlist,
+        "banner": banner,
+    })
+
+
+
+
+def become_driver(request):
+    if request.method == "POST":
+
+        availability = request.POST.getlist("availability")
+        availability_str = ", ".join(availability)
+
+        DriverApplication.objects.create(
+            city=request.POST.get("city"),
+            service_area=request.POST.get("service_area"),
+
+            vehicle_type=request.POST.get("vehicle_type"),
+            vehicle_model=request.POST.get("vehicle_model"),
+            vehicle_number=request.POST.get("vehicle_number"),
+
+            experience_years=request.POST.get("experience_years") or 0,
+            airport_experience=request.POST.get("airport_experience"),
+
+            availability=availability_str,
+
+            driving_license=request.FILES.get("driving_license"),
+            vehicle_rc=request.FILES.get("vehicle_rc"),
+            id_proof=request.FILES.get("id_proof"),
+            vehicle_photo=request.FILES.get("vehicle_photo"),
+
+            full_name=request.POST.get("full_name"),
+            email=request.POST.get("email"),
+            phone=request.POST.get("phone"),
+            bank_account=request.POST.get("bank_account"),
+        )
+
+        messages.success(request, "Application submitted successfully!")
+        return redirect("home")
+
+    return render(request, "become_driver.html")
+
+
+# ----------------------------------------------------
+# MY ACCOUNT PAGE
+# ----------------------------------------------------
+@login_required
+def my_account(request):
+    footer_quick_links = FooterQuickLink.objects.all()
+    footer_categories = FooterCategory.objects.all()
+    footer_contact = FooterContact.objects.first()
+    social_links = SocialLink.objects.all()
+
+    context = {
+        "user": request.user,
+        "footer_quick_links": footer_quick_links,
+        "footer_categories": footer_categories,
+        "footer_contact": footer_contact,
+        "social_links": social_links,
+    }
+    return render(request, "account.html", context)
+
+
+# ----------------------------------------------------
+# HELP PAGE
+# ----------------------------------------------------
+def help_page(request):
+    footer_quick_links = FooterQuickLink.objects.all()
+    footer_categories = FooterCategory.objects.all()
+    footer_contact = FooterContact.objects.first()
+    social_links = SocialLink.objects.all()
+
+    context = {
+        "footer_quick_links": footer_quick_links,
+        "footer_categories": footer_categories,
+        "footer_contact": footer_contact,
+        "social_links": social_links,
+    }
+    return render(request, "help.html", context)

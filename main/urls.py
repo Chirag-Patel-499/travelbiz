@@ -8,6 +8,11 @@ from .views import (
     blog_list,
     blog_detail,
     contact_page,
+    wishlist_page,
+    become_driver,
+    my_account,
+    help_page
+    
 
 )
 
@@ -31,6 +36,17 @@ urlpatterns = [
     path("blog/<slug:slug>/", blog_detail, name="blog_detail"),
 
     path('contact/', contact_page, name='contact'),
+
+    path("wishlist/", wishlist_page, name="wishlist"),
+    
+    # urls.py
+    path('become-driver/', become_driver, name='become_driver'),
+
+    path("my-account/", my_account, name="my_account"),
+
+    path("help/", help_page, name="help"),
+
+
 
 
 

@@ -299,3 +299,63 @@ class ContactPage(models.Model):
     def __str__(self):
         return "Contact Page Settings"
 
+
+
+class Wishlist(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="wishlist/")
+    category = models.CharField(max_length=100)
+    location = models.CharField(max_length=200)
+    url = models.CharField(max_length=300)
+    discount = models.CharField(max_length=50, blank=True, null=True)
+    rating = models.FloatField()
+    review_text = models.CharField(max_length=200)
+
+class WishlistBanner(models.Model):
+    title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=300)
+    image = models.ImageField(upload_to="wishlist_banner/")
+
+    def __str__(self):
+        return self.title
+
+
+
+class DriverApplication(models.Model):
+    CITY_CHOICES = [
+        ("Surat", "Surat"),
+        ("Ahmedabad", "Ahmedabad"),
+        ("Mumbai", "Mumbai"),
+        ("Pune", "Pune"),
+        ("Delhi", "Delhi"),
+        ("Bengaluru", "Bengaluru"),
+        ("Hyderabad", "Hyderabad"),
+        ("Chennai", "Chennai"),
+    ]
+
+    city = models.CharField(max_length=50, choices=CITY_CHOICES)
+    service_area = models.CharField(max_length=255, blank=True)
+
+    vehicle_type = models.CharField(max_length=50)
+    vehicle_model = models.CharField(max_length=100)
+    vehicle_number = models.CharField(max_length=50)
+
+    experience_years = models.PositiveIntegerField(default=0)
+    airport_experience = models.CharField(max_length=10, blank=True)
+
+    availability = models.CharField(max_length=100, blank=True)
+
+    driving_license = models.FileField(upload_to="drivers/licenses/")
+    vehicle_rc = models.FileField(upload_to="drivers/rc/")
+    id_proof = models.FileField(upload_to="drivers/id/", blank=True, null=True)
+    vehicle_photo = models.ImageField(upload_to="drivers/vehicle/", blank=True, null=True)
+
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    bank_account = models.CharField(max_length=50, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.city}"

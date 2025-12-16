@@ -1,0 +1,434 @@
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="TravelBiz - Help & Support">
+    <meta name="author" content="TravelBiz">
+    <title>Help & Support | TravelBiz</title>
+
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon-57x57-precomposed.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/apple-touch-icon-72x72-precomposed.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/apple-touch-icon-114x114-precomposed.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/apple-touch-icon-144x144-precomposed.png' %}">
+
+    <!-- GOOGLE WEB FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- BASE CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <!-- SPECIFIC CSS -->
+    <link href="{% static 'css/help.css' %}" rel="stylesheet">
+
+    <!-- CUSTOM CSS -->
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+</head>
+
+<body>
+				
+<header class="header clearfix element_to_stick">
+    <div class="container">
+        <div id="logo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="" class="logo_normal">
+                <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="" class="logo_sticky">
+            </a>
+        </div>
+
+        <ul id="top_menu">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'my_account' %}" class="login">My Account</a></li>
+            {% else %}
+                <li><a href="{% url 'vendor_login' %}" class="login">Sign In</a></li>
+            {% endif %}
+            <li>
+                <a href="{% url 'wishlist' %}" class="wishlist_bt_top" title="Your wishlist">
+                    Your wishlist
+                </a>
+            </li>
+        </ul>
+
+        <a href="#0" class="open_close">
+            <i class="icon_menu"></i><span>Menu</span>
+        </a>
+
+        <nav class="main-menu">
+            <div id="header_menu">
+                <a href="#0" class="open_close">
+                    <i class="icon_close"></i><span>Menu</span>
+                </a>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="">
+                </a>
+            </div>
+
+            <ul>
+                <!-- HOME -->
+                <li class="submenu">
+                    <a href="#0" class="show-submenu">Home</a>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Default</a></li>
+                    </ul>
+                </li>
+
+                <!-- EXPLORE -->
+                <li class="submenu">
+                    <a href="#0" class="show-submenu">Explore</a>
+                    <ul>
+                        <li><a href="{% url 'blog_list' %}">Travel Tips</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                        <li><a href="{% url 'help' %}">Help & FAQ</a></li>
+                    </ul>
+                </li>
+
+                <!-- OTHER PAGES -->
+                <li class="submenu">
+                    <a href="#0" class="show-submenu">Other Pages</a>
+                    <ul>
+                        <li><a href="{% url 'help' %}">Help & FAQ</a></li>
+                        <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                        <li><a href="{% url 'my_account' %}">My Account</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </li>
+
+                <!-- SUBMIT -->
+                <li><a href="{% url 'become_driver' %}">Become Driver</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+	<!-- /header -->
+	
+<main>
+
+    <!-- HERO -->
+    <div class="hero_single inner_pages background-image"
+         data-background="url({% static 'img/help2.png' %})">
+        <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.5)">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-8 col-lg-10 col-md-8">
+                        <h1>Help & Support</h1>
+                        <p>Search questions or browse helpful travel articles</p>
+
+                        <form method="get">
+                            <div class="search_bar">
+                                <input type="text" name="q" class="form-control"
+                                       placeholder="What are you looking for?">
+                                <input type="submit" value="Search">
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /hero_single -->
+
+    <!-- TOPICS -->
+    <div class="bg_gray">
+        <div class="container margin_60_40">
+            <div class="main_title center">
+                <span><em></em></span>
+                <h2>Select a topic</h2>
+                <p>Quick help on common travel questions</p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-6">
+                    <a class="box_topic" href="#0">
+                        <span><i class="icon_wallet"></i></span>
+                        <h3>Payments</h3>
+                        <p>Payment methods, refunds, invoices and billing issues.</p>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <a class="box_topic" href="#0">
+                        <i class="icon_cloud-upload_alt"></i>
+                        <h3>Submission</h3>
+                        <p>How to submit trips, become a driver or list services.</p>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <a class="box_topic" href="#0">
+                        <i class="icon_lifesaver"></i>
+                        <h3>General Help</h3>
+                        <p>Account setup, login issues and common questions.</p>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <a class="box_topic" href="#0">
+                        <i class="icon_globe-2"></i>
+                        <h3>International Travel</h3>
+                        <p>Visa, passport, insurance and overseas travel tips.</p>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <a class="box_topic" href="#0">
+                        <i class="icon_document_alt"></i>
+                        <h3>Cancellation</h3>
+                        <p>Trip cancellation policies and refund timelines.</p>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <a class="box_topic" href="#0">
+                        <i class="icon_comment_alt"></i>
+                        <h3>Reviews</h3>
+                        <p>Leaving reviews and managing feedback.</p>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /bg_gray -->
+
+    <!-- POPULAR ARTICLES -->
+    <div class="container margin_60_40">
+        <div class="main_title version_2">
+            <span><em></em></span>
+            <h2>Popular articles</h2>
+            <p>Most searched help topics by travellers</p>
+        </div>
+
+        <div class="list_articles add_bottom_25 clearfix">
+            <ul>
+                <li><a href="#0"><i class="icon_documents_alt"></i>How to book a trip step by step</a></li>
+                <li><a href="#0"><i class="icon_documents_alt"></i>Refund & cancellation policy</a></li>
+                <li><a href="#0"><i class="icon_documents_alt"></i>How to become a verified driver</a></li>
+                <li><a href="#0"><i class="icon_documents_alt"></i>Managing your wishlist</a></li>
+                <li><a href="#0"><i class="icon_documents_alt"></i>Payment failures & solutions</a></li>
+                <li><a href="#0"><i class="icon_documents_alt"></i>Updating your account details</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /container -->
+
+</main>
+	<!-- /main -->
+
+<footer>
+    <div class="container">
+        <div class="row">
+
+            <!-- QUICK LINKS -->
+            <div class="col-lg-3 col-md-6">
+                <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                <div class="collapse dont-collapse-sm links" id="collapse_1">
+                    <ul>
+                        {% for link in footer_quick_links %}
+                            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                        {% endfor %}
+                        <li><a href="{% url 'help' %}">Help</a></li>
+                        <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                        <li><a href="{% url 'become_driver' %}">Become Driver</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- CATEGORIES -->
+            <div class="col-lg-3 col-md-6">
+                <h3 data-bs-target="#collapse_2">Categories</h3>
+                <div class="collapse dont-collapse-sm links" id="collapse_2">
+                    <ul>
+                        {% for cat in footer_categories %}
+                            <li><a href="{{ cat.url }}">{{ cat.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- CONTACTS -->
+            <div class="col-lg-3 col-md-6">
+                <h3 data-bs-target="#collapse_3">Contacts</h3>
+                <div class="collapse dont-collapse-sm contacts" id="collapse_3">
+                    {% if footer_contact %}
+                    <ul>
+                        <li>
+                            <i class="icon_house_alt"></i>
+                            {{ footer_contact.address }}
+                        </li>
+                        <li>
+                            <i class="icon_mobile"></i>
+                            {{ footer_contact.phone }}
+                        </li>
+                        <li>
+                            <i class="icon_mail_alt"></i>
+                            <a href="mailto:{{ footer_contact.email }}">
+                                {{ footer_contact.email }}
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- NEWSLETTER + SOCIAL -->
+            <div class="col-lg-3 col-md-6">
+                <h3 data-bs-target="#collapse_4">Keep in touch</h3>
+                <div class="collapse dont-collapse-sm" id="collapse_4">
+
+                    <div id="newsletter">
+                        <div id="message-newsletter"></div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control"
+                                       placeholder="Your email">
+                                <button type="submit">
+                                    <i class="arrow_carrot-right"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="follow_us">
+                        <h5>Follow Us</h5>
+                        <ul>
+                            {% for s in social_links %}
+                                <li>
+                                    <a href="{{ s.url }}" target="_blank">
+                                        <i class="{{ s.icon_class }}"></i>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /row -->
+
+        <hr>
+
+        <div class="row add_bottom_25">
+            <div class="col-lg-6">
+                <ul class="footer-selector clearfix">
+                    <li>
+                        <div class="styled-select lang-selector">
+                            <select>
+                                <option selected>English</option>
+                                <option>French</option>
+                                <option>Spanish</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="styled-select currency-selector">
+                            <select>
+                                <option selected>INR</option>
+                                <option>USD</option>
+                                <option>EUR</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <img
+                            src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                            data-src="{% static 'img/cards_all.svg' %}"
+                            alt=""
+                            width="198"
+                            height="30"
+                            class="lazy">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-6">
+                <ul class="additional_links">
+                    <li><a href="#0">Terms & Conditions</a></li>
+                    <li><a href="#0">Privacy Policy</a></li>
+                    <li><span>© TravelBiz</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+	<!--/footer-->
+<div id="toTop"></div><!-- Back to top button -->
+
+<div class="layer"></div><!-- Opacity Mask Menu Mobile -->
+
+<!-- Sign In Modal -->
+<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+    <div class="modal_header">
+        <h3>Sign In</h3>
+    </div>
+
+    <form method="post" action="{% url 'vendor_login' %}">
+        {% csrf_token %}
+        <div class="sign-in-wrapper">
+
+            <div class="divider"><span>Or sign in with email</span></div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" required>
+                <i class="icon_mail_alt"></i>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" required>
+                <i class="icon_lock_alt"></i>
+            </div>
+
+            <div class="clearfix add_bottom_15">
+                <div class="checkboxes float-start">
+                    <label class="container_check">Remember me
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="float-end">
+                    <a href="javascript:void(0);" id="forgot">Forgot Password?</a>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Log In" class="btn_1 full-width mb_5">
+                Don’t have an account?
+                <a href="{% url 'vendor_register' %}">Sign up</a>
+            </div>
+
+            <div id="forgot_pw">
+                <div class="form-group">
+                    <label>Please confirm login email below</label>
+                    <input type="email" class="form-control" name="email_forgot">
+                    <i class="icon_mail_alt"></i>
+                </div>
+                <p>You will receive an email with a reset password link.</p>
+                <div class="text-center">
+                    <input type="submit" value="Reset Password" class="btn_1">
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<!-- /Sign In Modal -->
+
+<!-- COMMON SCRIPTS -->
+<script src="{% static 'js/common_scripts.min.js' %}"></script>
+<script src="{% static 'js/common_func.js' %}"></script>
+<script src="{% static 'assets/validate.js' %}"></script>
+
+</body>
+
