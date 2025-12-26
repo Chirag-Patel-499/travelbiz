@@ -1,0 +1,70 @@
+{% load static %}
+
+<header class="header clearfix element_to_stick">
+    <div class="container">
+
+        <!-- LOGO -->
+        <div id="logo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="" class="logo_normal">
+                <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="" class="logo_sticky">
+            </a>
+        </div>
+
+        <!-- TOP MENU -->
+        <ul id="top_menu">
+            <li>
+                <a href="{% url 'vendor_login' %}" class="login">Vendor Login</a>
+            </li>
+            <li>
+                <a href="{% url 'wishlist' %}" class="wishlist_bt_top" title="Your wishlist">
+                    Your wishlist
+                </a>
+            </li>
+        </ul>
+
+        <!-- MOBILE MENU ICON -->
+        <a href="#0" class="open_close">
+            <i class="icon_menu"></i><span>Menu</span>
+        </a>
+
+        <!-- MAIN NAV -->
+        <nav class="main-menu">
+            <div id="header_menu">
+                <a href="#0" class="open_close">
+                    <i class="icon_close"></i><span>Menu</span>
+                </a>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="">
+                </a>
+            </div>
+
+            <ul>
+                <li class="submenu">
+                    <a href="#0" class="show-submenu">Home</a>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Default</a></li>
+                    </ul>
+                </li>
+
+                <li class="submenu">
+                    <a href="#0" class="show-submenu">Explore</a>
+                    <ul>
+                        <li><a href="{% url 'blog_list' %}">Travel Tips</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </li>
+
+                <li class="submenu">
+                    <a href="#0" class="show-submenu">Other Pages</a>
+                    <ul>
+                        <li><a href="{% url 'help' %}">Help & FAQ</a></li>
+                        <li><a href="account.html">Sign Up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+<!-- /header -->

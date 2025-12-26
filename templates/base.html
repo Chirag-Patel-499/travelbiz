@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "includes/head.html" %}
+
+<body>
+
+{% include "includes/header.html" %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+{% include "includes/footer.html" %}
+
+<!-- COMMON SCRIPTS -->
+<script src="{% static 'js/common_scripts.min.js' %}"></script>
+<script src="{% static 'js/common_func.js' %}"></script>
+<script src="{% static 'assets/validate.js' %}"></script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>
