@@ -29,6 +29,9 @@
     <!-- SPECIFIC CSS -->
 	<link href="{% static 'css/home.css' %}" rel="stylesheet">
 
+	<link rel="stylesheet" href="{% static 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css' %}">
+
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 	<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
@@ -138,10 +141,11 @@ $(document).ready(function(){
 									<div class="col-lg-5">
 										<div class="form-group">
 											<input
-												class="form-control no_border_r"
+												class="form-control no_border_r datepicker"
 												name="date"
 												type="text"
 												placeholder="{{ hero.search_placeholder_2 }}"
+												readonly
 											>
 											<i class="icon_calendar"></i>
 										</div>
@@ -590,6 +594,19 @@ $(document).ready(function(){
 <script src="{% static 'js/common_scripts.min.js' %}"></script>
 <script src="{% static 'js/common_func.js' %}"></script>
 <script src="{% static 'assets/validate.js' %}"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    flatpickr(".datepicker", {
+        dateFormat: "d M Y",   // 12 Jan 2025
+        minDate: "today",
+        disableMobile: true
+    });
+});
+</script>
 
 {% block extra_js %}{% endblock %}
 
