@@ -38,11 +38,8 @@
                 <a href="{% url 'home' %}"><img src="{% static 'img/logon.png' %}" width="140" height="35" alt=""></a>
             </div>
             <ul>
-                <li class="submenu">
-                    <a href="#0" class="show-submenu">Home</a>
-                    <ul>
-                        <li><a href="{% url 'home' %}">Default</a></li>
-                    </ul>
+                <li>
+                    <a href="{% url 'home' %}">Home</a>
                 </li>
                 <li><a href="{% url 'blog_list' %}">Blog</a></li>
                 <li><a href="#0">Contact</a></li>
