@@ -108,60 +108,59 @@ $(document).ready(function(){
 	<!-- /header -->
 	
 	<main>
-		<div class="hero_single version_2" 
-			style="background: #ededed url({{ hero.background_image.url }}) center center/cover no-repeat;">
-			<div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.55)">
-				<div class="container">
-					<div class="row justify-content-center">
-						<div class="col-xl-9 col-lg-10 col-md-8">
 
-							<h1>{{ hero.title }}</h1>
-							<p>{{ hero.subtitle }}</p>
+<!-- ================= HERO ================= -->
+<div class="hero_single version_2 hero-video-wrap">
 
-							<form method="get" action="{% url 'search_results' %}">
-								<div class="row g-0 custom-search-input">
+    {% if hero.background_video %}
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="{{ hero.background_video.url }}" type="video/mp4">
+        </video>
+    {% else %}
+        <!-- fallback color only -->
+        <div class="hero-fallback" style="background:#ededed;"></div>
+    {% endif %}
 
-									<!-- BOX 1: Destination / Experience -->
-									<div class="col-lg-4">
-										<div class="form-group">
-											<input
-												class="form-control"
-												name="q"
-												type="text"
-												placeholder="{{ hero.search_placeholder_1 }}"
-											>
-											<i class="icon_search"></i>
-										</div>
-									</div>
+    <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.55)">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-9 col-lg-10 col-md-8">
 
-									<!-- BOX 2: Dates / Flexible -->
-									<div class="col-lg-5">
-										<div class="form-group">
-											<input
-												class="form-control no_border_r datepicker"
-												name="date"
-												type="text"
-												placeholder="{{ hero.search_placeholder_2 }}"
-												readonly
-											>
-											<i class="icon_calendar"></i>
-										</div>
-									</div>
+                    <h1>{{ hero.title }}</h1>
+                    <p>{{ hero.subtitle }}</p>
 
-									<!-- SEARCH BUTTON -->
-									<div class="col-lg-3">
-										<input type="submit" value="Search">
-									</div>
+                    <form method="get" action="{% url 'search_results' %}">
+                        <div class="row g-0 custom-search-input">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <input class="form-control"
+                                           name="q"
+                                           placeholder="{{ hero.search_placeholder_1 }}">
+                                    <i class="icon_search"></i>
+                                </div>
+                            </div>
 
-								</div>
-							</form>
+                            <div class="col-lg-5">
+                                <div class="form-group">
+                                    <input class="form-control no_border_r"
+                                           name="date"
+                                           placeholder="{{ hero.search_placeholder_2 }}">
+                                    <i class="icon_calendar"></i>
+                                </div>
+                            </div>
 
+                            <div class="col-lg-3">
+                                <input type="submit" value="Search">
+                            </div>
+                        </div>
+                    </form>
 
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 		<!-- /hero_single -->
 		

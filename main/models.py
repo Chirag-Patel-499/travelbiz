@@ -6,9 +6,23 @@ from django.utils.text import slugify
 class HeroSection(models.Model):
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255)
-    background_image = models.ImageField(upload_to="hero/")
-    search_placeholder_1 = models.CharField(max_length=255, default="Where do you want to go?")
-    search_placeholder_2 = models.CharField(max_length=255, default="Dates / flexible")
+
+    # ONLY VIDEO
+    background_video = models.FileField(
+        upload_to="hero/videos/",
+        blank=True,
+        null=True,
+        help_text="Upload MP4 video (recommended <15MB)"
+    )
+
+    search_placeholder_1 = models.CharField(
+        max_length=255,
+        default="Where do you want to go?"
+    )
+    search_placeholder_2 = models.CharField(
+        max_length=255,
+        default="Dates / flexible"
+    )
 
     class Meta:
         verbose_name = "Hero Section"
@@ -16,6 +30,7 @@ class HeroSection(models.Model):
 
     def __str__(self):
         return self.title
+
     
 
 

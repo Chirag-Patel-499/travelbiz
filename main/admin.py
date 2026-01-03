@@ -3,7 +3,20 @@ from .models import HeroSection, Category, Destination, MiddleBanner, Deal,CallS
 
 @admin.register(HeroSection)
 class HeroSectionAdmin(admin.ModelAdmin):
-    list_display = ("title", )
+    list_display = ("title",)
+
+    fieldsets = (
+        ("Hero Content", {
+            "fields": ("title", "subtitle")
+        }),
+        ("Hero Video", {
+            "fields": ("background_video",),
+            "description": "MP4 video only. This will be used as hero background."
+        }),
+        ("Search Bar", {
+            "fields": ("search_placeholder_1", "search_placeholder_2")
+        }),
+    )
 
 
 @admin.register(Category)

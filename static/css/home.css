@@ -928,3 +928,32 @@ a.btn_explore:hover {
 .call_section .box_1 h3 {
   color: #fff;
 }
+
+
+.hero-video-wrap {
+    position: relative;
+    overflow: hidden;
+    min-height: 90vh;
+}
+
+.hero-video,
+.hero-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+
+/* ===== FORCE REMOVE HERO IMAGE BACKGROUND ===== */
+.hero_single.version_2 {
+    background: none !important;
+}
+
+/* keep hero content above video */
+.hero-video-wrap .opacity-mask {
+    position: relative;
+    z-index: 2;
+}
