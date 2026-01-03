@@ -112,16 +112,17 @@ $(document).ready(function(){
 <div class="hero_single version_2 hero-video-wrap">
 
     {% if hero.background_video_url %}
-        <iframe
-            class="hero-video"
-            src="{{ hero.background_video_url|cut:'www.dailymotion.com/video/'|add:'https://www.dailymotion.com/embed/video/' }}?autoplay=1&mute=1&loop=1&controls=0"
-            frameborder="0"
-            allow="autoplay; fullscreen"
-            allowfullscreen>
-        </iframe>
-    {% else %}
-        <div class="hero-fallback" style="background:#ededed;"></div>
-    {% endif %}
+    <iframe
+        class="hero-video"
+        src="{{ hero.background_video_url }}?autoplay=1&mute=1&loop=1&controls=0"
+        frameborder="0"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+    </iframe>
+{% else %}
+    <div class="hero-fallback" style="background:#ededed;"></div>
+{% endif %}
+
 
     <div class="opacity-mask" data-opacity-mask="rgba(0,0,0,0.55)">
         <div class="container">
