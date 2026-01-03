@@ -7,12 +7,11 @@ class HeroSection(models.Model):
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255)
 
-    # ONLY VIDEO
-    background_video = models.FileField(
-        upload_to="hero/videos/",
+    # Dailymotion video URL
+    background_video_url = models.URLField(
         blank=True,
         null=True,
-        help_text="Upload MP4 video (recommended <15MB)"
+        help_text="Paste Dailymotion video URL (e.g. https://www.dailymotion.com/video/xxxx)"
     )
 
     search_placeholder_1 = models.CharField(
@@ -23,10 +22,6 @@ class HeroSection(models.Model):
         max_length=255,
         default="Dates / flexible"
     )
-
-    class Meta:
-        verbose_name = "Hero Section"
-        verbose_name_plural = "Hero Section"
 
     def __str__(self):
         return self.title

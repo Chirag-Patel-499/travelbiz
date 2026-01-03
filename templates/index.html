@@ -108,20 +108,22 @@ $(document).ready(function(){
 	<!-- /header -->
 	
 	<main>
-
 <!-- ================= HERO ================= -->
 <div class="hero_single version_2 hero-video-wrap">
 
-    {% if hero.background_video %}
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="{{ hero.background_video.url }}" type="video/mp4">
-        </video>
+    {% if hero.background_video_url %}
+        <iframe
+            class="hero-video"
+            src="{{ hero.background_video_url|cut:'www.dailymotion.com/video/'|add:'https://www.dailymotion.com/embed/video/' }}?autoplay=1&mute=1&loop=1&controls=0"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
     {% else %}
-        <!-- fallback color only -->
         <div class="hero-fallback" style="background:#ededed;"></div>
     {% endif %}
 
-    <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.55)">
+    <div class="opacity-mask" data-opacity-mask="rgba(0,0,0,0.55)">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-9 col-lg-10 col-md-8">
@@ -132,23 +134,13 @@ $(document).ready(function(){
                     <form method="get" action="{% url 'search_results' %}">
                         <div class="row g-0 custom-search-input">
                             <div class="col-lg-4">
-                                <div class="form-group">
-                                    <input class="form-control"
-                                           name="q"
-                                           placeholder="{{ hero.search_placeholder_1 }}">
-                                    <i class="icon_search"></i>
-                                </div>
+                                <input class="form-control" name="q"
+                                       placeholder="{{ hero.search_placeholder_1 }}">
                             </div>
-
                             <div class="col-lg-5">
-                                <div class="form-group">
-                                    <input class="form-control no_border_r"
-                                           name="date"
-                                           placeholder="{{ hero.search_placeholder_2 }}">
-                                    <i class="icon_calendar"></i>
-                                </div>
+                                <input class="form-control no_border_r" name="date"
+                                       placeholder="{{ hero.search_placeholder_2 }}">
                             </div>
-
                             <div class="col-lg-3">
                                 <input type="submit" value="Search">
                             </div>
@@ -160,9 +152,8 @@ $(document).ready(function(){
         </div>
     </div>
 </div>
+<!-- /hero_single -->
 
-
-		<!-- /hero_single -->
 		
 		<div class="bg_gray">
 			<div class="container margin_60_40">

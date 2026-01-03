@@ -9,9 +9,9 @@ class HeroSectionAdmin(admin.ModelAdmin):
         ("Hero Content", {
             "fields": ("title", "subtitle")
         }),
-        ("Hero Video", {
-            "fields": ("background_video",),
-            "description": "MP4 video only. This will be used as hero background."
+        ("Hero Video (Dailymotion)", {
+            "fields": ("background_video_url",),
+            "description": "Paste Dailymotion video URL here"
         }),
         ("Search Bar", {
             "fields": ("search_placeholder_1", "search_placeholder_2")
