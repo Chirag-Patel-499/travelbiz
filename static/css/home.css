@@ -936,23 +936,37 @@ a.btn_explore:hover {
     min-height: 90vh;
 }
 
-.hero-video,
+/* iframe FULL COVER FIX */
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw; /* 16:9 */
+    min-height: 100%;
+    min-width: 177.77vh;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* fallback image */
 .hero-fallback {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    background-size: cover;
+    background-position: center;
     z-index: -1;
 }
 
-
-/* ===== FORCE REMOVE HERO IMAGE BACKGROUND ===== */
+/* remove default hero background */
 .hero_single.version_2 {
     background: none !important;
 }
 
-/* keep hero content above video */
+/* content above video */
 .hero-video-wrap .opacity-mask {
     position: relative;
     z-index: 2;
