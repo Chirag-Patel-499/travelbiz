@@ -114,7 +114,7 @@ $(document).ready(function(){
     {% if hero.background_video_url %}
     <iframe
         class="hero-video"
-        src="{{ hero.background_video_url }}?autoplay=1&mute=1&loop=1&controls=0&queue-enable=false"
+        src="{{ hero.background_video_url }}?autoplay=1&mute=1&controls=0&ui-start-screen-info=false&sharing-enable=false&queue-enable=false"
         frameborder="0"
         allow="autoplay; fullscreen"
         allowfullscreen>
@@ -595,6 +595,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const iframe = document.querySelector(".hero-video");
+    if (!iframe) return;
+
+    const baseSrc = iframe.src.split("?")[0];
+    const params = "?autoplay=1&mute=1&controls=0&queue-enable=false";
+
+    // restart video every 80 sec (1.22 min video)
+    setInterval(() => {
+        iframe.src = baseSrc + params;
+    }, 80000); // milliseconds
+});
+</script>
+
 
 {% block extra_js %}{% endblock %}
 
