@@ -26,7 +26,33 @@ class HeroSection(models.Model):
     def __str__(self):
         return self.title
 
-    
+
+class SEOSettings(models.Model):
+    page_name = models.CharField(max_length=100, unique=True)
+
+    meta_title = models.CharField(
+        max_length=70,
+        help_text="SEO Title (Max 60–70 chars)"
+    )
+    meta_description = models.TextField(
+        max_length=160,
+        help_text="SEO Description (Max 150–160 chars)"
+    )
+    meta_keywords = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    og_title = models.CharField(max_length=70, blank=True)
+    og_description = models.TextField(max_length=200, blank=True)
+    og_image = models.ImageField(
+        upload_to="seo/",
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return self.page_name    
 
 
 class Category(models.Model):

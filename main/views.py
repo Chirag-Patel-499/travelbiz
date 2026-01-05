@@ -9,7 +9,7 @@ from django.db.models import Q
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination
+    SocialLink, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings
 )
 
 from main.forms import VendorRegisterForm
@@ -37,6 +37,9 @@ def home(request):
 
     vendors = Vendor.objects.filter(verified=True).order_by("-rating")[:6]
 
+        # ✅ SEO from Admin
+    seo = SEOSettings.objects.filter(page_name="home").first()
+
     context = {
         "hero": hero,
         "categories": categories,
@@ -50,6 +53,9 @@ def home(request):
         "footer_contact": footer_contact,
         "social_links": social_links,
         "vendors": vendors,
+
+                # 🔥 SEO CONTEXT
+        "seo": seo,
     }
     return render(request, "index.html", context)
 
