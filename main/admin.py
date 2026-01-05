@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HeroSection, Category, Destination, MiddleBanner, Deal,CallSection,FooterQuickLink, FooterCategory, FooterContact, SocialLink, Vendor, VendorDocument, Blog, BlogCategory, ContactPage, Wishlist, WishlistBanner, DriverApplication
+from .models import HeroSection, Category, Destination, MiddleBanner, Deal,CallSection,FooterQuickLink, FooterCategory, FooterContact, SocialLink, Vendor, VendorDocument, Blog, BlogCategory, ContactPage, Wishlist, WishlistBanner, DriverApplication, SEOSettings
 
 @admin.register(HeroSection)
 class HeroSectionAdmin(admin.ModelAdmin):
@@ -17,6 +17,12 @@ class HeroSectionAdmin(admin.ModelAdmin):
             "fields": ("search_placeholder_1", "search_placeholder_2")
         }),
     )
+
+
+@admin.register(SEOSettings)
+class SEOSettingsAdmin(admin.ModelAdmin):
+    list_display = ("page_name", "meta_title")
+    search_fields = ("page_name", "meta_title")
 
 
 @admin.register(Category)
