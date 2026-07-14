@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container margin_60_40">
+
+<div class="row justify-content-center">
+
+<div class="col-lg-5 col-md-8">
+
+<div class="box_general shadow rounded p-4">
+
+<div class="text-center mb-4">
+
+<h2>TravelBiz Admin Login</h2>
+
+<p>
+Login to access your dashboard.
+</p>
+
+</div>
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="alert alert-danger">
+
+{{ message }}
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="form-group mb-3">
+
+<label>Email Address</label>
+
+<input
+type="email"
+name="email"
+class="form-control"
+placeholder="Enter Email"
+required>
+
+</div>
+
+<div class="form-group mb-4">
+
+<label>Password</label>
+
+<input
+type="password"
+name="password"
+class="form-control"
+placeholder="Enter Password"
+required>
+
+</div>
+
+<button
+type="submit"
+class="btn_1 full-width">
+
+Login
+
+</button>
+
+<hr>
+
+<div class="text-center">
+
+Don't have an account?
+
+<br>
+
+<a href="{% url 'user_admin_register' %}">
+
+Create Admin Panel
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

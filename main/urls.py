@@ -1,6 +1,8 @@
+from django import views
 from django.urls import path
 from .views import (
     home,
+    user_logout,
     vendor_register,
     vendor_login,
     vendor_dashboard,
@@ -12,8 +14,11 @@ from .views import (
     become_driver,
     my_account,
     help_page,
-    search_results
-    
+    search_results,
+    user_admin_login,
+    user_admin_register,
+    user_dashboard,
+    user_logout,
 
 )
 
@@ -48,6 +53,34 @@ urlpatterns = [
     path("help/", help_page, name="help"),
 
     path("search/", search_results, name="search_results"),
+
+    # User Admin Login
+    path(
+        "create-admin/",
+        user_admin_login,
+        name="user_admin_login",
+    ),
+
+    # User Admin Register
+    path(
+        "create-admin/register/",
+        user_admin_register,
+        name="user_admin_register",
+    ),
+
+    # Dashboard
+    path(
+        "dashboard/",
+        user_dashboard,
+        name="user_dashboard",
+    ),
+
+    # Logout
+    path(
+        "logout/",
+        user_logout,
+        name="user_logout",
+    ),
 
 
 

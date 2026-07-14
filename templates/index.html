@@ -11,14 +11,13 @@
     <!-- ================= SEO ================= -->
     <title>
         {% if seo and seo.meta_title %}
-            {{ seo.meta_title }}
+        {{ seo.meta_title }}
         {% else %}
-            TravelBiz – Discover & Book the Best Tours, Hotels & Destinations
+        TravelBiz – Discover & Book the Best Tours, Hotels & Destinations
         {% endif %}
     </title>
 
-    <meta name="description"
-          content="{% if seo and seo.meta_description %}
+    <meta name="description" content="{% if seo and seo.meta_description %}
                        {{ seo.meta_description }}
                    {% else %}
                        TravelBiz helps you discover and book the best tours, hotels and travel experiences across India.
@@ -32,14 +31,12 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title"
-          content="{% if seo and seo.og_title %}
+    <meta property="og:title" content="{% if seo and seo.og_title %}
                        {{ seo.og_title }}
                    {% else %}
                        {{ seo.meta_title }}
                    {% endif %}">
-    <meta property="og:description"
-          content="{% if seo and seo.og_description %}
+    <meta property="og:description" content="{% if seo and seo.og_description %}
                        {{ seo.og_description }}
                    {% else %}
                        {{ seo.meta_description }}
@@ -57,7 +54,8 @@
 
     <!-- ================= FONTS ================= -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- ================= CSS ================= -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
@@ -90,563 +88,562 @@
 </head>
 
 <body>
-				
-	<header class="header clearfix element_to_stick">
-		<div class="container">
-		<div id="logo">
-			<a href="{% url 'home' %}">
-				<img src="{% static 'img/logon.png' %}" width="140" height="35" alt="" class="logo_normal">
-				<img src="{% static 'img/logon.png' %}" width="140" height="35" alt="" class="logo_sticky">
-			</a>
-		</div>
-		<ul id="top_menu">
-			<li><a href="{% url 'vendor_login' %}" class="login">Vendor Login</a></li>
 
-			<li><a href="{% url 'wishlist' %}" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
-		</ul>
-		<a href="#0" class="open_close">
-			<i class="icon_menu"></i><span>Menu</span>
-		</a>
-		<nav class="main-menu">
-			<div id="header_menu">
-				<a href="#0" class="open_close">
-					<i class="icon_close"></i><span>Menu</span>
-				</a>
-				<a href="{% url 'home' %}">
-					<img src="{% static 'img/logon.png' %}" width="140" height="35" alt="">
-				</a>
-			</div>
-			<ul>
-				<li>
-					<a href="{% url 'home' %}">Home</a>
-				</li>
-				<li class="submenu">
-					<a href="#0" class="show-submenu">Explore</a>
-					<ul>
-						<li><a href="{% url 'blog_list' %}">Travel Tips</a></li>
-						<li><a href="{% url 'contact' %}">Contact</a></li>
-					</ul>
-				</li>
-				<li class="submenu">
-					<a href="#0" class="show-submenu">Other Pages</a>
-					<ul>
-						<li><a href="{% url 'help' %}">Help & FAQ</a></li>
-						<li><a href="{% url 'vendor_register' %}">Sign Up</a></li>
-					</ul>
-				</li>
-			</ul>
-		</nav>
-	</div>
-	</header>
-	<!-- /header -->
-	
-	<main>
-<!-- ================= HERO ================= -->
-<div class="hero_single version_2 hero-video-wrap">
-
-    {% if hero.background_video_url %}
-    <iframe
-        class="hero-video"
-        src="{{ hero.background_video_url }}?autoplay=1&mute=1&controls=0&ui-start-screen-info=false&sharing-enable=false&queue-enable=false"
-        frameborder="0"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-    </iframe>
-{% else %}
-    <div class="hero-fallback" style="background:#ededed;"></div>
-{% endif %}
-
-
-    <div class="opacity-mask" data-opacity-mask="rgba(0,0,0,0.55)">
+    <header class="header clearfix element_to_stick">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-9 col-lg-10 col-md-8">
-
-                    <h1>{{ hero.title }}</h1>
-                    <p>{{ hero.subtitle }}</p>
-
-                    <form method="get" action="{% url 'search_results' %}">
-                        <div class="row g-0 custom-search-input">
-                            <div class="col-lg-4">
-                                <input class="form-control" name="q"
-                                       placeholder="{{ hero.search_placeholder_1 }}">
-                            </div>
-                            <div class="col-lg-5">
-                                <input class="form-control no_border_r" name="date"
-                                       placeholder="{{ hero.search_placeholder_2 }}">
-                            </div>
-                            <div class="col-lg-3">
-                                <input type="submit" value="Search">
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
+            <div id="logo">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="" class="logo_normal">
+                    <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="" class="logo_sticky">
+                </a>
             </div>
-        </div>
-    </div>
-</div>
-<!-- /hero_single -->
+            <ul id="top_menu">
+                <li>
+                    <a href="{% url 'user_admin_login' %}" class="btn_1">
+                        Create Admin Panel
+                    </a>
+                </li>
+                <li><a href="{% url 'vendor_login' %}" class="login">Vendor Login</a></li>
 
-		
-		<div class="bg_gray">
-			<div class="container margin_60_40">
-				<div class="main_title center">
-					<span><em></em></span>
-					<h2>Popular Categories</h2>
-					<p>Find trips by interest — Beaches, Mountains, Cities, Adventure & more</p>
-				</div>
-				<!-- /main_title -->
-				
-				<div class="owl-carousel owl-theme categories_carousel">
-					
-					{% for c in categories %}
-					<div class="item">
-						<a href="{{ c.url }}">
-							<span>{{ c.count }}</span>
-							<i class="{{ c.icon_class }}"></i>
-							<h3>{{ c.title }}</h3>
-							<small>{{ c.price_text }}</small>
-						</a>
-					</div>
-					{% endfor %}
-
-				</div>
-				<!-- /carousel -->
-
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /bg_gray -->
-
-		
-		<div class="container margin_60_40">
-			<div class="main_title">
-				<span><em></em></span>
-				<h2>Popular Destinations</h2>
-				<p>Handpicked places loved by travellers.</p>
-				<a href="grid-destinations.html">View All</a>
-			</div>
-
-			<div class="owl-carousel owl-theme carousel_4">
-				{% for d in destinations %}
-				<div class="item">
-					<div class="strip">
-						<figure>
-							{% if d.ribbon_text %}
-							<span class="ribbon off">{{ d.ribbon_text }}</span>
-							{% endif %}
-
-							<img src="{{ d.image.url }}" alt="{{ d.title }}">
-
-							<a href="{{ d.url }}" class="strip_info">
-								<small>{{ d.country_category }}</small>
-								<div class="item_title">
-									<h3>{{ d.title }}</h3>
-									<small>{{ d.price_text }}</small>
-								</div>
-							</a>
-						</figure>
-
-						<ul>
-							<li><span class="loc_open">{{ d.open_text }}</span></li>
-							<li>
-								<div class="score">
-									<span>{{ d.reviews_text }}</span>
-									<strong>{{ d.rating }}</strong>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-				{% endfor %}
-			</div>
-
-			<!-- /carousel -->
-
-			<div class="banner lazy" 
-				data-bg="url({{ middle_banner.background_image.url }})">
-
-				<div class="wrapper d-flex align-items-center opacity-mask" 
-					data-opacity-mask="rgba(0, 0, 0, 0.2)">
-					<div>
-						{% if middle_banner.small_title %}
-						<small>{{ middle_banner.small_title }}</small>
-						{% endif %}
-
-						<h3>{{ middle_banner.main_title }}</h3>
-
-						{% if middle_banner.subtitle %}
-						<p>{{ middle_banner.subtitle }}</p>
-						{% endif %}
-
-						<a href="{{ middle_banner.button_url }}" class="btn_1">
-							{{ middle_banner.button_text }}
-						</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- /banner -->
-
-			<div class="row">
-				<div class="col-12">
-					<div class="main_title version_2">
-						<span><em></em></span>
-						<h2>Top Deals & Packages</h2>
-						<p>Special offers for families, couples and solo travellers.</p>
-						<a href="#0">View All</a>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="list_home">
-						<ul>
-							{% for d in deals|slice:":3" %}
-							<li>
-								<a href="{{ d.url }}">
-									<figure>
-										<img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
-									</figure>
-									<div class="score"><strong>{{ d.rating }}</strong></div>
-									<em>{{ d.category }}</em>
-									<h3>{{ d.title }}</h3>
-									<small>{{ d.subtitle }}</small>
-									<ul>
-										{% if d.discount %}
-										<li><span class="ribbon off">{{ d.discount }}</span></li>
-										{% endif %}
-										<li>{{ d.person_type }}</li>
-									</ul>
-								</a>
-							</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="list_home">
-						<ul>
-							{% for d in deals|slice:"3:6" %}
-							<li>
-								<a href="{{ d.url }}">
-									<figure>
-										<img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
-									</figure>
-									<div class="score"><strong>{{ d.rating }}</strong></div>
-									<em>{{ d.category }}</em>
-									<h3>{{ d.title }}</h3>
-									<small>{{ d.subtitle }}</small>
-									<ul>
-										{% if d.discount %}
-										<li><span class="ribbon off">{{ d.discount }}</span></li>
-										{% endif %}
-										<li>{{ d.person_type }}</li>
-									</ul>
-								</a>
-							</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-
-			</div>
-			<!-- /row -->
-			<p class="text-center d-block d-md-block d-lg-none"><a href="grid-destinations.html" class="btn_1">View All</a></p>
-			<!-- /button visibile on tablet/mobile only -->
-		</div>
-		<!-- /container -->
-
-		<div class="container margin_60_40">
-    <div class="main_title">
-        <span><em></em></span>
-        <h2>Top Verified Vendors</h2>
-        <p>Trusted travel partners with top quality services.</p>
-    </div>
-
-    <div class="row">
-        {% for v in vendors %}
-        <div class="col-lg-4 col-md-6">
-            <div class="strip">
-                <figure>
-                    {% if v.logo %}
-                    <img src="{{ v.logo.url }}" alt="{{ v.business_name }}" style="height:200px; object-fit:cover;">
-                    {% else %}
-                    <img src="{% static 'img/vendor_default.jpg' %}" alt="Vendor">
-                    {% endif %}
-                </figure>
+                <li><a href="{% url 'wishlist' %}" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
+            </ul>
+            <a href="#0" class="open_close">
+                <i class="icon_menu"></i><span>Menu</span>
+            </a>
+            <nav class="main-menu">
+                <div id="header_menu">
+                    <a href="#0" class="open_close">
+                        <i class="icon_close"></i><span>Menu</span>
+                    </a>
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'img/logon.png' %}" width="140" height="35" alt="">
+                    </a>
+                </div>
                 <ul>
-                    <li><strong>{{ v.business_name }}</strong></li>
-                    <li>{{ v.city }}, {{ v.country }}</li>
                     <li>
-                        <div class="score">
-                            <strong>{{ v.rating }}</strong>
-                        </div>
+                        <a href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="submenu">
+                        <a href="#0" class="show-submenu">Explore</a>
+                        <ul>
+                            <li><a href="{% url 'blog_list' %}">Travel Tips</a></li>
+                            <li><a href="{% url 'contact' %}">Contact</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#0" class="show-submenu">Other Pages</a>
+                        <ul>
+                            <li><a href="{% url 'help' %}">Help & FAQ</a></li>
+                            <li><a href="{% url 'vendor_register' %}">Sign Up</a></li>
+                        </ul>
                     </li>
                 </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- /header -->
+
+    <main>
+        <!-- ================= HERO ================= -->
+        <div class="hero_single version_2 hero-video-wrap">
+
+            {% if hero.background_video_url %}
+            <iframe class="hero-video"
+                src="{{ hero.background_video_url }}?autoplay=1&mute=1&controls=0&ui-start-screen-info=false&sharing-enable=false&queue-enable=false"
+                frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
+            </iframe>
+            {% else %}
+            <div class="hero-fallback" style="background:#ededed;"></div>
+            {% endif %}
+
+
+            <div class="opacity-mask" data-opacity-mask="rgba(0,0,0,0.55)">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-9 col-lg-10 col-md-8">
+
+                            <h1>{{ hero.title }}</h1>
+                            <p>{{ hero.subtitle }}</p>
+
+                            <form method="get" action="{% url 'search_results' %}">
+                                <div class="row g-0 custom-search-input">
+                                    <div class="col-lg-4">
+                                        <input class="form-control" name="q"
+                                            placeholder="{{ hero.search_placeholder_1 }}">
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input class="form-control no_border_r" name="date"
+                                            placeholder="{{ hero.search_placeholder_2 }}">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="submit" value="Search">
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        {% endfor %}
-    </div>
-</div>
+        <!-- /hero_single -->
 
 
-
-		<div class="call_section lazy" 
-			data-bg="url({{ call_section.background_image.url }})">
-
-			<div class="container clearfix">
-				<div class="col-lg-5 col-md-6 float-end wow">
-					<div class="box_1">
-						<h3>{{ call_section.title }}</h3>
-						<p>{{ call_section.description }}</p>
-						<a href="{{ call_section.button_url }}" class="btn_1">
-							{{ call_section.button_text }}
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-   		<!--/call_section-->
-		
-	</main>
-	<!-- /main -->
-
-<footer>
-    <div class="container">
-        <div class="row">
-
-            <!-- QUICK LINKS -->
-            <div class="col-lg-3 col-md-6">
-                <h3 data-bs-target="#collapse_1">Quick Links</h3>
-                <div class="collapse dont-collapse-sm links" id="collapse_1">
-                    <ul>
-                        <li><a href="{% url 'become_driver' %}">Become a Rider</a></li>
-                        <li><a href="{% url 'help' %}">Help</a></li>
-                        <li><a href="{% url 'my_account' %}">My account</a></li>
-                        <li><a href="{% url 'blog_list' %}">Blog</a></li>
-                        <li><a href="{% url 'contact' %}">Contacts</a></li>
-                    </ul>
+        <div class="bg_gray">
+            <div class="container margin_60_40">
+                <div class="main_title center">
+                    <span><em></em></span>
+                    <h2>Popular Categories</h2>
+                    <p>Find trips by interest — Beaches, Mountains, Cities, Adventure & more</p>
                 </div>
-            </div>
+                <!-- /main_title -->
 
-            <!-- CATEGORIES -->
-            <div class="col-lg-3 col-md-6">
-                <h3 data-bs-target="#collapse_2">Categories</h3>
-                <div class="collapse dont-collapse-sm links" id="collapse_2">
-                    <ul>
-                        <li><a href="#">Top Categories</a></li>
-                        <li><a href="#">Best Rated</a></li>
-                        <li><a href="#">Best Price</a></li>
-                        <li><a href="#">Latest Submissions</a></li>
-                    </ul>
-                </div>
-            </div>
+                <div class="owl-carousel owl-theme categories_carousel">
 
-            <!-- CONTACTS -->
-            <div class="col-lg-3 col-md-6">
-                <h3 data-bs-target="#collapse_3">Contacts</h3>
-                <div class="collapse dont-collapse-sm contacts" id="collapse_3">
-                    <ul>
-                        <li>
-                            <i class="icon_house_alt"></i>
-                            TravelBiz HQ, India
-                        </li>
-                        <li>
-                            <i class="icon_mobile"></i>
-                            +91 98794 77399
-                        </li>
-                        <li>
-                            <i class="icon_mail_alt"></i>
-                            <a href="mailto:support@travelbiz.com">
-                                support@travelbiz.com
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- KEEP IN TOUCH -->
-            <div class="col-lg-3 col-md-6">
-                <h3 data-bs-target="#collapse_4">Keep in touch</h3>
-                <div class="collapse dont-collapse-sm" id="collapse_4">
-
-                    <!-- NEWSLETTER -->
-                    <div id="newsletter">
-                        <div id="message-newsletter"></div>
-                        <form>
-                            <div class="form-group">
-                                <input type="email"
-                                       class="form-control"
-                                       placeholder="Your email">
-                                <button type="submit">
-                                    <i class="arrow_carrot-right"></i>
-                                </button>
-                            </div>
-                        </form>
+                    {% for c in categories %}
+                    <div class="item">
+                        <a href="{{ c.url }}">
+                            <span>{{ c.count }}</span>
+                            <i class="{{ c.icon_class }}"></i>
+                            <h3>{{ c.title }}</h3>
+                            <small>{{ c.price_text }}</small>
+                        </a>
                     </div>
+                    {% endfor %}
 
-                    <!-- SOCIAL -->
-                    <div class="follow_us">
-                        <h5>Follow Us</h5>
+                </div>
+                <!-- /carousel -->
+
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /bg_gray -->
+
+
+        <div class="container margin_60_40">
+            <div class="main_title">
+                <span><em></em></span>
+                <h2>Popular Destinations</h2>
+                <p>Handpicked places loved by travellers.</p>
+                <a href="grid-destinations.html">View All</a>
+            </div>
+
+            <div class="owl-carousel owl-theme carousel_4">
+                {% for d in destinations %}
+                <div class="item">
+                    <div class="strip">
+                        <figure>
+                            {% if d.ribbon_text %}
+                            <span class="ribbon off">{{ d.ribbon_text }}</span>
+                            {% endif %}
+
+                            <img src="{{ d.image.url }}" alt="{{ d.title }}">
+
+                            <a href="{{ d.url }}" class="strip_info">
+                                <small>{{ d.country_category }}</small>
+                                <div class="item_title">
+                                    <h3>{{ d.title }}</h3>
+                                    <small>{{ d.price_text }}</small>
+                                </div>
+                            </a>
+                        </figure>
+
                         <ul>
-                            <li><a href="https://www.facebook.com/"><i class="bi bi-facebook"></i></a></li>
-                            <li><a href=https://twitter.com/"><i class="bi bi-twitter-x"></i></a></li>
-                            <li><a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a></li>
-                            <li><a href="https://www.tiktok.com/"><i class="bi bi-tiktok"></i></a></li>
-                            <li><a href="https://wa.me/919879477399"><i class="bi bi-whatsapp"></i></a></li>
+                            <li><span class="loc_open">{{ d.open_text }}</span></li>
+                            <li>
+                                <div class="score">
+                                    <span>{{ d.reviews_text }}</span>
+                                    <strong>{{ d.rating }}</strong>
+                                </div>
+                            </li>
                         </ul>
                     </div>
+                </div>
+                {% endfor %}
+            </div>
 
+            <!-- /carousel -->
+
+            <div class="banner lazy" data-bg="url({{ middle_banner.background_image.url }})">
+
+                <div class="wrapper d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.2)">
+                    <div>
+                        {% if middle_banner.small_title %}
+                        <small>{{ middle_banner.small_title }}</small>
+                        {% endif %}
+
+                        <h3>{{ middle_banner.main_title }}</h3>
+
+                        {% if middle_banner.subtitle %}
+                        <p>{{ middle_banner.subtitle }}</p>
+                        {% endif %}
+
+                        <a href="{{ middle_banner.button_url }}" class="btn_1">
+                            {{ middle_banner.button_text }}
+                        </a>
+                    </div>
                 </div>
             </div>
 
+            <!-- /banner -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="main_title version_2">
+                        <span><em></em></span>
+                        <h2>Top Deals & Packages</h2>
+                        <p>Special offers for families, couples and solo travellers.</p>
+                        <a href="#0">View All</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="list_home">
+                        <ul>
+                            {% for d in deals|slice:":3" %}
+                            <li>
+                                <a href="{{ d.url }}">
+                                    <figure>
+                                        <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
+                                    </figure>
+                                    <div class="score"><strong>{{ d.rating }}</strong></div>
+                                    <em>{{ d.category }}</em>
+                                    <h3>{{ d.title }}</h3>
+                                    <small>{{ d.subtitle }}</small>
+                                    <ul>
+                                        {% if d.discount %}
+                                        <li><span class="ribbon off">{{ d.discount }}</span></li>
+                                        {% endif %}
+                                        <li>{{ d.person_type }}</li>
+                                    </ul>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="list_home">
+                        <ul>
+                            {% for d in deals|slice:"3:6" %}
+                            <li>
+                                <a href="{{ d.url }}">
+                                    <figure>
+                                        <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
+                                    </figure>
+                                    <div class="score"><strong>{{ d.rating }}</strong></div>
+                                    <em>{{ d.category }}</em>
+                                    <h3>{{ d.title }}</h3>
+                                    <small>{{ d.subtitle }}</small>
+                                    <ul>
+                                        {% if d.discount %}
+                                        <li><span class="ribbon off">{{ d.discount }}</span></li>
+                                        {% endif %}
+                                        <li>{{ d.person_type }}</li>
+                                    </ul>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /row -->
+            <p class="text-center d-block d-md-block d-lg-none"><a href="grid-destinations.html" class="btn_1">View
+                    All</a></p>
+            <!-- /button visibile on tablet/mobile only -->
         </div>
-        <!-- /row -->
+        <!-- /container -->
 
-        <hr>
-
-        <div class="row add_bottom_25">
-            <div class="col-lg-6">
-                <ul class="footer-selector clearfix">
-                    <li>
-                        <div class="styled-select lang-selector">
-                            <select>
-                                <option selected>English</option>
-                                <option>French</option>
-                                <option>Spanish</option>
-                                <option>Russian</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="styled-select currency-selector">
-                            <select>
-                                <option selected>INR</option>
-                                <option>USD</option>
-                                <option>EUR</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="{% static 'img/cards_all.svg' %}"
-                             width="198" height="30" alt="">
-                    </li>
-                </ul>
+        <div class="container margin_60_40">
+            <div class="main_title">
+                <span><em></em></span>
+                <h2>Top Verified Vendors</h2>
+                <p>Trusted travel partners with top quality services.</p>
             </div>
 
-            <div class="col-lg-6">
-                <ul class="additional_links">
-                    <li><a href="#">Terms and conditions</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><span>© TravelBiz</span></li>
-                </ul>
+            <div class="row">
+                {% for v in vendors %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="strip">
+                        <figure>
+                            {% if v.logo %}
+                            <img src="{{ v.logo.url }}" alt="{{ v.business_name }}"
+                                style="height:200px; object-fit:cover;">
+                            {% else %}
+                            <img src="{% static 'img/vendor_default.jpg' %}" alt="Vendor">
+                            {% endif %}
+                        </figure>
+                        <ul>
+                            <li><strong>{{ v.business_name }}</strong></li>
+                            <li>{{ v.city }}, {{ v.country }}</li>
+                            <li>
+                                <div class="score">
+                                    <strong>{{ v.rating }}</strong>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
-    </div>
-</footer>
-<!-- /footer -->
-	<!--/footer-->
-<div id="toTop"></div><!-- Back to top button -->
 
-<div class="layer"></div><!-- Opacity Mask Menu Mobile -->
 
-<!-- Sign In Modal -->
-<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
-    <div class="modal_header">
-        <h3>Sign In</h3>
-    </div>
 
-    <form method="post" action="{% url 'vendor_login' %}">
-        {% csrf_token %}
-        <div class="sign-in-wrapper">
+        <div class="call_section lazy" data-bg="url({{ call_section.background_image.url }})">
 
-            <div class="divider"><span>Or sign in with email</span></div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control" name="email" required>
-                <i class="icon_mail_alt"></i>
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" name="password" required>
-                <i class="icon_lock_alt"></i>
-            </div>
-
-            <div class="clearfix add_bottom_15">
-                <div class="checkboxes float-start">
-                    <label class="container_check">Remember me
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="float-end">
-                    <a href="javascript:void(0);" id="forgot">Forgot Password?</a>
+            <div class="container clearfix">
+                <div class="col-lg-5 col-md-6 float-end wow">
+                    <div class="box_1">
+                        <h3>{{ call_section.title }}</h3>
+                        <p>{{ call_section.description }}</p>
+                        <a href="{{ call_section.button_url }}" class="btn_1">
+                            {{ call_section.button_text }}
+                        </a>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="text-center">
-                <input type="submit" value="Log In" class="btn_1 full-width mb_5">
-                Don’t have an account?
-                <a href="{% url 'vendor_register' %}">Sign up</a>
+        <!--/call_section-->
+
+    </main>
+    <!-- /main -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+
+                <!-- QUICK LINKS -->
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_1">
+                        <ul>
+                            <li><a href="{% url 'become_driver' %}">Become a Rider</a></li>
+                            <li><a href="{% url 'help' %}">Help</a></li>
+                            <li><a href="{% url 'my_account' %}">My account</a></li>
+                            <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                            <li><a href="{% url 'contact' %}">Contacts</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- CATEGORIES -->
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_2">Categories</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_2">
+                        <ul>
+                            <li><a href="#">Top Categories</a></li>
+                            <li><a href="#">Best Rated</a></li>
+                            <li><a href="#">Best Price</a></li>
+                            <li><a href="#">Latest Submissions</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- CONTACTS -->
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_3">Contacts</h3>
+                    <div class="collapse dont-collapse-sm contacts" id="collapse_3">
+                        <ul>
+                            <li>
+                                <i class="icon_house_alt"></i>
+                                TravelBiz HQ, India
+                            </li>
+                            <li>
+                                <i class="icon_mobile"></i>
+                                +91 98794 77399
+                            </li>
+                            <li>
+                                <i class="icon_mail_alt"></i>
+                                <a href="mailto:support@travelbiz.com">
+                                    support@travelbiz.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- KEEP IN TOUCH -->
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_4">Keep in touch</h3>
+                    <div class="collapse dont-collapse-sm" id="collapse_4">
+
+                        <!-- NEWSLETTER -->
+                        <div id="newsletter">
+                            <div id="message-newsletter"></div>
+                            <form>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Your email">
+                                    <button type="submit">
+                                        <i class="arrow_carrot-right"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- SOCIAL -->
+                        <div class="follow_us">
+                            <h5>Follow Us</h5>
+                            <ul>
+                                <li><a href="https://www.facebook.com/"><i class="bi bi-facebook"></i></a></li>
+                                <li><a href=https://twitter.com/"><i class="bi bi-twitter-x"></i></a></li>
+                                <li><a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a></li>
+                                <li><a href="https://www.tiktok.com/"><i class="bi bi-tiktok"></i></a></li>
+                                <li><a href="https://wa.me/919879477399"><i class="bi bi-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
+            <!-- /row -->
 
-            <div id="forgot_pw">
+            <hr>
+
+            <div class="row add_bottom_25">
+                <div class="col-lg-6">
+                    <ul class="footer-selector clearfix">
+                        <li>
+                            <div class="styled-select lang-selector">
+                                <select>
+                                    <option selected>English</option>
+                                    <option>French</option>
+                                    <option>Spanish</option>
+                                    <option>Russian</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="styled-select currency-selector">
+                                <select>
+                                    <option selected>INR</option>
+                                    <option>USD</option>
+                                    <option>EUR</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <img src="{% static 'img/cards_all.svg' %}" width="198" height="30" alt="">
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-6">
+                    <ul class="additional_links">
+                        <li><a href="#">Terms and conditions</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><span>© TravelBiz</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- /footer -->
+    <!--/footer-->
+    <div id="toTop"></div><!-- Back to top button -->
+
+    <div class="layer"></div><!-- Opacity Mask Menu Mobile -->
+
+    <!-- Sign In Modal -->
+    <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+        <div class="modal_header">
+            <h3>Sign In</h3>
+        </div>
+
+        <form method="post" action="{% url 'vendor_login' %}">
+            {% csrf_token %}
+            <div class="sign-in-wrapper">
+
+                <div class="divider"><span>Or sign in with email</span></div>
+
                 <div class="form-group">
-                    <label>Please confirm login email below</label>
-                    <input type="email" class="form-control" name="email_forgot">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" required>
                     <i class="icon_mail_alt"></i>
                 </div>
-                <p>You will receive an email with a reset password link.</p>
-                <div class="text-center">
-                    <input type="submit" value="Reset Password" class="btn_1">
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                    <i class="icon_lock_alt"></i>
                 </div>
+
+                <div class="clearfix add_bottom_15">
+                    <div class="checkboxes float-start">
+                        <label class="container_check">Remember me
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="float-end">
+                        <a href="javascript:void(0);" id="forgot">Forgot Password?</a>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <input type="submit" value="Log In" class="btn_1 full-width mb_5">
+                    Don’t have an account?
+                    <a href="{% url 'vendor_register' %}">Sign up</a>
+                </div>
+
+                <div id="forgot_pw">
+                    <div class="form-group">
+                        <label>Please confirm login email below</label>
+                        <input type="email" class="form-control" name="email_forgot">
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <p>You will receive an email with a reset password link.</p>
+                    <div class="text-center">
+                        <input type="submit" value="Reset Password" class="btn_1">
+                    </div>
+                </div>
+
             </div>
+        </form>
+    </div>
+    <!-- /Sign In Modal -->
 
-        </div>
-    </form>
-</div>
-<!-- /Sign In Modal -->
-
-<!-- COMMON SCRIPTS -->
-<script src="{% static 'js/common_scripts.min.js' %}"></script>
-<script src="{% static 'js/common_func.js' %}"></script>
-<script src="{% static 'assets/validate.js' %}"></script>
+    <!-- COMMON SCRIPTS -->
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'assets/validate.js' %}"></script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    flatpickr(".datepicker", {
-        dateFormat: "d M Y",   // 12 Jan 2025
-        minDate: "today",
-        disableMobile: true
-    });
-});
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            flatpickr(".datepicker", {
+                dateFormat: "d M Y",   // 12 Jan 2025
+                minDate: "today",
+                disableMobile: true
+            });
+        });
+    </script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const iframe = document.querySelector(".hero-video");
-    if (!iframe) return;
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const iframe = document.querySelector(".hero-video");
+            if (!iframe) return;
 
-    const baseSrc = iframe.src.split("?")[0];
-    const params = "?autoplay=1&mute=1&controls=0&queue-enable=false";
+            const baseSrc = iframe.src.split("?")[0];
+            const params = "?autoplay=1&mute=1&controls=0&queue-enable=false";
 
-    // restart video every 80 sec (1.22 min video)
-    setInterval(() => {
-        iframe.src = baseSrc + params;
-    }, 80000); // milliseconds
-});
-</script>
+            // restart video every 80 sec (1.22 min video)
+            setInterval(() => {
+                iframe.src = baseSrc + params;
+            }, 80000); // milliseconds
+        });
+    </script>
 
 
-{% block extra_js %}{% endblock %}
+    {% block extra_js %}{% endblock %}
 
 
 </body>
+
 </html>

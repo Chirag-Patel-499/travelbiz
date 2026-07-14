@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container margin_60_40">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="box_general">
+
+                <h3>Create Your TravelBiz Admin Panel</h3>
+
+                <p>
+                    Fill the details below to create your own dashboard.
+                </p>
+
+                <form method="POST" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn_1">
+                        Create Admin Panel
+                    </button>
+
+                    <hr>
+
+                    <p class="text-center">
+
+                        Already have an account?
+
+                        <a href="{% url 'user_admin_login' %}">
+                            Login Here
+                        </a>
+
+                    </p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

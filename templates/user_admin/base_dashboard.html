@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TravelBiz Admin</title>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <style>
+
+        body{
+            background:#f5f7fb;
+        }
+
+        .sidebar{
+            width:260px;
+            height:100vh;
+            position:fixed;
+            background:#212529;
+            color:#fff;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            padding:15px 25px;
+            text-decoration:none;
+        }
+
+        .sidebar a:hover{
+            background:#0d6efd;
+        }
+
+        .content{
+            margin-left:260px;
+            padding:30px;
+        }
+
+        .topbar{
+            background:white;
+            padding:15px 30px;
+            border-radius:10px;
+            margin-bottom:25px;
+            box-shadow:0 2px 15px rgba(0,0,0,.08);
+        }
+
+        .card-box{
+            background:white;
+            border-radius:15px;
+            padding:25px;
+            box-shadow:0 2px 15px rgba(0,0,0,.08);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h3 class="text-center py-4">
+        TravelBiz
+    </h3>
+
+    <a href="{% url 'user_dashboard' %}">
+        🏠 Dashboard
+    </a>
+
+    <a href="#">
+        🏨 Hotels
+    </a>
+
+    <a href="#">
+        🧳 Tours
+    </a>
+
+    <a href="#">
+        📅 Bookings
+    </a>
+
+    <a href="#">
+        👥 Customers
+    </a>
+
+    <a href="#">
+        ⭐ Reviews
+    </a>
+
+    <a href="#">
+        💳 Payments
+    </a>
+
+    <a href="#">
+        ⚙ Settings
+    </a>
+
+    <a href="{% url 'user_logout' %}">
+        🚪 Logout
+    </a>
+
+</div>
+
+<div class="content">
+
+    <div class="topbar">
+
+        <h4>
+            Welcome {{ request.user.username }}
+        </h4>
+
+    </div>
+
+    {% block dashboard_content %}
+    {% endblock %}
+
+</div>
+
+</body>
+
+</html>

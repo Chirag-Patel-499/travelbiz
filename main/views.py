@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -9,10 +9,10 @@ from django.db.models import Q
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings
+    SocialLink, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings,
 )
 
-from main.forms import VendorRegisterForm
+from main.forms import VendorRegisterForm, UserAdminRegisterForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -307,3 +307,133 @@ def search_results(request):
     }
 
     return render(request, "search_results.html", context)
+
+
+def user_admin_login(request):
+
+    if request.user.is_authenticated:
+
+        if hasattr(request.user, "admin_profile"):
+            return redirect("user_dashboard")
+
+        logout(request)
+
+    if request.method == "POST":
+
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        user = authenticate(
+            username=email,
+            password=password
+        )
+
+        if user:
+
+            # માત્ર Admin Panel User જ Login કરી શકે
+            if not hasattr(user, "admin_profile"):
+
+                messages.error(
+                    request,
+                    "This account is not registered as an Admin Panel user."
+                )
+
+                return redirect("user_admin_login")
+
+            login(request, user)
+            return redirect("user_dashboard")
+
+        messages.error(
+            request,
+            "Invalid Email or Password."
+        )
+
+    return render(
+        request,
+        "user_admin/login.html"
+    )
+
+
+
+def user_admin_register(request):
+
+    if request.method == "POST":
+
+        form = UserAdminRegisterForm(request.POST, request.FILES)
+
+        if form.is_valid():
+
+            print("✅ FORM VALID")
+
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+
+            if User.objects.filter(username=email).exists():
+                print("❌ EMAIL EXISTS")
+                messages.error(request, "Email already exists.")
+                return redirect("user_admin_register")
+
+            user = User.objects.create_user(
+                username=email,
+                email=email,
+                password=password
+            )
+
+            profile = form.save(commit=False)
+            profile.user = user
+            profile.save()
+
+            login(request, user)
+
+            print("✅ USER CREATED")
+
+            return redirect("user_dashboard")
+
+        else:
+            print("❌ FORM INVALID")
+            print(form.errors)
+
+    else:
+        form = UserAdminRegisterForm()
+
+    return render(
+        request,
+        "user_admin/register.html",
+        {
+            "form": form
+        }
+    )
+
+
+
+
+@login_required
+def user_dashboard(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    if profile is None:
+
+        messages.error(
+            request,
+            "Please create your Admin Panel first."
+        )
+
+        return redirect("user_admin_register")
+
+    return render(
+        request,
+        "user_admin/dashboard.html",
+        {
+            "profile": profile
+        }
+    ) 
+
+
+def user_logout(request):
+    logout(request)
+    return redirect("home")    
+
+

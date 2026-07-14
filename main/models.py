@@ -2,6 +2,10 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class HeroSection(models.Model):
     title = models.CharField(max_length=255)
@@ -395,3 +399,49 @@ class DriverApplication(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.city}"
+    
+
+
+
+class UserAdminProfile(models.Model):
+
+    BUSINESS_TYPES = [
+        ("hotel", "Hotel"),
+        ("travel", "Travel Agency"),
+        ("tour", "Tour Operator"),
+        ("car", "Car Rental"),
+        ("guide", "Tour Guide"),
+    ]
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="admin_profile"
+    )
+
+    company_name = models.CharField(max_length=200)
+    owner_name = models.CharField(max_length=200)
+
+    email = models.EmailField()
+
+    mobile = models.CharField(max_length=20)
+
+    business_type = models.CharField(
+        max_length=20,
+        choices=BUSINESS_TYPES
+    )
+
+    country = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+
+    logo = models.ImageField(
+        upload_to="admin/logo/",
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.company_name    
