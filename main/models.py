@@ -445,3 +445,56 @@ class UserAdminProfile(models.Model):
 
     def __str__(self):
         return self.company_name    
+
+
+class Hotel(models.Model):
+
+    profile = models.ForeignKey(
+        UserAdminProfile,
+        on_delete=models.CASCADE,
+        related_name="hotels"
+    )
+
+    hotel_name = models.CharField(max_length=200)
+
+    location = models.CharField(max_length=200)
+
+    address = models.TextField()
+
+    description = models.TextField(blank=True)
+
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    total_rooms = models.PositiveIntegerField(default=0)
+
+    status = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.hotel_name
+    
+
+class HotelImage(models.Model):
+
+    hotel = models.ForeignKey(
+        Hotel,
+        on_delete=models.CASCADE,
+        related_name="images"
+    )
+
+    image = models.ImageField(
+        upload_to="hotels/"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f"Image for {self.hotel.hotel_name}"
+    
+
