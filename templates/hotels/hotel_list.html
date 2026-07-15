@@ -1,0 +1,86 @@
+{% extends "user_admin/base_dashboard.html" %}
+
+{% block dashboard_content %}
+
+<div class="card-box">
+
+<h3>All Hotels</h3>
+
+<a href="{% url 'hotel_add' %}"
+class="btn btn-primary mb-3">
+
+Add Hotel
+
+</a>
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Location</th>
+
+<th>Price</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for hotel in hotels %}
+
+<tr>
+
+<td>{{ hotel.id }}</td>
+
+<td>{{ hotel.hotel_name }}</td>
+
+<td>{{ hotel.location }}</td>
+
+<td>₹{{ hotel.price }}</td>
+
+<td>
+
+{% if hotel.status %}
+
+Active
+
+{% else %}
+
+Inactive
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="5">
+
+No Hotels Found
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

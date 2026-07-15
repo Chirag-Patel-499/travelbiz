@@ -70,9 +70,30 @@
         🏠 Dashboard
     </a>
 
-    <a href="#">
+    <!-- Hotels Menu -->
+    <a data-bs-toggle="collapse"
+       href="#hotelMenu"
+       role="button"
+       aria-expanded="false"
+       aria-controls="hotelMenu">
         🏨 Hotels
     </a>
+
+    <div class="collapse ps-3" id="hotelMenu">
+
+        <a href="{% url 'hotel_list' %}">
+            📋 All Hotels
+        </a>
+
+        <a href="{% url 'hotel_add' %}">
+            ➕ Add Hotel
+        </a>
+
+        <a href="{% url 'hotel_images' %}">
+            🖼 Hotel Images
+        </a>
+
+    </div>
 
     <a href="#">
         🧳 Tours

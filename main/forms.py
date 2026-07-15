@@ -3,6 +3,8 @@ from main.models import Vendor
 
 from .models import UserAdminProfile
 
+from .models import Hotel
+
 class VendorRegisterForm(forms.ModelForm):
     class Meta:
         model = Vendor
@@ -53,3 +55,23 @@ class UserAdminRegisterForm(forms.ModelForm):
             raise forms.ValidationError("Passwords do not match")
 
         return cleaned
+    
+
+
+class HotelForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Hotel
+
+        fields = "__all__"
+
+        exclude = ["profile"]
+
+        widgets = {
+
+            "description": forms.Textarea(
+                attrs={"rows":4}
+            )
+
+        }    

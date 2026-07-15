@@ -19,6 +19,9 @@ from .views import (
     user_admin_register,
     user_dashboard,
     user_logout,
+    hotel_list,
+    hotel_add,
+    hotel_images,
 
 )
 
@@ -80,6 +83,26 @@ urlpatterns = [
         "logout/",
         user_logout,
         name="user_logout",
+    ),
+
+    # Hotels
+
+    path(
+        "dashboard/hotels/",
+        hotel_list,
+        name="hotel_list",
+    ),
+
+    path(
+        "dashboard/hotels/add/",
+        hotel_add,
+        name="hotel_add",
+    ),
+
+    path(
+        "dashboard/hotels/images/",
+        hotel_images,
+        name="hotel_images",
     ),
 
 

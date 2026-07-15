@@ -9,10 +9,10 @@ from django.db.models import Q
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings,
+    SocialLink, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage
 )
 
-from main.forms import VendorRegisterForm, UserAdminRegisterForm
+from main.forms import VendorRegisterForm, UserAdminRegisterForm, HotelForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -423,13 +423,18 @@ def user_dashboard(request):
 
         return redirect("user_admin_register")
 
+    total_hotels = Hotel.objects.filter(
+        profile=profile
+    ).count()
+
     return render(
         request,
         "user_admin/dashboard.html",
         {
-            "profile": profile
+            "profile": profile,
+            "total_hotels": total_hotels,
         }
-    ) 
+    )
 
 
 def user_logout(request):
@@ -437,3 +442,81 @@ def user_logout(request):
     return redirect("home")    
 
 
+@login_required
+def hotel_list(request):
+
+    profile = UserAdminProfile.objects.get(
+        user=request.user
+    )
+
+    hotels = Hotel.objects.filter(
+        profile=profile
+    )
+
+    return render(
+        request,
+        "user_admin/hotels/hotel_list.html",
+        {
+            "hotels": hotels
+        }
+    )
+
+
+@login_required
+def hotel_add(request):
+
+    profile = UserAdminProfile.objects.get(
+        user=request.user
+    )
+
+    if request.method == "POST":
+
+        form = HotelForm(request.POST)
+
+        if form.is_valid():
+
+            hotel = form.save(commit=False)
+
+            hotel.profile = profile
+
+            hotel.save()
+
+            messages.success(
+                request,
+                "Hotel Added Successfully."
+            )
+
+            return redirect("hotel_list")
+
+    else:
+
+        form = HotelForm()
+
+    return render(
+        request,
+        "user_admin/hotels/hotel_add.html",
+        {
+            "form": form
+        }
+    )
+
+
+
+@login_required
+def hotel_images(request):
+
+    profile = UserAdminProfile.objects.get(
+        user=request.user
+    )
+
+    hotels = Hotel.objects.filter(
+        profile=profile
+    )
+
+    return render(
+        request,
+        "user_admin/hotels/hotel_images.html",
+        {
+            "hotels": hotels
+        }
+    )
