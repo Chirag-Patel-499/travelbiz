@@ -2,84 +2,181 @@
 
 {% block dashboard_content %}
 
-<div class="card-box">
+<div class="card shadow-sm border-0">
 
-<h3>All Hotels</h3>
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 
-<a href="{% url 'hotel_add' %}"
-class="btn btn-primary mb-3">
+        <div>
 
-Add Hotel
+            <h3 class="mb-1">
+                🏨 Hotel Management
+            </h3>
 
-</a>
+            <small>
+                Total Hotels : {{ hotels|length }}
+            </small>
 
-<table class="table">
+        </div>
 
-<thead>
+        <a href="{% url 'hotel_add' %}" class="btn btn-light">
 
-<tr>
+            ➕ Add Hotel
 
-<th>ID</th>
+        </a>
 
-<th>Name</th>
+    </div>
 
-<th>Location</th>
+    <div class="card-body">
 
-<th>Price</th>
+        <div class="table-responsive">
 
-<th>Status</th>
+            <table class="table table-hover align-middle">
 
-</tr>
+                <thead class="table-dark">
 
-</thead>
+                    <tr>
 
-<tbody>
+                        <th width="70">#</th>
 
-{% for hotel in hotels %}
+                        <th>Hotel Name</th>
 
-<tr>
+                        <th>Location</th>
 
-<td>{{ hotel.id }}</td>
+                        <th>Price / Night</th>
 
-<td>{{ hotel.hotel_name }}</td>
+                        <th>Rooms</th>
 
-<td>{{ hotel.location }}</td>
+                        <th>Status</th>
 
-<td>₹{{ hotel.price }}</td>
+                        <th width="220">Actions</th>
 
-<td>
+                    </tr>
 
-{% if hotel.status %}
+                </thead>
 
-Active
+                <tbody>
 
-{% else %}
+                    {% for hotel in hotels %}
 
-Inactive
+                    <tr>
 
-{% endif %}
+                        <td>
 
-</td>
+                            {{ hotel.id }}
 
-</tr>
+                        </td>
 
-{% empty %}
+                        <td>
 
-<tr>
+                            <strong>
 
-<td colspan="5">
+                                {{ hotel.hotel_name }}
 
-No Hotels Found
+                            </strong>
 
-</td>
+                        </td>
 
-</tr>
+                        <td>
 
-{% endfor %}
+                            {{ hotel.location }}
 
-</tbody>
+                        </td>
 
-</table>
+                        <td>
+
+                            ₹ {{ hotel.price }}
+
+                        </td>
+
+                        <td>
+
+                            {{ hotel.total_rooms }}
+
+                        </td>
+
+                        <td>
+
+                            {% if hotel.status %}
+
+                                <span class="badge bg-success">
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Inactive
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-sm btn-info text-white">
+
+                                👁 View
+
+                            </button>
+
+                            <button class="btn btn-sm btn-warning">
+
+                                ✏ Edit
+
+                            </button>
+
+                            <button class="btn btn-sm btn-danger">
+
+                                🗑 Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center py-5">
+
+                            <h5 class="text-muted">
+
+                                No Hotels Found
+
+                            </h5>
+
+                            <p class="text-muted">
+
+                                Click the button below to create your first hotel.
+
+                            </p>
+
+                            <a href="{% url 'hotel_add' %}" class="btn btn-primary">
+
+                                ➕ Add Hotel
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
