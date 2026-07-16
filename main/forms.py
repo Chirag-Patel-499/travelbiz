@@ -64,14 +64,61 @@ class HotelForm(forms.ModelForm):
 
         model = Hotel
 
-        fields = "__all__"
-
         exclude = ["profile"]
 
         widgets = {
 
-            "description": forms.Textarea(
-                attrs={"rows":4}
-            )
+            "hotel_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Hotel Name"
+                }
+            ),
 
-        }    
+            "location": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Hotel Location"
+                }
+            ),
+
+            "address": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 3,
+                    "placeholder": "Enter Hotel Address"
+                }
+            ),
+
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Write Hotel Description"
+                }
+            ),
+
+            "price": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Price Per Night",
+                    "step": "0.01",
+                    "min": "0"
+                }
+            ),
+
+            "total_rooms": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Total Rooms",
+                    "min": "1"
+                }
+            ),
+
+            "status": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input"
+                }
+            ),
+
+        }
