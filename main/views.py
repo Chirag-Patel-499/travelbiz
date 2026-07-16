@@ -501,7 +501,6 @@ def hotel_add(request):
     )
 
 
-
 @login_required
 def hotel_images(request):
 
@@ -513,10 +512,34 @@ def hotel_images(request):
         profile=profile
     )
 
+    if request.method == "POST":
+
+        hotel = request.POST.get("hotel")
+        image = request.FILES.get("image")
+
+        if hotel and image:
+
+            HotelImage.objects.create(
+                hotel_id=hotel,
+                image=image
+            )
+
+            messages.success(
+                request,
+                "Image Uploaded Successfully."
+            )
+
+            return redirect("hotel_images")
+
+    images = HotelImage.objects.filter(
+        hotel__profile=profile
+    )
+
     return render(
         request,
         "user_admin/hotels/hotel_images.html",
         {
-            "hotels": hotels
+            "hotels": hotels,
+            "images": images,
         }
     )
