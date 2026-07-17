@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -559,7 +561,7 @@ def hotel_view(request, id):
 
     return render(
         request,
-        "user_admin/hotel_view.html",
+        "user_admin/hotels/hotel_view.html",
         {
             "hotel": hotel
         }
@@ -595,7 +597,7 @@ def hotel_edit(request, id):
 
     return render(
         request,
-        "user_admin/hotel_add.html",
+        "user_admin/hotels/hotel_add.html",
         {
             "form": form
         }
