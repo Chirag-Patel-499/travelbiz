@@ -109,10 +109,22 @@ urlpatterns = [
     ),
 
 
-    path("dashboard/hotels/view/<int:id>/", views.hotel_view, name="hotel_view"),
-    path("dashboard/hotels/edit/<int:id>/", views.hotel_edit, name="hotel_edit"),
-    path("dashboard/hotels/delete/<int:id>/", views.hotel_delete, name="hotel_delete"),
+    path(
+        "dashboard/hotels/view/<int:id>/",
+        hotel_view,
+        name="hotel_view",
+    ),
 
+    path(
+        "dashboard/hotels/edit/<int:id>/",
+        hotel_edit,
+        name="hotel_edit",
+    ),
 
+    path(
+        "dashboard/hotels/delete/<int:id>/",
+        hotel_delete,
+        name="hotel_delete",
+    ),
 
 ]
