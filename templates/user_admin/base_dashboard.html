@@ -1,150 +1,280 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>TravelBiz Admin</title>
 
     <!-- <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
 
     <style>
+      body {
+        background: #f5f7fb;
+      }
 
-        body{
-            background:#f5f7fb;
-        }
+      .sidebar {
+        width: 260px;
+        height: 100vh;
+        position: fixed;
+        background: #212529;
+        color: #fff;
+      }
 
-        .sidebar{
-            width:260px;
-            height:100vh;
-            position:fixed;
-            background:#212529;
-            color:#fff;
-        }
+      .sidebar a {
+        display: block;
+        color: white;
+        padding: 15px 25px;
+        text-decoration: none;
+      }
 
-        .sidebar a{
-            display:block;
-            color:white;
-            padding:15px 25px;
-            text-decoration:none;
-        }
+      .sidebar a:hover {
+        background: #0d6efd;
+      }
 
-        .sidebar a:hover{
-            background:#0d6efd;
-        }
+      .content {
+        margin-left: 260px;
+        padding: 30px;
+      }
 
-        .content{
-            margin-left:260px;
-            padding:30px;
-        }
+      .topbar {
+        background: white;
+        padding: 15px 30px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+      }
 
-        .topbar{
-            background:white;
-            padding:15px 30px;
-            border-radius:10px;
-            margin-bottom:25px;
-            box-shadow:0 2px 15px rgba(0,0,0,.08);
-        }
+      .card-box {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+      }
 
-        .card-box{
-            background:white;
-            border-radius:15px;
-            padding:25px;
-            box-shadow:0 2px 15px rgba(0,0,0,.08);
-        }
+      .sidebar {
+        width: 270px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow-y: auto;
 
+        background: linear-gradient(180deg, #182848, #4b6cb7);
+
+        color: #fff;
+
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      .logo-area {
+        text-align: center;
+
+        padding: 30px 15px;
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .logo-text {
+        margin: 0;
+
+        font-weight: 700;
+      }
+
+      .menu-title {
+        color: rgba(255, 255, 255, 0.6);
+
+        font-size: 12px;
+
+        letter-spacing: 2px;
+
+        padding: 20px 25px 8px;
+      }
+
+      .sidebar-link {
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+        color: white;
+
+        text-decoration: none;
+
+        padding: 14px 22px;
+
+        margin: 4px 12px;
+
+        border-radius: 12px;
+
+        transition: 0.3s;
+      }
+
+      .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.15);
+
+        color: #fff;
+
+        transform: translateX(6px);
+      }
+
+      .sidebar-link.active {
+        background: white;
+
+        color: #2563eb;
+
+        font-weight: 600;
+      }
+
+      .sidebar-link i {
+        font-size: 18px;
+      }
+
+      .sidebar-sublink {
+        display: block;
+
+        color: #dbeafe;
+
+        text-decoration: none;
+
+        margin: 6px 25px;
+
+        padding: 10px 15px;
+
+        border-radius: 10px;
+
+        transition: 0.3s;
+      }
+
+      .sidebar-sublink:hover {
+        background: rgba(255, 255, 255, 0.12);
+
+        color: white;
+      }
+
+      .sidebar-divider {
+        border-color: rgba(255, 255, 255, 0.15);
+
+        margin: 20px;
+      }
+
+      .logout {
+        color: #ffdede;
+      }
+
+      .logout:hover {
+        background: #dc3545;
+      }
     </style>
+  </head>
 
-</head>
+  <body>
+    <div class="sidebar">
+      <div class="logo-area">
+        <h3 class="logo-text">TravelBiz</h3>
 
-<body>
+        <small class="text-secondary"> Admin Panel </small>
+      </div>
 
-<div class="sidebar">
+      <div class="menu-title">MAIN MENU</div>
 
-    <h3 class="text-center py-4">
-        TravelBiz
-    </h3>
+      <a href="{% url 'user_dashboard' %}" class="sidebar-link active">
+        <i class="bi bi-grid-fill"></i>
+        <span>Dashboard</span>
+      </a>
 
-    <a href="{% url 'user_dashboard' %}">
-        🏠 Dashboard
-    </a>
+      <a
+        class="sidebar-link"
+        data-bs-toggle="collapse"
+        href="#hotelMenu"
+        role="button"
+      >
+        <i class="bi bi-building"></i>
 
-    <!-- Hotels Menu -->
-    <a data-bs-toggle="collapse"
-       href="#hotelMenu"
-       role="button"
-       aria-expanded="false"
-       aria-controls="hotelMenu">
-        🏨 Hotels
-    </a>
+        <span>Hotels</span>
 
-    <div class="collapse ps-3" id="hotelMenu">
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
 
-        <a href="{% url 'hotel_list' %}">
-            📋 All Hotels
+      <div class="collapse ps-2" id="hotelMenu">
+        <a href="{% url 'hotel_list' %}" class="sidebar-sublink">
+          <i class="bi bi-list-ul"></i>
+
+          All Hotels
         </a>
 
-        <a href="{% url 'hotel_add' %}">
-            ➕ Add Hotel
+        <a href="{% url 'hotel_add' %}" class="sidebar-sublink">
+          <i class="bi bi-plus-circle"></i>
+
+          Add Hotel
         </a>
 
-        <a href="{% url 'hotel_images' %}">
-            🖼 Hotel Images
-        </a>
+        <a href="{% url 'hotel_images' %}" class="sidebar-sublink">
+          <i class="bi bi-images"></i>
 
+          Hotel Images
+        </a>
+      </div>
+
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-map"></i>
+        <span>Tours</span>
+      </a>
+
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-calendar-check"></i>
+        <span>Bookings</span>
+      </a>
+
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-people"></i>
+        <span>Customers</span>
+      </a>
+
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-star"></i>
+        <span>Reviews</span>
+      </a>
+
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-credit-card"></i>
+        <span>Payments</span>
+      </a>
+
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-gear"></i>
+        <span>Settings</span>
+      </a>
+
+      <hr class="sidebar-divider" />
+
+      <a href="{% url 'user_logout' %}" class="sidebar-link logout">
+        <i class="bi bi-box-arrow-right"></i>
+
+        <span>Logout</span>
+      </a>
     </div>
 
-    <a href="#">
-        🧳 Tours
-    </a>
+    <div class="content">
+      <div class="topbar">
+        <h4>Welcome {{ request.user.username }}</h4>
+      </div>
 
-    <a href="#">
-        📅 Bookings
-    </a>
-
-    <a href="#">
-        👥 Customers
-    </a>
-
-    <a href="#">
-        ⭐ Reviews
-    </a>
-
-    <a href="#">
-        💳 Payments
-    </a>
-
-    <a href="#">
-        ⚙ Settings
-    </a>
-
-    <a href="{% url 'user_logout' %}">
-        🚪 Logout
-    </a>
-
-</div>
-
-<div class="content">
-
-    <div class="topbar">
-
-        <h4>
-            Welcome {{ request.user.username }}
-        </h4>
-
+      {% block dashboard_content %} {% endblock %}
     </div>
 
-    {% block dashboard_content %}
-    {% endblock %}
-
-</div>
-
-<!-- <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
+    <!-- <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
