@@ -503,33 +503,30 @@ def hotel_add(request):
         }
     )
 
-
 @login_required
 def hotel_images(request):
 
-    profile = UserAdminProfile.objects.get(
-        user=request.user
-    )
+    profile = UserAdminProfile.objects.get(user=request.user)
 
-    hotels = Hotel.objects.filter(
-        profile=profile
-    )
+    hotels = Hotel.objects.filter(profile=profile)
 
     if request.method == "POST":
 
         hotel = request.POST.get("hotel")
-        image = request.FILES.get("image")
+        images = request.FILES.getlist("image")   # <-- બદલ્યું
 
-        if hotel and image:
+        if hotel and images:
 
-            HotelImage.objects.create(
-                hotel_id=hotel,
-                image=image
-            )
+            for image in images:
+
+                HotelImage.objects.create(
+                    hotel_id=hotel,
+                    image=image
+                )
 
             messages.success(
                 request,
-                "Image Uploaded Successfully."
+                "Images Uploaded Successfully."
             )
 
             return redirect("hotel_images")
