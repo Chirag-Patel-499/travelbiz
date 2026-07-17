@@ -1,0 +1,21 @@
+{% extends "user_admin/base_dashboard.html" %} {% block dashboard_content %}
+
+<div class="card">
+  <div class="card-header">
+    <h3>{{ hotel.hotel_name }}</h3>
+  </div>
+
+  <div class="card-body">
+    <p><b>Location :</b> {{ hotel.location }}</p>
+
+    <p><b>Address :</b> {{ hotel.address }}</p>
+
+    <p><b>Description :</b> {{ hotel.description }}</p>
+
+    <p><b>Price :</b> ₹ {{ hotel.price }}</p>
+
+    <p><b>Total Rooms :</b> {{ hotel.total_rooms }}</p>
+  </div>
+</div>
+
+{% endblock %}

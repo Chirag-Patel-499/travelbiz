@@ -22,6 +22,9 @@ from .views import (
     hotel_list,
     hotel_add,
     hotel_images,
+    hotel_view,
+    hotel_edit,
+    hotel_delete,
 
 )
 
@@ -104,6 +107,11 @@ urlpatterns = [
         hotel_images,
         name="hotel_images",
     ),
+
+
+    path("dashboard/hotels/view/<int:id>/", views.hotel_view, name="hotel_view"),
+    path("dashboard/hotels/edit/<int:id>/", views.hotel_edit, name="hotel_edit"),
+    path("dashboard/hotels/delete/<int:id>/", views.hotel_delete, name="hotel_delete"),
 
 
 

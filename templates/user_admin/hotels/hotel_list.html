@@ -70,15 +70,27 @@
 
             <td class="text-center">
               <div class="btn-group btn-group-sm" role="group">
-                <a href="#" class="btn btn-outline-primary" title="View">
+                <a
+                  href="{% url 'hotel_view' hotel.id %}"
+                  class="btn btn-outline-primary"
+                  title="View"
+                >
                   <i class="bi bi-eye"></i>
                 </a>
 
-                <a href="#" class="btn btn-outline-warning" title="Edit">
+                <a
+                  href="{% url 'hotel_edit' hotel.id %}"
+                  class="btn btn-outline-warning"
+                  title="Edit"
+                >
                   <i class="bi bi-pencil-square"></i>
                 </a>
 
-                <a href="#" class="btn btn-outline-danger" title="Delete">
+                <a
+                  href="{% url 'hotel_delete' hotel.id %}"
+                  class="btn btn-outline-danger"
+                  onclick="return confirm('Delete this hotel?');"
+                >
                   <i class="bi bi-trash"></i>
                 </a>
               </div>

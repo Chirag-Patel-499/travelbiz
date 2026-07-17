@@ -9,7 +9,8 @@ from django.db.models import Q
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage
+    SocialLink, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, hotel_view, hotel_edit, hotel_delete,
+
 )
 
 from main.forms import VendorRegisterForm, UserAdminRegisterForm, HotelForm
@@ -543,3 +544,80 @@ def hotel_images(request):
             "images": images,
         }
     )
+
+
+@login_required
+def hotel_view(request, id):
+
+    profile = UserAdminProfile.objects.get(user=request.user)
+
+    hotel = get_object_or_404(
+        Hotel,
+        id=id,
+        profile=profile
+    )
+
+    return render(
+        request,
+        "user_admin/hotel_view.html",
+        {
+            "hotel": hotel
+        }
+    )
+
+
+@login_required
+def hotel_edit(request, id):
+
+    profile = UserAdminProfile.objects.get(user=request.user)
+
+    hotel = get_object_or_404(
+        Hotel,
+        id=id,
+        profile=profile
+    )
+
+    if request.method == "POST":
+
+        form = HotelForm(request.POST, instance=hotel)
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(request, "Hotel Updated Successfully.")
+
+            return redirect("hotel_list")
+
+    else:
+
+        form = HotelForm(instance=hotel)
+
+    return render(
+        request,
+        "user_admin/hotel_add.html",
+        {
+            "form": form
+        }
+    )
+
+
+@login_required
+def hotel_delete(request, id):
+
+    profile = UserAdminProfile.objects.get(user=request.user)
+
+    hotel = get_object_or_404(
+        Hotel,
+        id=id,
+        profile=profile
+    )
+
+    hotel.delete()
+
+    messages.success(
+        request,
+        "Hotel Deleted Successfully."
+    )
+
+    return redirect("hotel_list")
