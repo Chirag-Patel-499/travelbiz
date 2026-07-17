@@ -620,3 +620,28 @@ def hotel_delete(request, id):
     )
 
     return redirect("hotel_list")
+
+
+@login_required
+def hotel_image_delete(request, id):
+
+    profile = UserAdminProfile.objects.get(user=request.user)
+
+    image = get_object_or_404(
+        HotelImage,
+        id=id,
+        hotel__profile=profile
+    )
+
+    # ફાઇલ પણ delete થશે
+    if image.image:
+        image.image.delete(save=False)
+
+    image.delete()
+
+    messages.success(
+        request,
+        "Image Deleted Successfully."
+    )
+
+    return redirect("hotel_images")
