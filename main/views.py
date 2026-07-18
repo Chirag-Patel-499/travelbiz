@@ -11,7 +11,7 @@ from django.db.models import Q
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage,
+    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage,
 
 )
 

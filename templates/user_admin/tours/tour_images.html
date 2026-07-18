@@ -3,8 +3,9 @@
 <div class="container-fluid">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h3 class="fw-bold mb-1">Hotel Images</h3>
-      <p class="text-muted mb-0">Upload and manage hotel gallery images.</p>
+      <h3 class="fw-bold mb-1">Tour Images</h3>
+
+      <p class="text-muted mb-0">Upload and manage tour gallery images.</p>
     </div>
   </div>
 
@@ -14,13 +15,13 @@
         {% csrf_token %}
 
         <div class="mb-3">
-          <label class="form-label fw-semibold"> Select Hotel </label>
+          <label class="form-label fw-semibold"> Select Tour </label>
 
-          <select name="hotel" class="form-select" required>
-            <option value="">-- Select Hotel --</option>
+          <select name="tour" class="form-select" required>
+            <option value="">-- Select Tour --</option>
 
-            {% for hotel in hotels %}
-            <option value="{{ hotel.id }}">{{ hotel.hotel_name }}</option>
+            {% for tour in tours %}
+            <option value="{{ tour.id }}">{{ tour.tour_name }}</option>
             {% endfor %}
           </select>
         </div>
@@ -65,7 +66,7 @@
             />
 
             <div class="card-body text-center">
-              <h6 class="mb-2">{{ image.hotel.hotel_name }}</h6>
+              <h6 class="mb-2">{{ image.tour.tour_name }}</h6>
 
               <a
                 href="{% url 'hotel_image_delete' image.id %}"
