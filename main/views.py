@@ -865,3 +865,26 @@ def tour_images(request):
         "user_admin/tours/tour_images.html",
         context
     )    
+
+
+@login_required
+def tour_image_delete(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    image = get_object_or_404(
+        TourImage,
+        id=pk,
+        tour__profile=profile
+    )
+
+    image.delete()
+
+    messages.success(
+        request,
+        "Tour Image Deleted Successfully."
+    )
+
+    return redirect("tour_images")
