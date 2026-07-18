@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0014_useradminprofile'),
+        ('main', '0015_merge_0014_seosettings_0014_useradminprofile'),
     ]
 
     operations = [
