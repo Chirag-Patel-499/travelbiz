@@ -673,15 +673,6 @@ def tour_list(request):
 @login_required
 def tour_add(request):
 
-    return render(
-        request,
-        "user_admin/tours/tour_add.html"
-    )
-
-
-@login_required
-def tour_add(request):
-
     profile = UserAdminProfile.objects.filter(
         user=request.user
     ).first()
