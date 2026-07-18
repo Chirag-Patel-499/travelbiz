@@ -735,3 +735,54 @@ def tour_view(request, pk):
         "user_admin/tours/tour_view.html",
         context
     )
+
+
+@login_required
+def tour_edit(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    tour = get_object_or_404(
+        Tour,
+        id=pk,
+        profile=profile
+    )
+
+    if request.method == "POST":
+
+        form = TourForm(
+            request.POST,
+            instance=tour
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Tour Updated Successfully."
+            )
+
+            return redirect("tour_list")
+
+    else:
+
+        form = TourForm(
+            instance=tour
+        )
+
+    context = {
+
+        "form": form,
+        "tour": tour
+
+    }
+
+    return render(
+        request,
+        "user_admin/tours/tour_edit.html",
+        context
+    )
