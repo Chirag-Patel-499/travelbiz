@@ -4,7 +4,7 @@ from main.models import Vendor
 from .models import UserAdminProfile
 
 from .models import Hotel
-from .models import HotelImage, Tour
+from .models import HotelImage, Tour, TourImage
 
 
 class VendorRegisterForm(forms.ModelForm):
@@ -183,6 +183,28 @@ class TourForm(forms.ModelForm):
 
             "status": forms.Select(attrs={
                 "class": "form-select"
+            }),
+
+        }
+
+
+class TourImageForm(forms.ModelForm):
+
+    class Meta:
+
+        model = TourImage
+
+        fields = ["tour", "image"]
+
+        widgets = {
+
+            "tour": forms.Select(attrs={
+                "class": "form-select"
+            }),
+
+            "image": forms.ClearableFileInput(attrs={
+                "class": "form-control",
+                "multiple": True
             }),
 
         }

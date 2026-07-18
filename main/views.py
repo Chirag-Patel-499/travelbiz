@@ -809,3 +809,59 @@ def tour_delete(request, pk):
     )
 
     return redirect("tour_list")
+
+
+
+@login_required
+def tour_images(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    tours = Tour.objects.filter(
+        profile=profile
+    )
+
+    images = TourImage.objects.filter(
+        tour__profile=profile
+    ).order_by("-id")
+
+    if request.method == "POST":
+
+        tour = request.POST.get("tour")
+
+        files = request.FILES.getlist("image")
+
+        selected_tour = get_object_or_404(
+            Tour,
+            id=tour,
+            profile=profile
+        )
+
+        for file in files:
+
+            TourImage.objects.create(
+                tour=selected_tour,
+                image=file
+            )
+
+        messages.success(
+            request,
+            "Images Uploaded Successfully."
+        )
+
+        return redirect("tour_images")
+
+    context = {
+
+        "tours": tours,
+        "images": images
+
+    }
+
+    return render(
+        request,
+        "user_admin/tours/tour_images.html",
+        context
+    )    
