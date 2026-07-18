@@ -204,7 +204,6 @@ class TourImageForm(forms.ModelForm):
 
             "image": forms.ClearableFileInput(attrs={
                 "class": "form-control",
-                "multiple": True
             }),
 
         }
