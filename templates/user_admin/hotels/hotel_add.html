@@ -8,13 +8,13 @@
 
         <div>
             <h3 class="mb-0">
-                🏨 Add New Hotel
+                🌍 Add New Tour
             </h3>
-            <small>Create a new hotel for your business</small>
+            <small>Create a new travel package for your customers</small>
         </div>
 
-        <a href="{% url 'hotel_list' %}" class="btn btn-light">
-            ← Back to Hotels
+        <a href="{% url 'tour_list' %}" class="btn btn-light">
+            ← Back to Tours
         </a>
 
     </div>
@@ -30,10 +30,10 @@
                 <div class="col-md-6 mb-4">
 
                     <label class="form-label fw-bold">
-                        Hotel Name
+                        Tour Name
                     </label>
 
-                    {{ form.hotel_name }}
+                    {{ form.tour_name }}
 
                 </div>
 
@@ -47,13 +47,27 @@
 
                 </div>
 
-                <div class="col-md-12 mb-4">
+                <div class="col-md-6 mb-4">
 
                     <label class="form-label fw-bold">
-                        Address
+                        Duration
                     </label>
 
-                    {{ form.address }}
+                    {{ form.duration }}
+
+                    <small class="text-muted">
+                        Example: 3 Days / 2 Nights
+                    </small>
+
+                </div>
+
+                <div class="col-md-6 mb-4">
+
+                    <label class="form-label fw-bold">
+                        Tour Price (₹)
+                    </label>
+
+                    {{ form.price }}
 
                 </div>
 
@@ -70,36 +84,10 @@
                 <div class="col-md-6 mb-4">
 
                     <label class="form-label fw-bold">
-                        Price Per Night (₹)
+                        Status
                     </label>
 
-                    {{ form.price }}
-
-                </div>
-
-                <div class="col-md-6 mb-4">
-
-                    <label class="form-label fw-bold">
-                        Total Rooms
-                    </label>
-
-                    {{ form.total_rooms }}
-
-                </div>
-
-                <div class="col-md-12 mb-4">
-
-                    <div class="form-check form-switch">
-
-                        {{ form.status }}
-
-                        <label class="form-check-label ms-2">
-
-                            Active Hotel
-
-                        </label>
-
-                    </div>
+                    {{ form.status }}
 
                 </div>
 
@@ -109,7 +97,7 @@
 
             <div class="d-flex justify-content-end">
 
-                <a href="{% url 'hotel_list' %}"
+                <a href="{% url 'tour_list' %}"
                    class="btn btn-secondary me-2">
 
                     Cancel
@@ -119,7 +107,7 @@
                 <button type="submit"
                         class="btn btn-success">
 
-                    💾 Save Hotel
+                    🌍 Save Tour
 
                 </button>
 

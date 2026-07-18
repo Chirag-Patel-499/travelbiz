@@ -15,7 +15,7 @@ from .models import (
 
 )
 
-from main.forms import VendorRegisterForm, UserAdminRegisterForm, HotelForm
+from main.forms import VendorRegisterForm, UserAdminRegisterForm, HotelForm, TourForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -676,4 +676,47 @@ def tour_add(request):
     return render(
         request,
         "user_admin/tours/tour_add.html"
+    )
+
+
+@login_required
+def tour_add(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    if request.method == "POST":
+
+        form = TourForm(request.POST)
+
+        if form.is_valid():
+
+            tour = form.save(commit=False)
+
+            tour.profile = profile
+
+            tour.save()
+
+            messages.success(
+                request,
+                "Tour Added Successfully."
+            )
+
+            return redirect("tour_list")
+
+    else:
+
+        form = TourForm()
+
+    context = {
+
+        "form": form
+
+    }
+
+    return render(
+        request,
+        "user_admin/tours/tour_add.html",
+        context
     )

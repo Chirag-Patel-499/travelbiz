@@ -4,7 +4,7 @@ from main.models import Vendor
 from .models import UserAdminProfile
 
 from .models import Hotel
-from .models import HotelImage
+from .models import HotelImage, Tour
 
 
 class VendorRegisterForm(forms.ModelForm):
@@ -144,3 +144,45 @@ class HotelImageForm(forms.ModelForm):
             }),
 
         }        
+
+
+class TourForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Tour
+
+        exclude = ["profile"]
+
+        widgets = {
+
+            "tour_name": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter Tour Name"
+            }),
+
+            "location": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter Location"
+            }),
+
+            "duration": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "3 Days / 2 Nights"
+            }),
+
+            "price": forms.NumberInput(attrs={
+                "class": "form-control",
+                "step": "0.01"
+            }),
+
+            "description": forms.Textarea(attrs={
+                "class": "form-control",
+                "rows": 5
+            }),
+
+            "status": forms.Select(attrs={
+                "class": "form-select"
+            }),
+
+        }
