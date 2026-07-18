@@ -786,3 +786,26 @@ def tour_edit(request, pk):
         "user_admin/tours/tour_edit.html",
         context
     )
+
+
+@login_required
+def tour_delete(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    tour = get_object_or_404(
+        Tour,
+        id=pk,
+        profile=profile
+    )
+
+    tour.delete()
+
+    messages.success(
+        request,
+        "Tour Deleted Successfully."
+    )
+
+    return redirect("tour_list")
