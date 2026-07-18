@@ -711,3 +711,27 @@ def tour_add(request):
         "user_admin/tours/tour_add.html",
         context
     )
+
+
+@login_required
+def tour_view(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    tour = get_object_or_404(
+        Tour,
+        id=pk,
+        profile=profile
+    )
+
+    context = {
+        "tour": tour
+    }
+
+    return render(
+        request,
+        "user_admin/tours/tour_view.html",
+        context
+    )
