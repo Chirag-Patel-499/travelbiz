@@ -11,7 +11,7 @@ from django.db.models import Q
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage,
+    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage,
 
 )
 
@@ -645,3 +645,26 @@ def hotel_image_delete(request, id):
     )
 
     return redirect("hotel_images")
+
+
+
+@login_required
+def tour_list(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    tours = Tour.objects.filter(
+        profile=profile
+    ).order_by("-id")
+
+    context = {
+        "tours": tours
+    }
+
+    return render(
+        request,
+        "user_admin/tours/tour_list.html",
+        context
+    )

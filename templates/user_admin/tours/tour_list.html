@@ -1,0 +1,78 @@
+{% extends "user_admin/base_dashboard.html" %} {% block dashboard_content %}
+
+<div class="card-box">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="mb-1">Tours</h3>
+      <p class="text-muted">Manage your travel packages</p>
+    </div>
+
+    <a href="{% url 'tour_add' %}" class="btn btn-primary"> + Add Tour </a>
+  </div>
+
+  <table class="table table-hover align-middle">
+    <thead>
+      <tr>
+        <th>#</th>
+
+        <th>Tour</th>
+
+        <th>Location</th>
+
+        <th>Duration</th>
+
+        <th>Price</th>
+
+        <th>Status</th>
+
+        <th width="180">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for tour in tours %}
+
+      <tr>
+        <td>{{ forloop.counter }}</td>
+
+        <td>{{ tour.tour_name }}</td>
+
+        <td>{{ tour.location }}</td>
+
+        <td>{{ tour.duration }}</td>
+
+        <td>₹{{ tour.price }}</td>
+
+        <td>
+          {% if tour.status == "Active" %}
+
+          <span class="badge bg-success"> Active </span>
+
+          {% else %}
+
+          <span class="badge bg-danger"> Inactive </span>
+
+          {% endif %}
+        </td>
+
+        <td>
+          <a href="#" class="btn btn-sm btn-info"> View </a>
+
+          <a href="#" class="btn btn-sm btn-warning"> Edit </a>
+
+          <a href="#" class="btn btn-sm btn-danger"> Delete </a>
+        </td>
+      </tr>
+
+      {% empty %}
+
+      <tr>
+        <td colspan="7" class="text-center py-5">No Tours Found</td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
