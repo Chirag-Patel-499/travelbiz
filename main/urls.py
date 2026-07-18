@@ -3,6 +3,7 @@ from django.urls import path
 from .views import (
     home,
     hotel_image_delete,
+    tour_add,
     tour_list,
     user_logout,
     vendor_register,
@@ -139,6 +140,12 @@ urlpatterns = [
     "dashboard/tours/",
     tour_list,
     name="tour_list",
+    ),
+
+    path(
+    "dashboard/tours/add/",
+    tour_add,
+    name="tour_add",
     ),
 
 ]

@@ -668,3 +668,12 @@ def tour_list(request):
         "user_admin/tours/tour_list.html",
         context
     )
+
+
+@login_required
+def tour_add(request):
+
+    return render(
+        request,
+        "user_admin/tours/tour_add.html"
+    )
