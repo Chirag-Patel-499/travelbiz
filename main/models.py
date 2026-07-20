@@ -554,3 +554,60 @@ class TourImage(models.Model):
 
     def __str__(self):
         return self.tour.tour_name    
+
+
+
+class Booking(models.Model):
+
+    STATUS = (
+        ("Pending", "Pending"),
+        ("Confirmed", "Confirmed"),
+        ("Cancelled", "Cancelled"),
+    )
+
+    PAYMENT_STATUS = (
+        ("Pending", "Pending"),
+        ("Paid", "Paid"),
+    )
+
+    profile = models.ForeignKey(
+        UserAdminProfile,
+        on_delete=models.CASCADE
+    )
+
+    tour = models.ForeignKey(
+        Tour,
+        on_delete=models.CASCADE
+    )
+
+    customer_name = models.CharField(max_length=200)
+
+    customer_email = models.EmailField()
+
+    customer_phone = models.CharField(max_length=20)
+
+    persons = models.PositiveIntegerField(default=1)
+
+    booking_date = models.DateField()
+
+    total_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS,
+        default="Pending"
+    )
+
+    payment_status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS,
+        default="Pending"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.customer_name
