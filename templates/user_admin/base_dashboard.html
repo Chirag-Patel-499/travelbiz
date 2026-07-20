@@ -414,10 +414,44 @@
         </a>
       </div>
 
-      <a href="#" class="sidebar-link">
+      <a
+        class="sidebar-link"
+        data-bs-toggle="collapse"
+        href="#bookingMenu"
+        role="button"
+      >
         <i class="bi bi-calendar-check"></i>
+
         <span>Bookings</span>
+
+        <i class="bi bi-chevron-down ms-auto"></i>
       </a>
+
+      <div class="collapse ps-2" id="bookingMenu">
+        <a href="{% url 'booking_list' %}" class="sidebar-sublink">
+          <i class="bi bi-list-ul"></i>
+
+          All Bookings
+        </a>
+
+        <a href="{% url 'booking_pending' %}" class="sidebar-sublink">
+          <i class="bi bi-clock-history"></i>
+
+          Pending
+        </a>
+
+        <a href="{% url 'booking_confirmed' %}" class="sidebar-sublink">
+          <i class="bi bi-check-circle"></i>
+
+          Confirmed
+        </a>
+
+        <a href="{% url 'booking_cancelled' %}" class="sidebar-sublink">
+          <i class="bi bi-x-circle"></i>
+
+          Cancelled
+        </a>
+      </div>
 
       <a href="#" class="sidebar-link">
         <i class="bi bi-people"></i>

@@ -33,6 +33,11 @@ from .views import (
     hotel_view,
     hotel_edit,
     hotel_delete,
+    booking_list,
+    booking_view,
+    booking_pending,
+    booking_confirmed,
+    booking_cancelled,
 
 )
 
@@ -181,6 +186,36 @@ urlpatterns = [
     "dashboard/tours/images/delete/<int:pk>/",
     tour_image_delete,
     name="tour_image_delete",
+    ),
+
+    path(
+    "dashboard/bookings/",
+    booking_list,
+    name="booking_list",
+    ),
+
+    path(
+        "dashboard/bookings/view/<int:pk>/",
+        booking_view,
+        name="booking_view",
+    ),
+
+    path(
+        "dashboard/bookings/pending/",
+        booking_pending,
+        name="booking_pending",
+    ),
+
+    path(
+        "dashboard/bookings/confirmed/",
+        booking_confirmed,
+        name="booking_confirmed",
+    ),
+
+    path(
+        "dashboard/bookings/cancelled/",
+        booking_cancelled,
+        name="booking_cancelled",
     ),
 
 ]

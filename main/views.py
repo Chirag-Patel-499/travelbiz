@@ -11,7 +11,7 @@ from django.db.models import Q
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage,
+    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking,
 
 )
 
@@ -906,3 +906,109 @@ def tour_image_delete(request, pk):
     )
 
     return redirect("tour_images")
+
+
+@login_required
+def booking_list(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    bookings = Booking.objects.filter(
+        profile=profile
+    ).select_related("tour").order_by("-id")
+
+    context = {
+        "bookings": bookings
+    }
+
+    return render(
+        request,
+        "user_admin/bookings/booking_list.html",
+        context
+    )
+
+
+@login_required
+def booking_view(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    booking = get_object_or_404(
+        Booking,
+        id=pk,
+        profile=profile
+    )
+
+    return render(
+        request,
+        "user_admin/bookings/booking_view.html",
+        {
+            "booking": booking
+        }
+    )
+
+
+@login_required
+def booking_pending(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    bookings = Booking.objects.filter(
+        profile=profile,
+        status="Pending"
+    )
+
+    return render(
+        request,
+        "user_admin/bookings/booking_pending.html",
+        {
+            "bookings": bookings
+        }
+    )
+
+
+@login_required
+def booking_confirmed(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    bookings = Booking.objects.filter(
+        profile=profile,
+        status="Confirmed"
+    )
+
+    return render(
+        request,
+        "user_admin/bookings/booking_confirmed.html",
+        {
+            "bookings": bookings
+        }
+    )
+
+@login_required
+def booking_cancelled(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    bookings = Booking.objects.filter(
+        profile=profile,
+        status="Cancelled"
+    )
+
+    return render(
+        request,
+        "user_admin/bookings/booking_cancelled.html",
+        {
+            "bookings": bookings
+        }
+    )
