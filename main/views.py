@@ -647,7 +647,6 @@ def hotel_image_delete(request, id):
     return redirect("hotel_images")
 
 
-
 @login_required
 def tour_list(request):
 
@@ -657,6 +656,8 @@ def tour_list(request):
 
     tours = Tour.objects.filter(
         profile=profile
+    ).prefetch_related(
+        "images"
     ).order_by("-id")
 
     context = {
@@ -681,6 +682,8 @@ def tour_add(request):
 
         form = TourForm(request.POST)
 
+        files = request.FILES.getlist("images")
+
         if form.is_valid():
 
             tour = form.save(commit=False)
@@ -688,6 +691,13 @@ def tour_add(request):
             tour.profile = profile
 
             tour.save()
+
+            for file in files:
+
+                TourImage.objects.create(
+                    tour=tour,
+                    image=file
+                )
 
             messages.success(
                 request,
@@ -712,7 +722,6 @@ def tour_add(request):
         context
     )
 
-
 @login_required
 def tour_view(request, pk):
 
@@ -721,13 +730,17 @@ def tour_view(request, pk):
     ).first()
 
     tour = get_object_or_404(
-        Tour,
+        Tour.objects.prefetch_related("images"),
         id=pk,
         profile=profile
     )
 
     context = {
-        "tour": tour
+
+        "tour": tour,
+
+        "images": tour.images.all()
+
     }
 
     return render(

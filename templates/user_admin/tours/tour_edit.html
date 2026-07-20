@@ -54,6 +54,36 @@
 
     <button type="submit" class="btn btn-primary">Update Tour</button>
   </form>
+  <hr />
+
+  <h5 class="mb-3">Tour Images</h5>
+
+  <div class="row">
+    {% for image in tour.images.all %}
+
+    <div class="col-md-3 mb-3">
+      <img
+        src="{{ image.image.url }}"
+        class="img-fluid rounded shadow"
+        style="height: 170px; width: 100%; object-fit: cover"
+      />
+
+      <br /><br />
+
+      <a
+        href="{% url 'tour_image_delete' image.id %}"
+        class="btn btn-danger btn-sm"
+      >
+        Delete
+      </a>
+    </div>
+
+    {% empty %}
+
+    <div class="col-12">No Images</div>
+
+    {% endfor %}
+  </div>
 </div>
 
 {% endblock %}
