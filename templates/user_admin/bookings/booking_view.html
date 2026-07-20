@@ -1,0 +1,63 @@
+{% extends "user_admin/base_dashboard.html" %} {% block dashboard_content %}
+
+<div class="card-box">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Booking Details</h3>
+
+    <a href="{% url 'booking_list' %}" class="btn btn-secondary"> Back </a>
+  </div>
+
+  <table class="table table-bordered">
+    <tr>
+      <th width="220">Customer Name</th>
+      <td>{{ booking.customer_name }}</td>
+    </tr>
+
+    <tr>
+      <th>Email</th>
+      <td>{{ booking.customer_email }}</td>
+    </tr>
+
+    <tr>
+      <th>Phone</th>
+      <td>{{ booking.customer_phone }}</td>
+    </tr>
+
+    <tr>
+      <th>Tour</th>
+      <td>{{ booking.tour.tour_name }}</td>
+    </tr>
+
+    <tr>
+      <th>Booking Date</th>
+      <td>{{ booking.booking_date }}</td>
+    </tr>
+
+    <tr>
+      <th>Persons</th>
+      <td>{{ booking.persons }}</td>
+    </tr>
+
+    <tr>
+      <th>Total Amount</th>
+      <td>₹{{ booking.total_amount }}</td>
+    </tr>
+
+    <tr>
+      <th>Status</th>
+      <td>{{ booking.status }}</td>
+    </tr>
+
+    <tr>
+      <th>Payment Status</th>
+      <td>{{ booking.payment_status }}</td>
+    </tr>
+
+    <tr>
+      <th>Created At</th>
+      <td>{{ booking.created_at }}</td>
+    </tr>
+  </table>
+</div>
+
+{% endblock %}
