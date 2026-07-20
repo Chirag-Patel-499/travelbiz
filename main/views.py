@@ -430,12 +430,17 @@ def user_dashboard(request):
         profile=profile
     ).count()
 
+    total_tours = Tour.objects.filter(
+        profile=profile
+    ).count()
+
     return render(
         request,
         "user_admin/dashboard.html",
         {
             "profile": profile,
             "total_hotels": total_hotels,
+            "total_tours": total_tours,
         }
     )
 
