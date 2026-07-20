@@ -974,6 +974,44 @@ def booking_pending(request):
 
 
 @login_required
+def booking_confirm(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    booking = get_object_or_404(
+        Booking,
+        id=pk,
+        profile=profile
+    )
+
+    booking.status = "Confirmed"
+    booking.save()
+
+    return redirect("booking_list")
+
+
+@login_required
+def booking_cancel(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    booking = get_object_or_404(
+        Booking,
+        id=pk,
+        profile=profile
+    )
+
+    booking.status = "Cancelled"
+    booking.save()
+
+    return redirect("booking_list")
+
+
+@login_required
 def booking_confirmed(request):
 
     profile = UserAdminProfile.objects.filter(

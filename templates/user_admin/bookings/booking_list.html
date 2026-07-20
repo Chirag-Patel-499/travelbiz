@@ -89,6 +89,24 @@
           >
             View
           </a>
+
+          {% if booking.status == "Pending" %}
+
+          <a
+            href="{% url 'booking_confirm' booking.id %}"
+            class="btn btn-sm btn-success mt-1"
+          >
+            Confirm
+          </a>
+
+          <a
+            href="{% url 'booking_cancel' booking.id %}"
+            class="btn btn-sm btn-danger mt-1"
+          >
+            Cancel
+          </a>
+
+          {% endif %}
         </td>
       </tr>
 
