@@ -1060,3 +1060,21 @@ def booking_cancelled(request):
             "bookings": bookings
         }
     )
+
+
+def tour_detail(request, pk):
+
+    tour = get_object_or_404(
+        Tour.objects.prefetch_related("images"),
+        id=pk,
+        status="Active"
+    )
+
+    return render(
+        request,
+        "tours/detail.html",
+        {
+            "tour": tour,
+            "images": tour.images.all()
+        }
+    )

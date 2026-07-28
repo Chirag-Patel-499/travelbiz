@@ -40,6 +40,7 @@ from .views import (
     booking_pending,
     booking_confirmed,
     booking_cancelled,
+    tour_detail,
 
 )
 
@@ -188,6 +189,12 @@ urlpatterns = [
     "dashboard/tours/images/delete/<int:pk>/",
     tour_image_delete,
     name="tour_image_delete",
+    ),
+
+    path(
+    "tour/<int:pk>/",
+    tour_detail,
+    name="tour_detail",
     ),
 
     path(

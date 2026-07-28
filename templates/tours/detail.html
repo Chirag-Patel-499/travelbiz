@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ tour.tour_name }}</title>
+</head>
+<body>
+
+<h1>{{ tour.tour_name }}</h1>
+
+<p>Location: {{ tour.location }}</p>
+
+<p>Duration: {{ tour.duration }}</p>
+
+<p>Price: ₹{{ tour.price }}</p>
+
+<p>{{ tour.description }}</p>
+
+{% for image in images %}
+    <img src="{{ image.image.url }}"
+         width="300"
+         style="margin:10px;">
+{% endfor %}
+
+</body>
+</html>
