@@ -357,6 +357,52 @@
         <!-- /container -->
 
         <div class="container margin_60_40">
+
+            <div class="main_title">
+                <h2>Latest Tours</h2>
+            </div>
+
+            <div class="row">
+
+                {% for tour in tours %}
+
+                <div class="col-lg-4 mb-4">
+
+                    <div class="card shadow">
+
+                        {% with image=tour.images.first %}
+
+                            {% if image %}
+
+                            <img src="{{ image.image.url }}"
+                                class="card-img-top"
+                                style="height:220px;object-fit:cover;">
+
+                            {% endif %}
+
+                        {% endwith %}
+
+                        <div class="card-body">
+
+                            <h5>{{ tour.tour_name }}</h5>
+
+                            <p>{{ tour.location }}</p>
+
+                            <h4>₹{{ tour.price }}</h4>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="container margin_60_40">
             <div class="main_title">
                 <span><em></em></span>
                 <h2>Top Verified Vendors</h2>

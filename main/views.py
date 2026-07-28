@@ -43,6 +43,14 @@ def home(request):
         # ✅ SEO from Admin
     seo = SEOSettings.objects.filter(page_name="home").first()
 
+    tours = (
+        Tour.objects.filter(status="Active")
+            .select_related("profile")
+            .prefetch_related("images")
+            .order_by("-id")[:6]
+        )
+    hotels = Hotel.objects.order_by("-id")[:6]
+
     context = {
         "hero": hero,
         "categories": categories,
@@ -56,6 +64,8 @@ def home(request):
         "footer_contact": footer_contact,
         "social_links": social_links,
         "vendors": vendors,
+        "tours": tours,
+        "hotels": hotels,
 
                 # 🔥 SEO CONTEXT
         "seo": seo,
