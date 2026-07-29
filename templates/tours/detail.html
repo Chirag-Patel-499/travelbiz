@@ -1,26 +1,28 @@
-{% extends "base.html" %} {% load static %} {% block content %} {% with
-cover=tour.images.first %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <div class="hero_in detail_page">
-  {% if cover %}
+  {% if images %}
+
   <img
-    src="{{ cover.image.url }}"
+    src="{{ images.0.image.url }}"
     class="img-fluid w-100"
     style="height: 450px; object-fit: cover"
   />
+
   {% else %}
+
   <img
     src="{% static 'img/hero_default.jpg' %}"
     class="img-fluid w-100"
     style="height: 450px; object-fit: cover"
   />
+
   {% endif %}
 
   <div class="wrapper">
     <div class="container">
       <small>
-        <a href="{% url 'home' %}" class="text-white"> Home </a>
-
+        <a href="{% url 'home' %}" class="text-white">Home</a>
         / Tours
       </small>
 
@@ -28,18 +30,14 @@ cover=tour.images.first %}
 
       <span>
         <i class="icon_pin_alt"></i>
-
         {{ tour.location }} &nbsp;&nbsp;
 
         <i class="icon_clock_alt"></i>
-
         {{ tour.duration }}
       </span>
     </div>
   </div>
 </div>
-
-{% endwith %}
 
 <div class="container margin_60_35">
   <div class="row">
