@@ -239,6 +239,12 @@ urlpatterns = [
         name="booking_cancelled",
     ),
 
+    path(
+    "tour/<int:pk>/booking/",
+    views.tour_booking,
+    name="tour_booking",
+    ),
+
     
 
 ]

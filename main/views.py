@@ -1,4 +1,5 @@
 from urllib import request
+from decimal import Decimal
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -1076,5 +1077,59 @@ def tour_detail(request, pk):
         {
             "tour": tour,
             "images": tour.images.all()
+        }
+    )
+
+
+
+def tour_booking(request, pk):
+
+    tour = get_object_or_404(
+        Tour,
+        id=pk,
+        status="Active"
+    )
+
+    if request.method == "POST":
+
+        persons = int(request.POST.get("persons"))
+
+        total_amount = Decimal(tour.price) * persons
+
+        Booking.objects.create(
+
+            profile=tour.profile,
+
+            tour=tour,
+
+            customer_name=request.POST.get("customer_name"),
+
+            customer_email=request.POST.get("customer_email"),
+
+            customer_phone=request.POST.get("customer_phone"),
+
+            persons=persons,
+
+            booking_date=request.POST.get("booking_date"),
+
+            total_amount=total_amount,
+
+        )
+
+        messages.success(
+            request,
+            "Your booking has been submitted successfully."
+        )
+
+        return redirect(
+            "tour_detail",
+            pk=tour.id
+        )
+
+    return render(
+        request,
+        "tours/booking.html",
+        {
+            "tour": tour
         }
     )

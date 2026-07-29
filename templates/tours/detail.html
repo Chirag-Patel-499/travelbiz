@@ -166,6 +166,12 @@
 
           <h2 class="fw-bold text-success mb-0">₹{{ tour.price }}</h2>
 
+          <div class="alert alert-light mt-3">
+            <strong> Note: </strong>
+
+            Total Amount = Tour Price × Number of Travellers
+          </div>
+
           <small class="text-muted"> Per Person </small>
 
           <hr />
@@ -205,7 +211,7 @@
           </ul>
 
           <a
-            href="#"
+            href="{% url 'tour_booking' tour.id %}"
             class="btn btn-success btn-lg w-100 mt-3"
           >
             <i class="icon_check_alt2"></i>
