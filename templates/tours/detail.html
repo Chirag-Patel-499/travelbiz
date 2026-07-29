@@ -1,18 +1,21 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% block content %}
 
-<!-- Tour Detail Page -->
+<!-- Breadcrumb -->
+<div class="container mt-4 mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Home</a>
+      </li>
 
-<section class="hero_in tours_detail">
-  <div class="wrapper">
-    <div class="container">
-      <small>{{ tour.location }}</small>
+      <li class="breadcrumb-item">Tours</li>
 
-      <h1>{{ tour.tour_name }}</h1>
-    </div>
-  </div>
-</section>
+      <li class="breadcrumb-item active">{{ tour.tour_name }}</li>
+    </ol>
+  </nav>
+</div>
 
-<div class="container margin_60_35">
+<div class="container mb-5">
   <div class="row">
     <!-- LEFT SIDE -->
 
@@ -21,41 +24,45 @@
 
       <img
         src="{{ image.image.url }}"
-        class="img-fluid rounded mb-4"
-        style="width: 100%; height: 450px; object-fit: cover"
+        class="img-fluid rounded shadow mb-4"
+        style="width: 100%; height: 500px; object-fit: cover"
       />
 
       {% endif %} {% endwith %}
 
-      <h2>{{ tour.tour_name }}</h2>
+      <h2 class="fw-bold">{{ tour.tour_name }}</h2>
 
-      <p>
-        <i class="icon_pin_alt"></i>
+      <div class="mb-3 text-muted">
+        <span class="me-4"> 📍 {{ tour.location }} </span>
 
-        {{ tour.location }}
-      </p>
+        <span> 🕒 {{ tour.duration }} </span>
+      </div>
 
-      <p>
-        <i class="icon_clock_alt"></i>
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+          <h4 class="fw-bold">About This Tour</h4>
 
-        {{ tour.duration }}
-      </p>
+          <p>{{ tour.description }}</p>
+        </div>
+      </div>
 
-      <hr />
-
-      <h4>About this Tour</h4>
-
-      <p>{{ tour.description }}</p>
-
-      <hr />
-
-      <h4>Gallery</h4>
+      <h4 class="fw-bold mb-3">Tour Gallery</h4>
 
       <div class="row">
         {% for image in images %}
 
-        <div class="col-md-4 mb-3">
-          <img src="{{ image.image.url }}" class="img-fluid rounded shadow" />
+        <div class="col-md-4 mb-4">
+          <img
+            src="{{ image.image.url }}"
+            class="img-fluid rounded shadow-sm"
+            style="height: 220px; width: 100%; object-fit: cover"
+          />
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+          <div class="alert alert-info">No Images Available</div>
         </div>
 
         {% endfor %}
@@ -65,26 +72,36 @@
     <!-- RIGHT SIDE -->
 
     <div class="col-lg-4">
-      <div class="box_detail booking shadow">
-        <div class="price">₹{{ tour.price }}</div>
+      <div class="card shadow border-0 sticky-top" style="top: 100px">
+        <div class="card-body">
+          <h2 class="text-success fw-bold mb-3">₹{{ tour.price }}</h2>
 
-        <hr />
+          <hr />
 
-        <ul class="list-unstyled">
-          <li>
-            <strong>Location:</strong>
+          <p>
+            <strong>Location</strong><br />
 
             {{ tour.location }}
-          </li>
+          </p>
 
-          <li>
-            <strong>Duration:</strong>
+          <p>
+            <strong>Duration</strong><br />
 
             {{ tour.duration }}
-          </li>
-        </ul>
+          </p>
 
-        <a href="#" class="btn_1 full-width purchase mt-3"> Book Now </a>
+          <hr />
+
+          <ul class="list-unstyled">
+            <li class="mb-2">✅ Instant Confirmation</li>
+
+            <li class="mb-2">✅ Best Price Guarantee</li>
+
+            <li class="mb-2">✅ Secure Booking</li>
+          </ul>
+
+          <a href="#" class="btn btn-primary w-100"> Book Now </a>
+        </div>
       </div>
     </div>
   </div>
