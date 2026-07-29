@@ -5,6 +5,7 @@ from .views import (
     booking_confirm,
     home,
     hotel_image_delete,
+    tour_booking,
     tour_image_delete,
     tour_images,
     tour_delete,
@@ -241,7 +242,7 @@ urlpatterns = [
 
     path(
     "tour/<int:pk>/booking/",
-    views.tour_booking,
+    tour_booking,
     name="tour_booking",
     ),
 
