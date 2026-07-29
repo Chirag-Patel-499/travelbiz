@@ -1,25 +1,93 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ tour.tour_name }}</title>
-</head>
-<body>
+{% extends "base.html" %} {% load static %} {% block content %}
 
-<h1>{{ tour.tour_name }}</h1>
+<!-- Tour Detail Page -->
 
-<p>Location: {{ tour.location }}</p>
+<section class="hero_in tours_detail">
+  <div class="wrapper">
+    <div class="container">
+      <small>{{ tour.location }}</small>
 
-<p>Duration: {{ tour.duration }}</p>
+      <h1>{{ tour.tour_name }}</h1>
+    </div>
+  </div>
+</section>
 
-<p>Price: ₹{{ tour.price }}</p>
+<div class="container margin_60_35">
+  <div class="row">
+    <!-- LEFT SIDE -->
 
-<p>{{ tour.description }}</p>
+    <div class="col-lg-8">
+      {% with image=tour.images.first %} {% if image %}
 
-{% for image in images %}
-    <img src="{{ image.image.url }}"
-         width="300"
-         style="margin:10px;">
-{% endfor %}
+      <img
+        src="{{ image.image.url }}"
+        class="img-fluid rounded mb-4"
+        style="width: 100%; height: 450px; object-fit: cover"
+      />
 
-</body>
-</html>
+      {% endif %} {% endwith %}
+
+      <h2>{{ tour.tour_name }}</h2>
+
+      <p>
+        <i class="icon_pin_alt"></i>
+
+        {{ tour.location }}
+      </p>
+
+      <p>
+        <i class="icon_clock_alt"></i>
+
+        {{ tour.duration }}
+      </p>
+
+      <hr />
+
+      <h4>About this Tour</h4>
+
+      <p>{{ tour.description }}</p>
+
+      <hr />
+
+      <h4>Gallery</h4>
+
+      <div class="row">
+        {% for image in images %}
+
+        <div class="col-md-4 mb-3">
+          <img src="{{ image.image.url }}" class="img-fluid rounded shadow" />
+        </div>
+
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+
+    <div class="col-lg-4">
+      <div class="box_detail booking shadow">
+        <div class="price">₹{{ tour.price }}</div>
+
+        <hr />
+
+        <ul class="list-unstyled">
+          <li>
+            <strong>Location:</strong>
+
+            {{ tour.location }}
+          </li>
+
+          <li>
+            <strong>Duration:</strong>
+
+            {{ tour.duration }}
+          </li>
+        </ul>
+
+        <a href="#" class="btn_1 full-width purchase mt-3"> Book Now </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
