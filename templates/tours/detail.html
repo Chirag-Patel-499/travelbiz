@@ -157,63 +157,67 @@
 
     <!-- RIGHT SIDEBAR -->
 
-    <div class="card-body p-4">
-      <span class="badge bg-success mb-3"> Best Price Guaranteed </span>
+    <div class="col-lg-4">
+      <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px">
+        <div class="card-body p-4">
+          <span class="badge bg-success mb-3"> Best Price Guaranteed </span>
 
-      <h6 class="text-muted mb-1">Starting From</h6>
+          <h6 class="text-muted mb-1">Starting From</h6>
 
-      <h2 class="fw-bold text-success mb-0">₹{{ tour.price }}</h2>
+          <h2 class="fw-bold text-success mb-0">₹{{ tour.price }}</h2>
 
-      <small class="text-muted"> Per Person </small>
+          <small class="text-muted"> Per Person </small>
 
-      <hr />
+          <hr />
 
-      <div class="d-flex justify-content-between mb-3">
-        <span>
-          <i class="icon_pin_alt text-primary"></i>
+          <div class="d-flex justify-content-between mb-3">
+            <span>
+              <i class="icon_pin_alt text-primary"></i>
 
-          Location
-        </span>
+              Location
+            </span>
 
-        <strong> {{ tour.location }} </strong>
+            <strong> {{ tour.location }} </strong>
+          </div>
+
+          <div class="d-flex justify-content-between mb-3">
+            <span>
+              <i class="icon_clock_alt text-primary"></i>
+
+              Duration
+            </span>
+
+            <strong> {{ tour.duration }} </strong>
+          </div>
+
+          <hr />
+
+          <h6 class="fw-bold mb-3">Why Book This Tour?</h6>
+
+          <ul class="list-unstyled">
+            <li class="mb-2">✅ Instant Confirmation</li>
+
+            <li class="mb-2">✅ Free Cancellation</li>
+
+            <li class="mb-2">✅ Best Price Guarantee</li>
+
+            <li class="mb-2">✅ 24×7 Customer Support</li>
+          </ul>
+
+          <a
+            href="#"
+            class="btn btn-success btn-lg w-100 mt-3"
+          >
+            <i class="icon_check_alt2"></i>
+
+            Book Now
+          </a>
+
+          <a href="#tour-gallery" class="btn btn-outline-dark w-100 mt-2">
+            View Gallery
+          </a>
+        </div>
       </div>
-
-      <div class="d-flex justify-content-between mb-3">
-        <span>
-          <i class="icon_clock_alt text-primary"></i>
-
-          Duration
-        </span>
-
-        <strong> {{ tour.duration }} </strong>
-      </div>
-
-      <hr />
-
-      <h6 class="fw-bold mb-3">Why Book This Tour?</h6>
-
-      <ul class="list-unstyled">
-        <li class="mb-2">✅ Instant Confirmation</li>
-
-        <li class="mb-2">✅ Free Cancellation</li>
-
-        <li class="mb-2">✅ Best Price Guarantee</li>
-
-        <li class="mb-2">✅ 24×7 Customer Support</li>
-      </ul>
-
-      <a
-        href="#"
-        class="btn btn-success btn-lg w-100 mt-3"
-      >
-        <i class="icon_check_alt2"></i>
-
-        Book Now
-      </a>
-
-      <a href="#tour-gallery" class="btn btn-outline-dark w-100 mt-2">
-        View Gallery
-      </a>
     </div>
   </div>
 </div>
