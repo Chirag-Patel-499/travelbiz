@@ -8,6 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+from django.template.loader import render_to_string
+
+from django.core.mail import EmailMultiAlternatives
+
+from django.utils.html import strip_tags
+
+from django.conf import settings
+
 
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
@@ -1096,7 +1104,7 @@ def tour_booking(request, pk):
 
         total_amount = Decimal(tour.price) * persons
 
-        Booking.objects.create(
+        booking = Booking.objects.create(
 
             profile=tour.profile,
 
@@ -1115,6 +1123,40 @@ def tour_booking(request, pk):
             total_amount=total_amount,
 
         )
+
+        html_content = render_to_string(
+
+            "emails/booking_confirmation.html",
+
+            {
+                "booking": booking,
+            }
+
+        )
+
+        text_content = strip_tags(html_content)
+
+        email = EmailMultiAlternatives(
+
+            subject="TravelBiz Booking Confirmation",
+
+            body=text_content,
+
+            from_email=settings.DEFAULT_FROM_EMAIL,
+
+            to=[booking.customer_email],
+
+        )
+
+        email.attach_alternative(
+
+            html_content,
+
+            "text/html"
+
+        )
+
+        email.send()
 
         messages.success(
             request,
