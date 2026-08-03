@@ -107,6 +107,15 @@
           </a>
 
           {% endif %}
+          <a
+            href="{% url 'booking_invoice' booking.id %}"
+            class="btn btn-sm btn-dark mt-1"
+            target="_blank"
+          >
+            <i class="fa fa-file-pdf"></i>
+
+            Invoice
+          </a>
         </td>
       </tr>
 

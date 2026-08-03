@@ -16,6 +16,12 @@ from django.utils.html import strip_tags
 
 from django.conf import settings
 
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from django.http import HttpResponse
+
 
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
@@ -1175,3 +1181,86 @@ def tour_booking(request, pk):
             "tour": tour
         }
     )
+
+
+
+@login_required
+def booking_invoice(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    booking = get_object_or_404(
+        Booking,
+        id=pk,
+        profile=profile
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="Booking_{booking.id}.pdf"'
+    )
+
+    doc = SimpleDocTemplate(response)
+
+    styles = getSampleStyleSheet()
+
+    elements = []
+
+    elements.append(
+        Paragraph("<b>TravelBiz</b>", styles["Title"])
+    )
+
+    elements.append(
+        Paragraph("Booking Invoice", styles["Heading2"])
+    )
+
+    data = [
+
+        ["Booking ID", str(booking.id)],
+
+        ["Customer", booking.customer_name],
+
+        ["Email", booking.customer_email],
+
+        ["Phone", booking.customer_phone],
+
+        ["Tour", booking.tour.tour_name],
+
+        ["Location", booking.tour.location],
+
+        ["Travel Date", str(booking.booking_date)],
+
+        ["Persons", str(booking.persons)],
+
+        ["Amount", f"₹ {booking.total_amount}"],
+
+        ["Status", booking.status],
+
+    ]
+
+    table = Table(data, colWidths=[2.2 * inch, 3.5 * inch])
+
+    table.setStyle(TableStyle([
+
+        ("BACKGROUND", (0, 0), (-1, 0), colors.green),
+
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+
+        ("GRID", (0, 0), (-1, -1), 1, colors.grey),
+
+        ("BACKGROUND", (0, 1), (0, -1), colors.whitesmoke),
+
+        ("BOTTOMPADDING", (0, 0), (-1, 0), 10),
+
+        ("FONTNAME", (0, 0), (-1, -1), "Helvetica"),
+
+    ]))
+
+    elements.append(table)
+
+    doc.build(elements)
+
+    return response    
