@@ -1,26 +1,42 @@
 {% load static %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  {% include "includes/head.html" %}
 
-{% include "includes/head.html" %}
+  <body>
+    {% include "includes/header.html" %}
 
-<body>
+    <main>
+      {% if messages %}
 
-{% include "includes/header.html" %}
+      <div class="container mt-3">
+        {% for message in messages %}
 
-<main>
-    {% block content %}{% endblock %}
-</main>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{% include "includes/footer.html" %}
+        <script>
+          Swal.fire({
+            icon: "{{ message.tags }}",
+            title: "{{ message }}",
+            showConfirmButton: true,
+            confirmButtonColor: "#28a745",
+          });
+        </script>
 
-<!-- COMMON SCRIPTS -->
-<script src="{% static 'js/common_scripts.min.js' %}"></script>
-<script src="{% static 'js/common_func.js' %}"></script>
-<script src="{% static 'assets/validate.js' %}"></script>
+        {% endfor %}
+      </div>
 
-{% block extra_js %}{% endblock %}
+      {% endif %} {% block content %}{% endblock %}
+    </main>
 
-</body>
+    {% include "includes/footer.html" %}
+
+    <!-- COMMON SCRIPTS -->
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'assets/validate.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+  </body>
 </html>
