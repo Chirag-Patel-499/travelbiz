@@ -26,7 +26,7 @@ from django.http import HttpResponse
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking,
+    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking, HotelBooking,
 
 )
 

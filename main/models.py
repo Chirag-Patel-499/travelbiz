@@ -611,3 +611,64 @@ class Booking(models.Model):
 
     def __str__(self):
         return self.customer_name
+    
+
+
+class HotelBooking(models.Model):
+
+    STATUS = (
+        ("Pending", "Pending"),
+        ("Confirmed", "Confirmed"),
+        ("Cancelled", "Cancelled"),
+    )
+
+    PAYMENT_STATUS = (
+        ("Pending", "Pending"),
+        ("Paid", "Paid"),
+    )
+
+    profile = models.ForeignKey(
+        UserAdminProfile,
+        on_delete=models.CASCADE
+    )
+
+    hotel = models.ForeignKey(
+        Hotel,
+        on_delete=models.CASCADE
+    )
+
+    customer_name = models.CharField(max_length=200)
+
+    customer_email = models.EmailField()
+
+    customer_phone = models.CharField(max_length=20)
+
+    check_in = models.DateField()
+
+    check_out = models.DateField()
+
+    rooms = models.PositiveIntegerField(default=1)
+
+    guests = models.PositiveIntegerField(default=1)
+
+    total_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS,
+        default="Pending"
+    )
+
+    payment_status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS,
+        default="Pending"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.customer_name    
