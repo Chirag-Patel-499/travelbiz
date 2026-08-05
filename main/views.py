@@ -1272,7 +1272,7 @@ def hotel_detail(request, pk):
     hotel = get_object_or_404(
         Hotel.objects.prefetch_related("images"),
         id=pk,
-        status="Active"
+        status=True
     )
 
     return render(
