@@ -1,6 +1,7 @@
 from django import views
 from django.urls import path
 from .views import (
+    hotel_detail,
     booking_cancel,
     booking_confirm,
     booking_invoice,
@@ -251,6 +252,12 @@ urlpatterns = [
     "dashboard/bookings/invoice/<int:pk>/",
     booking_invoice,
     name="booking_invoice",
+    ),
+
+    path(
+    "hotel/<int:pk>/",
+    hotel_detail,
+    name="hotel_detail",
     ),
 
     

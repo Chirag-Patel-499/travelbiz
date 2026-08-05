@@ -1264,3 +1264,22 @@ def booking_invoice(request, pk):
     doc.build(elements)
 
     return response    
+
+
+@login_required(login_url=None)
+def hotel_detail(request, pk):
+
+    hotel = get_object_or_404(
+        Hotel.objects.prefetch_related("images"),
+        id=pk,
+        status="Active"
+    )
+
+    return render(
+        request,
+        "hotels/detail.html",
+        {
+            "hotel": hotel,
+            "images": hotel.images.all(),
+        }
+    )    

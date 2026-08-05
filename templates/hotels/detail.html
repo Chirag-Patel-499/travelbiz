@@ -1,0 +1,178 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<section class="position-relative">
+  {% if images %}
+
+  <img
+    src="{{ images.0.image.url }}"
+    class="w-100"
+    style="height: 550px; object-fit: cover"
+  />
+
+  {% else %}
+
+  <img
+    src="{% static 'img/hotel_1.jpg' %}"
+    class="w-100"
+    style="height: 550px; object-fit: cover"
+  />
+
+  {% endif %}
+
+  <div
+    style="
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0.2)
+      );
+    "
+  ></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div style="position: absolute; bottom: 60px; color: #fff">
+          <nav>
+            <ol class="breadcrumb mb-3">
+              <li class="breadcrumb-item">
+                <a href="{% url 'home' %}" class="text-white"> Home </a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <span class="text-white"> Hotels </span>
+              </li>
+
+              <li class="breadcrumb-item active text-white">
+                {{ hotel.hotel_name }}
+              </li>
+            </ol>
+          </nav>
+
+          <h1
+            class="display-3 fw-bold text-white"
+            style="text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.9)"
+          >
+            {{ hotel.hotel_name }}
+          </h1>
+
+          <div class="d-flex gap-4 mt-3">
+            <span>
+              <i class="icon_pin_alt"></i>
+
+              {{ hotel.location }}
+            </span>
+
+            <span> 🏨 Premium Stay </span>
+          </div>
+
+          <h2 class="text-warning fw-bold mt-4">
+            Starting From ₹{{ hotel.price }}
+
+            <small class="text-white"> / Night </small>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container margin_60_35">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow rounded-4 mb-4">
+        <div class="card-body p-4">
+          <h2>About Hotel</h2>
+
+          <p class="text-muted">{{ hotel.description }}</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow rounded-4 mb-4">
+        <div class="card-body p-4">
+          <h3>Hotel Facilities</h3>
+
+          <div class="row mt-4">
+            <div class="col-md-6 mb-3">✅ Free WiFi</div>
+
+            <div class="col-md-6 mb-3">✅ Swimming Pool</div>
+
+            <div class="col-md-6 mb-3">✅ Restaurant</div>
+
+            <div class="col-md-6 mb-3">✅ Free Parking</div>
+
+            <div class="col-md-6 mb-3">✅ Air Conditioning</div>
+
+            <div class="col-md-6 mb-3">✅ Room Service</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow rounded-4">
+        <div class="card-body p-4">
+          <h3 class="mb-4">Hotel Gallery</h3>
+
+          <div class="row">
+            {% for image in images %}
+
+            <div class="col-md-4 mb-4">
+              <img
+                src="{{ image.image.url }}"
+                class="img-fluid rounded-4 shadow-sm"
+                style="height: 220px; width: 100%; object-fit: cover"
+              />
+            </div>
+
+            {% empty %}
+
+            <div class="col-12">
+              <div class="alert alert-light">No Images Available</div>
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px">
+        <div class="card-body p-4">
+          <span class="badge bg-success"> Best Choice </span>
+
+          <h2 class="text-success fw-bold mt-3">₹{{ hotel.price }}</h2>
+
+          <small class="text-muted"> Per Night </small>
+
+          <hr />
+
+          <div class="mb-3">
+            <i class="icon_pin_alt"></i>
+
+            {{ hotel.location }}
+          </div>
+
+          <div class="mb-3">🏨 Rooms Available : {{ hotel.total_rooms }}</div>
+
+          <hr />
+
+          <ul class="list-unstyled">
+            <li class="mb-2">✅ Instant Confirmation</li>
+
+            <li class="mb-2">✅ Best Price Guarantee</li>
+
+            <li class="mb-2">✅ Free Cancellation</li>
+
+            <li class="mb-2">✅ 24×7 Customer Support</li>
+          </ul>
+
+          <a href="#" class="btn btn-success btn-lg w-100 mt-3"> Book Hotel </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
