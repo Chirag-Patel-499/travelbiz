@@ -1283,3 +1283,67 @@ def hotel_detail(request, pk):
             "images": hotel.images.all(),
         }
     )    
+
+
+def hotel_booking(request, pk):
+
+    hotel = get_object_or_404(
+        Hotel,
+        id=pk,
+        status=True
+    )
+
+    if request.method == "POST":
+
+        rooms = int(request.POST.get("rooms"))
+        guests = int(request.POST.get("guests"))
+
+        days = (
+            Decimal(1)
+            if request.POST.get("check_in") == request.POST.get("check_out")
+            else Decimal(1)
+        )
+
+        total_amount = Decimal(hotel.price) * rooms * days
+
+        booking = HotelBooking.objects.create(
+
+            profile=hotel.profile,
+
+            hotel=hotel,
+
+            customer_name=request.POST.get("customer_name"),
+
+            customer_email=request.POST.get("customer_email"),
+
+            customer_phone=request.POST.get("customer_phone"),
+
+            check_in=request.POST.get("check_in"),
+
+            check_out=request.POST.get("check_out"),
+
+            rooms=rooms,
+
+            guests=guests,
+
+            total_amount=total_amount,
+
+        )
+
+        messages.success(
+            request,
+            "Hotel booking submitted successfully."
+        )
+
+        return redirect(
+            "hotel_detail",
+            pk=hotel.id
+        )
+
+    return render(
+        request,
+        "hotels/booking.html",
+        {
+            "hotel": hotel
+        }
+    )
