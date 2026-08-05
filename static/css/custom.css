@@ -1,3 +1,41 @@
 /*============================================================================================*/
 /* Your custom styles below */
 /*============================================================================================*/
+
+.hotel-card{
+transition:.35s;
+overflow:hidden;
+border-radius:18px;
+}
+
+.hotel-card:hover{
+
+transform:translateY(-10px);
+
+box-shadow:0 20px 45px rgba(0,0,0,.18);
+
+}
+
+.hotel-img{
+
+transition:.5s;
+
+}
+
+.hotel-card:hover .hotel-img{
+
+transform:scale(1.08);
+
+}
+
+.hotel-card h4{
+
+font-weight:700;
+
+}
+
+.hotel-card .btn{
+
+font-weight:600;
+
+}

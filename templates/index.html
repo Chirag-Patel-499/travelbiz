@@ -432,6 +432,132 @@
 
         </div>
 
+        <section class="margin_60_40">
+
+            <div class="d-flex justify-content-between align-items-center mb-5">
+
+                <div>
+
+                    <span class="text-primary fw-bold">
+
+                        PREMIUM STAYS
+
+                    </span>
+
+                    <h2 class="fw-bold display-6 mb-2">
+
+                        Featured Hotels
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Discover luxury hotels and comfortable stays.
+
+                    </p>
+
+                </div>
+
+                <a href="#"
+                class="btn btn-outline-primary rounded-pill px-4">
+
+                    View All Hotels
+
+                </a>
+
+            </div>
+
+            <div class="row">
+
+                {% for hotel in hotels %}
+
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <div class="card hotel-card border-0 shadow rounded-4 h-100">
+
+                        {% with image=hotel.images.first %}
+
+                        {% if image %}
+
+                        <div class="overflow-hidden rounded-top-4">
+
+                            <img src="{{ image.image.url }}"
+                                class="card-img-top hotel-img"
+                                style="height:260px;object-fit:cover;">
+
+                        </div>
+
+                        {% else %}
+
+                        <img src="{% static 'img/hotel_1.jpg' %}"
+                            class="card-img-top hotel-img"
+                            style="height:260px;object-fit:cover;">
+
+                        {% endif %}
+
+                        {% endwith %}
+
+                        <div class="card-body">
+
+                            <span class="badge bg-success mb-3">
+
+                                Best Choice
+
+                            </span>
+
+                            <h4 class="fw-bold">
+
+                                {{ hotel.hotel_name }}
+
+                            </h4>
+
+                            <p class="text-muted">
+
+                                <i class="icon_pin_alt"></i>
+
+                                {{ hotel.location }}
+
+                            </p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <h3 class="text-success fw-bold mb-0">
+
+                                    ₹{{ hotel.price }}
+
+                                </h3>
+
+                                <small class="text-muted">
+
+                                    / Night
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer bg-white border-0 pb-4">
+
+                            <a href="#"
+                            class="btn btn-success rounded-pill w-100">
+
+                                View Hotel
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
         <div class="container margin_60_40">
             <div class="main_title">
                 <span><em></em></span>
