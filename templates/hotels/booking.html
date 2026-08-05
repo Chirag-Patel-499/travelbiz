@@ -1,0 +1,163 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<section class="hero_in hotels_detail">
+  <div class="wrapper">
+    <div class="container">
+      <h1>Complete Hotel Booking</h1>
+      <p>Secure your stay in just a few steps.</p>
+    </div>
+  </div>
+</section>
+
+<div class="container margin_60_35">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow rounded-4">
+        <div class="card-body p-4">
+          <h3 class="mb-4">Traveller Information</h3>
+
+          <form method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label>Full Name</label>
+
+                <input
+                  type="text"
+                  name="customer_name"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label>Email Address</label>
+
+                <input
+                  type="email"
+                  name="customer_email"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label>Mobile Number</label>
+
+                <input
+                  type="text"
+                  name="customer_phone"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label>Guests</label>
+
+                <input
+                  type="number"
+                  name="guests"
+                  value="1"
+                  min="1"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label>Rooms</label>
+
+                <input
+                  type="number"
+                  name="rooms"
+                  value="1"
+                  min="1"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label>Check In</label>
+
+                <input
+                  type="date"
+                  name="check_in"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label>Check Out</label>
+
+                <input
+                  type="date"
+                  name="check_out"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="col-md-12 mt-4">
+                <button class="btn btn-success btn-lg rounded-pill px-5">
+                  Confirm Hotel Booking
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow rounded-4 sticky-top" style="top: 100px">
+        <div class="card-body">
+          {% with image=hotel.images.first %} {% if image %}
+
+          <img src="{{ image.image.url }}" class="img-fluid rounded mb-3" />
+
+          {% endif %} {% endwith %}
+
+          <h3 class="fw-bold">{{ hotel.hotel_name }}</h3>
+
+          <p class="text-muted">
+            <i class="icon_pin_alt"></i>
+
+            {{ hotel.location }}
+          </p>
+
+          <hr />
+
+          <div class="d-flex justify-content-between">
+            <span>Price / Night</span>
+
+            <strong> ₹{{ hotel.price }} </strong>
+          </div>
+
+          <div class="d-flex justify-content-between mt-3">
+            <span>Available Rooms</span>
+
+            <strong> {{ hotel.total_rooms }} </strong>
+          </div>
+
+          <hr />
+
+          <ul class="list-unstyled">
+            <li class="mb-2">✅ Instant Confirmation</li>
+
+            <li class="mb-2">✅ Best Price Guarantee</li>
+
+            <li class="mb-2">✅ Free Cancellation</li>
+
+            <li class="mb-2">✅ 24×7 Customer Support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
