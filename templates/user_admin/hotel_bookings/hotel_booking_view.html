@@ -1,0 +1,169 @@
+{% extends "user_admin/base_dashboard.html" %} {% block dashboard_content %}
+
+<div class="card-box">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="mb-1">Hotel Booking Details</h3>
+
+      <p class="text-muted">View complete hotel booking information.</p>
+    </div>
+
+    <a href="{% url 'hotel_booking_list' %}" class="btn btn-secondary">
+      <i class="fa fa-arrow-left"></i>
+
+      Back
+    </a>
+  </div>
+
+  <div class="row">
+    <!-- Customer Details -->
+
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+          Customer Information
+        </div>
+
+        <div class="card-body">
+          <table class="table table-borderless">
+            <tr>
+              <th width="160">Customer Name</th>
+
+              <td>{{ booking.customer_name }}</td>
+            </tr>
+
+            <tr>
+              <th>Email</th>
+
+              <td>{{ booking.customer_email }}</td>
+            </tr>
+
+            <tr>
+              <th>Phone</th>
+
+              <td>{{ booking.customer_phone }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotel Details -->
+
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-success text-white">Hotel Information</div>
+
+        <div class="card-body">
+          <table class="table table-borderless">
+            <tr>
+              <th width="160">Hotel</th>
+
+              <td>{{ booking.hotel.hotel_name }}</td>
+            </tr>
+
+            <tr>
+              <th>Location</th>
+
+              <td>{{ booking.hotel.location }}</td>
+            </tr>
+
+            <tr>
+              <th>Price / Night</th>
+
+              <td>₹{{ booking.hotel.price }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Details -->
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-dark text-white">Booking Information</div>
+
+    <div class="card-body">
+      <table class="table table-striped">
+        <tr>
+          <th width="220">Check In</th>
+
+          <td>{{ booking.check_in }}</td>
+        </tr>
+
+        <tr>
+          <th>Check Out</th>
+
+          <td>{{ booking.check_out }}</td>
+        </tr>
+
+        <tr>
+          <th>Rooms</th>
+
+          <td>{{ booking.rooms }}</td>
+        </tr>
+
+        <tr>
+          <th>Guests</th>
+
+          <td>{{ booking.guests }}</td>
+        </tr>
+
+        <tr>
+          <th>Total Amount</th>
+
+          <td>
+            <strong class="text-success"> ₹{{ booking.total_amount }} </strong>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+
+          <td>
+            {% if booking.status == "Pending" %}
+
+            <span class="badge bg-warning"> Pending </span>
+
+            {% elif booking.status == "Confirmed" %}
+
+            <span class="badge bg-success"> Confirmed </span>
+
+            {% else %}
+
+            <span class="badge bg-danger"> Cancelled </span>
+
+            {% endif %}
+          </td>
+        </tr>
+      </table>
+
+      {% if booking.status == "Pending" %}
+
+      <div class="mt-4">
+        <a
+          href="{% url 'hotel_booking_confirm' booking.id %}"
+          class="btn btn-success"
+        >
+          <i class="fa fa-check"></i>
+
+          Confirm Booking
+        </a>
+
+        <a
+          href="{% url 'hotel_booking_cancel' booking.id %}"
+          class="btn btn-danger"
+        >
+          <i class="fa fa-times"></i>
+
+          Cancel Booking
+        </a>
+      </div>
+
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

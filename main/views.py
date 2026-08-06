@@ -1347,3 +1347,137 @@ def hotel_booking(request, pk):
             "hotel": hotel
         }
     )
+
+
+@login_required
+def hotel_booking_list(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    bookings = HotelBooking.objects.filter(
+        profile=profile
+    ).select_related("hotel").order_by("-id")
+
+    return render(
+        request,
+        "user_admin/hotel_bookings/hotel_booking_list.html",
+        {
+            "bookings": bookings
+        }
+    )
+
+
+@login_required
+def hotel_booking_view(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    booking = get_object_or_404(
+        HotelBooking,
+        id=pk,
+        profile=profile
+    )
+
+    return render(
+        request,
+        "user_admin/hotel_bookings/hotel_booking_view.html",
+        {
+            "booking": booking
+        }
+    )
+
+
+@login_required
+def hotel_booking_confirm(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    booking = get_object_or_404(
+        HotelBooking,
+        id=pk,
+        profile=profile
+    )
+
+    booking.status = "Confirmed"
+    booking.save()
+
+    messages.success(
+        request,
+        "Booking Confirmed Successfully."
+    )
+
+    return redirect("hotel_booking_list")
+
+
+@login_required
+def hotel_booking_cancel(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    booking = get_object_or_404(
+        HotelBooking,
+        id=pk,
+        profile=profile
+    )
+
+    booking.status = "Cancelled"
+    booking.save()
+
+    messages.success(
+        request,
+        "Booking Cancelled Successfully."
+    )
+
+    return redirect("hotel_booking_list")
+
+
+@login_required
+def hotel_booking_confirmed(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    bookings = HotelBooking.objects.filter(
+        profile=profile,
+        status="Confirmed"
+    )
+
+    return render(
+        request,
+        "user_admin/hotel_bookings/hotel_booking_confirmed.html",
+        {
+            "bookings": bookings
+        }
+    )
+
+
+@login_required
+def hotel_booking_cancelled(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    bookings = HotelBooking.objects.filter(
+        profile=profile,
+        status="Cancelled"
+    )
+
+    return render(
+        request,
+        "user_admin/hotel_bookings/hotel_booking_cancelled.html",
+        {
+            "bookings": bookings
+        }
+    )
+
+

@@ -2,6 +2,12 @@ from django import views
 from django.urls import path
 from .views import (
     hotel_booking,
+    hotel_booking_list,
+    hotel_booking_view,
+    hotel_booking_confirm,
+    hotel_booking_cancel,
+    hotel_booking_confirmed,
+    hotel_booking_cancelled,
     hotel_detail,
     booking_cancel,
     booking_confirm,
@@ -253,6 +259,47 @@ urlpatterns = [
     "dashboard/bookings/invoice/<int:pk>/",
     booking_invoice,
     name="booking_invoice",
+    ),
+
+
+        # -----------------------------------
+    # Hotel Bookings
+    # -----------------------------------
+
+    path(
+        "dashboard/hotel-bookings/",
+        hotel_booking_list,
+        name="hotel_booking_list",
+    ),
+
+    path(
+        "dashboard/hotel-bookings/view/<int:pk>/",
+        hotel_booking_view,
+        name="hotel_booking_view",
+    ),
+
+    path(
+        "dashboard/hotel-bookings/confirm/<int:pk>/",
+        hotel_booking_confirm,
+        name="hotel_booking_confirm",
+    ),
+
+    path(
+        "dashboard/hotel-bookings/cancel/<int:pk>/",
+        hotel_booking_cancel,
+        name="hotel_booking_cancel",
+    ),
+
+    path(
+        "dashboard/hotel-bookings/confirmed/",
+        hotel_booking_confirmed,
+        name="hotel_booking_confirmed",
+    ),
+
+    path(
+        "dashboard/hotel-bookings/cancelled/",
+        hotel_booking_cancelled,
+        name="hotel_booking_cancelled",
     ),
 
     path(
