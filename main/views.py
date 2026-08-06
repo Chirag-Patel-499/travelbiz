@@ -1481,3 +1481,22 @@ def hotel_booking_cancelled(request):
     )
 
 
+@login_required
+def hotel_booking_pending(request):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    bookings = HotelBooking.objects.filter(
+        profile=profile,
+        status="Pending"
+    )
+
+    return render(
+        request,
+        "user_admin/hotel_bookings/hotel_booking_pending.html",
+        {
+            "bookings": bookings
+        }
+    )
