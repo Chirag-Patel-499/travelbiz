@@ -70,6 +70,13 @@ def home(request):
         )
     hotels = Hotel.objects.order_by("-id")[:6]
 
+    is_customer = False
+
+    if request.user.is_authenticated:
+        is_customer = not UserAdminProfile.objects.filter(
+            user=request.user
+        ).exists()
+
     context = {
         "hero": hero,
         "categories": categories,
@@ -85,6 +92,8 @@ def home(request):
         "vendors": vendors,
         "tours": tours,
         "hotels": hotels,
+
+        "is_customer": is_customer,
 
                 # 🔥 SEO CONTEXT
         "seo": seo,
