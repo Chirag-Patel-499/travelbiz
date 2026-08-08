@@ -1289,6 +1289,7 @@ def hotel_detail(request, pk):
     )    
 
 
+@login_required(login_url="customer_login")
 def hotel_booking(request, pk):
 
     hotel = get_object_or_404(
@@ -1308,7 +1309,9 @@ def hotel_booking(request, pk):
             else Decimal(1)
         )
 
-        total_amount = Decimal(hotel.price) * rooms * days
+        total_amount = (
+            Decimal(hotel.price) * rooms * days
+        )
 
         booking = HotelBooking.objects.create(
 
@@ -1316,22 +1319,30 @@ def hotel_booking(request, pk):
 
             hotel=hotel,
 
-            customer_name=request.POST.get("customer_name"),
+            customer_name=(
+                request.user.get_full_name()
+                or request.user.username
+            ),
 
-            customer_email=request.POST.get("customer_email"),
+            customer_email=request.user.email,
 
-            customer_phone=request.POST.get("customer_phone"),
+            customer_phone=request.POST.get(
+                "customer_phone"
+            ),
 
-            check_in=request.POST.get("check_in"),
+            check_in=request.POST.get(
+                "check_in"
+            ),
 
-            check_out=request.POST.get("check_out"),
+            check_out=request.POST.get(
+                "check_out"
+            ),
 
             rooms=rooms,
 
             guests=guests,
 
             total_amount=total_amount,
-
         )
 
         messages.success(
