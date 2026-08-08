@@ -1279,7 +1279,6 @@ def booking_invoice(request, pk):
     return response    
 
 
-@login_required(login_url=None)
 def hotel_detail(request, pk):
 
     hotel = get_object_or_404(
@@ -1295,7 +1294,7 @@ def hotel_detail(request, pk):
             "hotel": hotel,
             "images": hotel.images.all(),
         }
-    )    
+    )  
 
 
 @login_required(login_url="customer_login")
@@ -1528,7 +1527,7 @@ def hotel_booking_pending(request):
 
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url="login")
+@login_required(login_url="customer_login")
 def customer_dashboard(request):
 
     hotel_bookings = HotelBooking.objects.filter(
