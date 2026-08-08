@@ -1,6 +1,10 @@
 from django import views
 from django.urls import path
 from .views import (
+    customer_register,
+    customer_login,
+    customer_logout,
+    customer_dashboard,
     hotel_booking,
     hotel_booking_pending,
     hotel_booking_list,
@@ -319,6 +323,31 @@ urlpatterns = [
     "dashboard/hotel-bookings/pending/",
     hotel_booking_pending,
     name="hotel_booking_pending",
+    ),
+
+    path(
+    "customer/dashboard/",
+    customer_dashboard,
+    name="customer_dashboard",
+    ),
+
+    path(
+    "customer/register/",
+    customer_register,
+    name="customer_register"
+    ),
+
+
+    path(
+    "customer/login/",
+    customer_login,
+    name="customer_login",
+    ),
+
+    path(
+        "customer/logout/",
+        customer_logout,
+        name="customer_logout",
     ),
 
     

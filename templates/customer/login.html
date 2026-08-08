@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<section class="margin_80">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5">
+        <div class="card shadow border-0 rounded-4">
+          <div class="card-body p-5">
+            <div class="text-center mb-4">
+              <h2 class="fw-bold">Welcome Back</h2>
+
+              <p class="text-muted">Login to your TravelBiz account</p>
+            </div>
+
+            <form method="POST">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                <label>Email Address</label>
+
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="mb-4">
+                <label>Password</label>
+
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <button class="btn btn-success btn-lg w-100">Login</button>
+            </form>
+
+            <hr />
+
+            <div class="text-center">
+              Don't have an account?
+
+              <a href="{% url 'customer_register' %}"> Register Here </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

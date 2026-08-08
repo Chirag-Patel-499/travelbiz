@@ -16,6 +16,9 @@ from django.utils.html import strip_tags
 
 from django.conf import settings
 
+from django.contrib.auth import login
+from .forms import CustomerRegisterForm
+
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
@@ -1500,3 +1503,145 @@ def hotel_booking_pending(request):
             "bookings": bookings
         }
     )
+
+
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url="login")
+def customer_dashboard(request):
+
+    hotel_bookings = HotelBooking.objects.filter(
+        customer_email=request.user.email
+    )
+
+    tour_bookings = Booking.objects.filter(
+        customer_email=request.user.email
+    )
+
+    context = {
+
+        "total_bookings": hotel_bookings.count() + tour_bookings.count(),
+
+        "hotel_bookings": hotel_bookings.count(),
+
+        "tour_bookings": tour_bookings.count(),
+
+        "confirmed": (
+            hotel_bookings.filter(status="Confirmed").count()
+            +
+            tour_bookings.filter(status="Confirmed").count()
+        ),
+
+        "pending": (
+            hotel_bookings.filter(status="Pending").count()
+            +
+            tour_bookings.filter(status="Pending").count()
+        ),
+
+        "cancelled": (
+            hotel_bookings.filter(status="Cancelled").count()
+            +
+            tour_bookings.filter(status="Cancelled").count()
+        ),
+
+    }
+
+    return render(
+        request,
+        "customer/dashboard.html",
+        context,
+    )
+
+
+def customer_register(request):
+
+    if request.user.is_authenticated:
+
+        return redirect("customer_dashboard")
+
+    form = CustomerRegisterForm()
+
+    if request.method == "POST":
+
+        form = CustomerRegisterForm(request.POST)
+
+        if form.is_valid():
+
+            user = form.save(commit=False)
+
+            user.username = user.email
+
+            user.set_password(
+                form.cleaned_data["password"]
+            )
+
+            user.save()
+
+            login(request, user)
+
+            messages.success(
+                request,
+                "Registration Successful."
+            )
+
+            return redirect(
+                "customer_dashboard"
+            )
+
+    return render(
+        request,
+        "customer/register.html",
+        {
+            "form": form
+        }
+    )
+
+
+def customer_login(request):
+
+    if request.user.is_authenticated:
+        return redirect("customer_dashboard")
+
+    if request.method == "POST":
+
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        user = authenticate(
+            request,
+            username=email,
+            password=password
+        )
+
+        if user is not None:
+
+            login(request, user)
+
+            messages.success(
+                request,
+                "Login Successful."
+            )
+
+            return redirect("customer_dashboard")
+
+        messages.error(
+            request,
+            "Invalid Email or Password."
+        )
+
+    return render(
+        request,
+        "customer/login.html"
+    )
+
+
+def customer_logout(request):
+
+    logout(request)
+
+    messages.success(
+        request,
+        "Logged Out Successfully."
+    )
+
+    return redirect("home")        
