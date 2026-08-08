@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 from django.template.loader import render_to_string
 
@@ -1556,7 +1557,6 @@ def customer_dashboard(request):
 def customer_register(request):
 
     if request.user.is_authenticated:
-
         return redirect("customer_dashboard")
 
     form = CustomerRegisterForm()
@@ -1567,9 +1567,21 @@ def customer_register(request):
 
         if form.is_valid():
 
+            email = form.cleaned_data["email"]
+
+            # Check existing user
+            if User.objects.filter(username=email).exists():
+
+                messages.error(
+                    request,
+                    "This email is already registered. Please login."
+                )
+
+                return redirect("customer_login")
+
             user = form.save(commit=False)
 
-            user.username = user.email
+            user.username = email
 
             user.set_password(
                 form.cleaned_data["password"]
