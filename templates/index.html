@@ -115,68 +115,19 @@
                 </li>
 
                 <!-- Customer Login / Dashboard -->
+
                 <!-- Customer Login / Dashboard -->
 
                 {% if user.is_authenticated %}
 
-                <li class="dropdown">
-
-                    <a href="#"
-                    class="btn btn-success dropdown-toggle px-4 py-2"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                <li>
+                    <a href="{% url 'customer_dashboard' %}"
+                    class="btn btn-success px-4 py-2">
 
                         <i class="bi bi-person-circle me-1"></i>
                         {{ user.first_name|default:user.email }}
 
                     </a>
-
-                    <ul class="dropdown-menu dropdown-menu-end">
-
-                        <li>
-                            <a class="dropdown-item"
-                            href="{% url 'customer_dashboard' %}">
-                                <i class="bi bi-speedometer2 me-2"></i>
-                                Dashboard
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-building me-2"></i>
-                                My Hotel Bookings
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="bi bi-airplane me-2"></i>
-                                My Tour Bookings
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item"
-                            href="{% url 'wishlist' %}">
-                                <i class="bi bi-heart me-2"></i>
-                                Wishlist
-                            </a>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item text-danger"
-                            href="{% url 'customer_logout' %}">
-                                <i class="bi bi-box-arrow-right me-2"></i>
-                                Logout
-                            </a>
-                        </li>
-
-                    </ul>
-
                 </li>
 
                 {% else %}
@@ -192,6 +143,8 @@
                 </li>
 
                 {% endif %}
+
+
                 <!-- Vendor Login -->
 
                 <li>
