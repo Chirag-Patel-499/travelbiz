@@ -1554,6 +1554,26 @@ def customer_dashboard(request):
     )
 
 
+@login_required(login_url="customer_login")
+def customer_hotel_bookings(request):
+
+    bookings = HotelBooking.objects.filter(
+        customer_email=request.user.email
+    ).select_related(
+        "hotel"
+    ).order_by(
+        "-created_at"
+    )
+
+    return render(
+        request,
+        "customer/hotel_bookings.html",
+        {
+            "bookings": bookings
+        }
+    )
+
+
 def customer_register(request):
 
     if request.user.is_authenticated:
