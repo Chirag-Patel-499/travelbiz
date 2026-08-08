@@ -28,14 +28,30 @@
       {% if user.is_authenticated %}
 
       <li>
-        <a href="{% url 'customer_dashboard' %}" class="customer-header-link">
+        <a
+          href="{% url 'customer_dashboard' %}"
+          style="
+            cursor: pointer;
+            position: relative;
+            z-index: 9999;
+            display: inline-block;
+          "
+        >
           <i class="icon-user"></i>
           {{ user.first_name|default:user.email }}
         </a>
       </li>
 
       <li>
-        <a href="{% url 'customer_logout' %}" class="customer-header-link">
+        <a
+          href="{% url 'customer_logout' %}"
+          style="
+            cursor: pointer;
+            position: relative;
+            z-index: 9999;
+            display: inline-block;
+          "
+        >
           Logout
         </a>
       </li>
@@ -43,7 +59,16 @@
       {% else %}
 
       <li>
-        <a href="{% url 'customer_login' %}" class="customer-header-link">
+        <a
+          href="{% url 'customer_login' %}"
+          style="
+            cursor: pointer;
+            position: relative;
+            z-index: 9999;
+            display: inline-block;
+          "
+        >
+          <i class="icon-user"></i>
           Customer Login
         </a>
       </li>
