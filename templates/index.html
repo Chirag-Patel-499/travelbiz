@@ -118,7 +118,7 @@
 
                 <!-- Customer Login / Dashboard -->
 
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and is_customer %}
 
                 <li>
                     <a href="{% url 'customer_dashboard' %}"
