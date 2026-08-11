@@ -9,6 +9,9 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.models import User
 
+from functools import wraps
+
+
 from django.template.loader import render_to_string
 
 from django.core.mail import EmailMultiAlternatives
@@ -99,6 +102,40 @@ def home(request):
         "seo": seo,
     }
     return render(request, "index.html", context)
+
+
+def admin_only(view_func):
+
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+
+        if not request.user.is_authenticated:
+            return redirect("user_admin_login")
+
+        if not hasattr(request.user, "admin_profile"):
+            logout(request)
+            return redirect("user_admin_login")
+
+        return view_func(request, *args, **kwargs)
+
+    return wrapper
+
+
+def customer_only(view_func):
+
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+
+        if not request.user.is_authenticated:
+            return redirect("customer_login")
+
+        if hasattr(request.user, "admin_profile"):
+            logout(request)
+            return redirect("customer_login")
+
+        return view_func(request, *args, **kwargs)
+
+    return wrapper
 
 
 
@@ -448,7 +485,7 @@ def user_admin_register(request):
 
 
 
-@login_required
+@admin_only
 def user_dashboard(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1297,7 +1334,7 @@ def hotel_detail(request, pk):
     )  
 
 
-@login_required(login_url="customer_login")
+@customer_only
 def hotel_booking(request, pk):
 
     hotel = get_object_or_404(
@@ -1527,7 +1564,7 @@ def hotel_booking_pending(request):
 
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url="customer_login")
+@customer_only
 def customer_dashboard(request):
 
     hotel_bookings = HotelBooking.objects.filter(
@@ -1573,7 +1610,7 @@ def customer_dashboard(request):
     )
 
 
-@login_required(login_url="customer_login")
+@customer_only
 def customer_hotel_bookings(request):
 
     bookings = HotelBooking.objects.filter(
@@ -1593,10 +1630,35 @@ def customer_hotel_bookings(request):
     )
 
 
+@customer_only
+def customer_tour_bookings(request):
+
+    bookings = Booking.objects.filter(
+        customer_email=request.user.email
+    ).select_related(
+        "tour"
+    ).order_by(
+        "-created_at"
+    )
+
+    return render(
+        request,
+        "customer/tour_bookings.html",
+        {
+            "bookings": bookings
+        }
+    )    
+
+
 def customer_register(request):
 
     if request.user.is_authenticated:
-        return redirect("customer_dashboard")
+
+        if hasattr(request.user, "admin_profile"):
+            logout(request)
+
+        else:
+            return redirect("customer_dashboard")
 
     form = CustomerRegisterForm()
 
@@ -1650,8 +1712,17 @@ def customer_register(request):
 
 def customer_login(request):
 
+    # If already logged in
     if request.user.is_authenticated:
-        return redirect("customer_dashboard")
+
+        # If current user is Owner/Admin,
+        # clear Owner session first
+        if hasattr(request.user, "admin_profile"):
+            logout(request)
+
+        # If already a Customer, go to Customer Dashboard
+        else:
+            return redirect("customer_dashboard")
 
     if request.method == "POST":
 
@@ -1666,14 +1737,30 @@ def customer_login(request):
 
         if user is not None:
 
+            # Owner/Admin account cannot login as Customer
+            if hasattr(user, "admin_profile"):
+
+                messages.error(
+                    request,
+                    "This is an Admin Panel account. Please use Admin Login."
+                )
+
+                return redirect("customer_login")
+
+            # Clear previous session
+            logout(request)
+
+            # Login Customer
             login(request, user)
 
             messages.success(
                 request,
-                "Login Successful."
+                "Customer Login Successful."
             )
 
-            return redirect("customer_dashboard")
+            return redirect(
+                "customer_dashboard"
+            )
 
         messages.error(
             request,
@@ -1684,7 +1771,6 @@ def customer_login(request):
         request,
         "customer/login.html"
     )
-
 
 def customer_logout(request):
 
