@@ -1652,11 +1652,14 @@ def customer_tour_bookings(request):
 
 def customer_register(request):
 
+    # If already logged in
     if request.user.is_authenticated:
 
+        # Owner/Admin is currently logged in
         if hasattr(request.user, "admin_profile"):
             logout(request)
 
+        # Customer is already logged in
         else:
             return redirect("customer_dashboard")
 
@@ -1668,21 +1671,28 @@ def customer_register(request):
 
         if form.is_valid():
 
-            email = form.cleaned_data["email"]
+            email = form.cleaned_data["email"].strip().lower()
 
             # Check existing user
-            if User.objects.filter(username=email).exists():
+            if User.objects.filter(
+                username=email
+            ).exists():
 
                 messages.error(
                     request,
                     "This email is already registered. Please login."
                 )
 
-                return redirect("customer_login")
+                return redirect(
+                    "customer_login"
+                )
 
-            user = form.save(commit=False)
+            user = form.save(
+                commit=False
+            )
 
             user.username = email
+            user.email = email
 
             user.set_password(
                 form.cleaned_data["password"]
@@ -1690,6 +1700,7 @@ def customer_register(request):
 
             user.save()
 
+            # Login newly registered customer
             login(request, user)
 
             messages.success(
@@ -1708,7 +1719,6 @@ def customer_register(request):
             "form": form
         }
     )
-
 
 def customer_login(request):
 
