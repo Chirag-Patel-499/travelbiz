@@ -126,13 +126,21 @@ def customer_only(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
 
+        # User is not logged in
         if not request.user.is_authenticated:
             return redirect("customer_login")
 
+        # Owner / Admin cannot access Customer pages
         if hasattr(request.user, "admin_profile"):
             logout(request)
             return redirect("customer_login")
 
+        # Vendor cannot access Customer pages
+        if getattr(request.user, "role", None) == "vendor":
+            logout(request)
+            return redirect("customer_login")
+
+        # Customer is allowed
         return view_func(request, *args, **kwargs)
 
     return wrapper
@@ -1146,6 +1154,7 @@ def tour_detail(request, pk):
 
 
 
+@customer_only
 def tour_booking(request, pk):
 
     tour = get_object_or_404(

@@ -1,0 +1,232 @@
+{% extends "customer/base_customer.html" %} {% block customer_content %}
+
+<style>
+  .tour-page-header {
+    background: linear-gradient(135deg, #198754, #157347);
+    color: #fff;
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 25px;
+  }
+
+  .tour-page-header h2 {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .tour-page-header p {
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  .tour-booking-card {
+    border: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: 0.25s ease;
+  }
+
+  .tour-booking-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .tour-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 14px;
+    background: #eaf7f0;
+    color: #198754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+  }
+
+  .info-label {
+    display: block;
+    font-size: 12px;
+    color: #8a94a6;
+    margin-bottom: 4px;
+  }
+
+  .info-value {
+    font-weight: 600;
+    color: #212529;
+  }
+
+  .empty-box {
+    padding: 70px 20px;
+  }
+
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #eaf7f0;
+    color: #198754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+  }
+</style>
+
+<!-- PAGE HEADER -->
+
+<div class="tour-page-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <span class="badge bg-light text-success mb-2 px-3 py-2">
+        <i class="bi bi-airplane me-1"></i>
+        Customer Panel
+      </span>
+
+      <h2>My Tour Bookings</h2>
+
+      <p>View and track all your tour booking requests.</p>
+    </div>
+
+    <div class="d-none d-md-block">
+      <i class="bi bi-airplane fs-1"></i>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKINGS -->
+
+{% if bookings %}
+
+<div class="row g-4">
+  {% for booking in bookings %}
+
+  <div class="col-12">
+    <div class="card tour-booking-card shadow-sm">
+      <div class="card-body p-4">
+        <div class="row align-items-center g-4">
+          <!-- TOUR -->
+
+          <div class="col-lg-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="tour-icon">
+                <i class="bi bi-airplane"></i>
+              </div>
+
+              <div>
+                <h5 class="fw-bold mb-1">{{ booking.tour.tour_name }}</h5>
+
+                <small class="text-muted">
+                  <i class="bi bi-geo-alt me-1"></i>
+
+                  {{ booking.tour.location }}
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOOKING DATE -->
+
+          <div class="col-lg-2">
+            <span class="info-label"> Travel Date </span>
+
+            <span class="info-value">
+              {{ booking.booking_date|date:"d M Y" }}
+            </span>
+          </div>
+
+          <!-- PERSONS -->
+
+          <div class="col-lg-2">
+            <span class="info-label"> Persons </span>
+
+            <span class="info-value"> {{ booking.persons }} </span>
+          </div>
+
+          <!-- TOTAL -->
+
+          <div class="col-lg-2">
+            <span class="info-label"> Total Amount </span>
+
+            <span class="info-value text-success">
+              ₹{{ booking.total_amount }}
+            </span>
+          </div>
+
+          <!-- STATUS -->
+
+          <div class="col-lg-3">
+            <span class="info-label"> Booking Status </span>
+
+            {% if booking.status == "Confirmed" %}
+
+            <span class="badge bg-success px-3 py-2">
+              <i class="bi bi-check-circle me-1"></i>
+
+              Confirmed
+            </span>
+
+            {% elif booking.status == "Cancelled" %}
+
+            <span class="badge bg-danger px-3 py-2">
+              <i class="bi bi-x-circle me-1"></i>
+
+              Cancelled
+            </span>
+
+            {% else %}
+
+            <span class="badge bg-warning text-dark px-3 py-2">
+              <i class="bi bi-hourglass-split me-1"></i>
+
+              Pending
+            </span>
+
+            {% endif %}
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- FOOTER -->
+
+        <div class="d-flex justify-content-between align-items-center">
+          <small class="text-muted">
+            Booking ID:
+
+            <strong> #{{ booking.id }} </strong>
+          </small>
+
+          <small class="text-muted">
+            Booked on {{ booking.created_at|date:"d M Y, h:i A" }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% else %}
+
+<!-- EMPTY STATE -->
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body text-center empty-box">
+    <div class="empty-icon">
+      <i class="bi bi-airplane"></i>
+    </div>
+
+    <h4 class="fw-bold mt-4">No Tour Bookings Yet</h4>
+
+    <p class="text-muted">You haven't made any tour bookings yet.</p>
+
+    <a href="{% url 'home' %}" class="btn btn-success px-4">
+      <i class="bi bi-search me-1"></i>
+
+      Explore Tours
+    </a>
+  </div>
+</div>
+
+{% endif %} {% endblock %}
