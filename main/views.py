@@ -147,6 +147,29 @@ def customer_only(view_func):
 
 
 
+def vendor_only(view_func):
+
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+
+        # Not logged in
+        if not request.user.is_authenticated:
+            return redirect("vendor_login")
+
+        # Owner/Admin cannot access Vendor Dashboard
+        if hasattr(request.user, "admin_profile"):
+            logout(request)
+            return redirect("vendor_login")
+
+        # Only Vendor allowed
+        if getattr(request.user, "role", None) != "vendor":
+            logout(request)
+            return redirect("vendor_login")
+
+        return view_func(request, *args, **kwargs)
+
+    return wrapper
+
 # ----------------------------------------------------
 # VENDOR REGISTRATION (NO LOGIN REQUIRED)
 # ----------------------------------------------------
@@ -221,7 +244,7 @@ def vendor_login(request):
 # ----------------------------------------------------
 # VENDOR DASHBOARD
 # ----------------------------------------------------
-@login_required
+@vendor_only
 def vendor_dashboard(request):
     vendor = Vendor.objects.filter(user=request.user).first()
     return render(request, "vendor/vendor_dashboard.html", {"vendor": vendor})
@@ -533,7 +556,7 @@ def user_logout(request):
     return redirect("home")    
 
 
-@login_required
+@admin_only
 def hotel_list(request):
 
     profile = UserAdminProfile.objects.get(
@@ -553,7 +576,7 @@ def hotel_list(request):
     )
 
 
-@login_required
+@admin_only
 def hotel_add(request):
 
     profile = UserAdminProfile.objects.get(
@@ -591,7 +614,7 @@ def hotel_add(request):
         }
     )
 
-@login_required
+@admin_only
 def hotel_images(request):
 
     profile = UserAdminProfile.objects.get(user=request.user)
@@ -633,7 +656,7 @@ def hotel_images(request):
     )
 
 
-@login_required
+@admin_only
 def hotel_view(request, id):
 
     profile = UserAdminProfile.objects.get(user=request.user)
@@ -653,7 +676,7 @@ def hotel_view(request, id):
     )
 
 
-@login_required
+@admin_only
 def hotel_edit(request, id):
 
     profile = UserAdminProfile.objects.get(user=request.user)
@@ -689,7 +712,7 @@ def hotel_edit(request, id):
     )
 
 
-@login_required
+@admin_only
 def hotel_delete(request, id):
 
     profile = UserAdminProfile.objects.get(user=request.user)
@@ -710,7 +733,7 @@ def hotel_delete(request, id):
     return redirect("hotel_list")
 
 
-@login_required
+@admin_only
 def hotel_image_delete(request, id):
 
     profile = UserAdminProfile.objects.get(user=request.user)
@@ -735,7 +758,7 @@ def hotel_image_delete(request, id):
     return redirect("hotel_images")
 
 
-@login_required
+@admin_only
 def tour_list(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -759,7 +782,7 @@ def tour_list(request):
     )
 
 
-@login_required
+@admin_only
 def tour_add(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -810,7 +833,7 @@ def tour_add(request):
         context
     )
 
-@login_required
+@admin_only
 def tour_view(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -838,7 +861,7 @@ def tour_view(request, pk):
     )
 
 
-@login_required
+@admin_only
 def tour_edit(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -889,7 +912,7 @@ def tour_edit(request, pk):
     )
 
 
-@login_required
+@admin_only
 def tour_delete(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -912,8 +935,7 @@ def tour_delete(request, pk):
     return redirect("tour_list")
 
 
-
-@login_required
+@admin_only
 def tour_images(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -968,7 +990,7 @@ def tour_images(request):
     )    
 
 
-@login_required
+@admin_only
 def tour_image_delete(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -991,7 +1013,7 @@ def tour_image_delete(request, pk):
     return redirect("tour_images")
 
 
-@login_required
+@admin_only
 def booking_list(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1013,7 +1035,7 @@ def booking_list(request):
     )
 
 
-@login_required
+@admin_only
 def booking_view(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -1035,7 +1057,7 @@ def booking_view(request, pk):
     )
 
 
-@login_required
+@admin_only
 def booking_pending(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1056,7 +1078,7 @@ def booking_pending(request):
     )
 
 
-@login_required
+@admin_only
 def booking_confirm(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -1075,7 +1097,7 @@ def booking_confirm(request, pk):
     return redirect("booking_list")
 
 
-@login_required
+@admin_only
 def booking_cancel(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -1094,7 +1116,7 @@ def booking_cancel(request, pk):
     return redirect("booking_list")
 
 
-@login_required
+@admin_only
 def booking_confirmed(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1114,7 +1136,7 @@ def booking_confirmed(request):
         }
     )
 
-@login_required
+@admin_only
 def booking_cancelled(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1418,7 +1440,7 @@ def hotel_booking(request, pk):
     )
 
 
-@login_required
+@admin_only
 def hotel_booking_list(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1438,7 +1460,7 @@ def hotel_booking_list(request):
     )
 
 
-@login_required
+@admin_only
 def hotel_booking_view(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -1460,7 +1482,7 @@ def hotel_booking_view(request, pk):
     )
 
 
-@login_required
+@admin_only
 def hotel_booking_confirm(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -1484,7 +1506,7 @@ def hotel_booking_confirm(request, pk):
     return redirect("hotel_booking_list")
 
 
-@login_required
+@admin_only
 def hotel_booking_cancel(request, pk):
 
     profile = UserAdminProfile.objects.filter(
@@ -1508,7 +1530,7 @@ def hotel_booking_cancel(request, pk):
     return redirect("hotel_booking_list")
 
 
-@login_required
+@admin_only
 def hotel_booking_confirmed(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1529,7 +1551,7 @@ def hotel_booking_confirmed(request):
     )
 
 
-@login_required
+@admin_only
 def hotel_booking_cancelled(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1550,7 +1572,7 @@ def hotel_booking_cancelled(request):
     )
 
 
-@login_required
+@admin_only
 def hotel_booking_pending(request):
 
     profile = UserAdminProfile.objects.filter(
@@ -1570,8 +1592,6 @@ def hotel_booking_pending(request):
         }
     )
 
-
-from django.contrib.auth.decorators import login_required
 
 @customer_only
 def customer_dashboard(request):
