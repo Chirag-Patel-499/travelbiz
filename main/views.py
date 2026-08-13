@@ -33,7 +33,7 @@ from django.http import HttpResponse
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking, HotelBooking,
+    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, CustomerWishlist, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking, HotelBooking,
 
 )
 
@@ -1678,7 +1678,130 @@ def customer_tour_bookings(request):
         {
             "bookings": bookings
         }
-    )    
+    )
+
+
+@customer_only
+def customer_wishlist_add(request):
+
+    if request.method != "POST":
+        return redirect("customer_dashboard")
+
+    hotel_id = request.POST.get("hotel_id")
+    tour_id = request.POST.get("tour_id")
+
+    # -------------------------
+    # HOTEL WISHLIST
+    # -------------------------
+    if hotel_id:
+
+        hotel = get_object_or_404(
+            Hotel,
+            id=hotel_id,
+            status=True
+        )
+
+        wishlist_item, created = CustomerWishlist.objects.get_or_create(
+            user=request.user,
+            hotel=hotel
+        )
+
+        if created:
+            messages.success(
+                request,
+                f"{hotel.hotel_name} added to your wishlist."
+            )
+        else:
+            messages.info(
+                request,
+                f"{hotel.hotel_name} is already in your wishlist."
+            )
+
+    # -------------------------
+    # TOUR WISHLIST
+    # -------------------------
+    elif tour_id:
+
+        tour = get_object_or_404(
+            Tour,
+            id=tour_id,
+            status="Active"
+        )
+
+        wishlist_item, created = CustomerWishlist.objects.get_or_create(
+            user=request.user,
+            tour=tour
+        )
+
+        if created:
+            messages.success(
+                request,
+                f"{tour.tour_name} added to your wishlist."
+            )
+        else:
+            messages.info(
+                request,
+                f"{tour.tour_name} is already in your wishlist."
+            )
+
+    else:
+
+        messages.error(
+            request,
+            "Invalid wishlist item."
+        )
+
+    return redirect(
+        request.META.get(
+            "HTTP_REFERER",
+            "customer_dashboard"
+        )
+    )
+
+
+@customer_only
+def customer_wishlist_remove(request, pk):
+
+    if request.method != "POST":
+        return redirect("customer_wishlist")
+
+    wishlist_item = get_object_or_404(
+        CustomerWishlist,
+        id=pk,
+        user=request.user
+    )
+
+    wishlist_item.delete()
+
+    messages.success(
+        request,
+        "Item removed from your wishlist."
+    )
+
+    return redirect("customer_wishlist")
+
+
+@customer_only
+def customer_wishlist(request):
+
+    wishlist = CustomerWishlist.objects.filter(
+        user=request.user
+    ).select_related(
+        "hotel",
+        "tour"
+    ).order_by(
+        "-created_at"
+    )
+
+    return render(
+        request,
+        "customer/wishlist.html",
+        {
+            "wishlist": wishlist
+        }
+    )
+
+
 
 
 def customer_register(request):

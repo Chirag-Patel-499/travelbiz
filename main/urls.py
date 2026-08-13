@@ -7,6 +7,9 @@ from .views import (
     customer_login,
     customer_logout,
     customer_dashboard,
+    customer_wishlist,
+    customer_wishlist_add,
+    customer_wishlist_remove,
     hotel_booking,
     hotel_booking_pending,
     hotel_booking_list,
@@ -362,6 +365,28 @@ urlpatterns = [
     "customer/tour-bookings/",
     customer_tour_bookings,
     name="customer_tour_bookings",
+    ),
+
+    # =========================
+    # CUSTOMER WISHLIST
+    # =========================
+
+    path(
+        "customer/wishlist/",
+        customer_wishlist,
+        name="customer_wishlist",
+    ),
+
+    path(
+        "customer/wishlist/add/",
+        customer_wishlist_add,
+        name="customer_wishlist_add",
+    ),
+
+    path(
+        "customer/wishlist/remove/<int:pk>/",
+        customer_wishlist_remove,
+        name="customer_wishlist_remove",
     ),
 
     

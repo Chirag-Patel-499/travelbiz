@@ -1,0 +1,327 @@
+{% extends "customer/base_customer.html" %} {% block customer_content %}
+
+<style>
+  .wishlist-page-header {
+    background: linear-gradient(135deg, #dc3545, #b02a37);
+    color: #fff;
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 25px;
+  }
+
+  .wishlist-page-header h2 {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .wishlist-page-header p {
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  .wishlist-card {
+    border: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: 0.25s ease;
+    height: 100%;
+  }
+
+  .wishlist-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .wishlist-image {
+    height: 210px;
+    background: #f4f6f9;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wishlist-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .wishlist-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 55px;
+    color: #adb5bd;
+  }
+
+  .wishlist-type {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .hotel-type {
+    background: #0d6efd;
+  }
+
+  .tour-type {
+    background: #198754;
+  }
+
+  .wishlist-body {
+    padding: 20px;
+  }
+
+  .wishlist-body h5 {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .wishlist-price {
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .wishlist-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .empty-box {
+    padding: 70px 20px;
+  }
+
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #fff0f1;
+    color: #dc3545;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+  }
+
+  @media (max-width: 576px) {
+    .wishlist-actions {
+      flex-direction: column;
+    }
+
+    .wishlist-actions .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<!-- PAGE HEADER -->
+
+<div class="wishlist-page-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <span class="badge bg-light text-danger mb-2 px-3 py-2">
+        <i class="bi bi-heart-fill me-1"></i>
+        Customer Panel
+      </span>
+
+      <h2>My Wishlist</h2>
+
+      <p>Hotels and tours you saved for your next trip.</p>
+    </div>
+
+    <div class="d-none d-md-block">
+      <i class="bi bi-heart-fill fs-1"></i>
+    </div>
+  </div>
+</div>
+
+<!-- WISHLIST -->
+
+{% if wishlist %}
+
+<div class="row g-4">
+  {% for item in wishlist %}
+
+  <!-- =========================
+       HOTEL
+  ========================== -->
+
+  {% if item.hotel %}
+
+  <div class="col-xl-4 col-lg-6">
+    <div class="card wishlist-card shadow-sm">
+      <!-- IMAGE -->
+
+      <div class="wishlist-image">
+        {% with image=item.hotel.images.first %} {% if image and image.image %}
+
+        <img src="{{ image.image.url }}" alt="{{ item.hotel.hotel_name }}" />
+
+        {% else %}
+
+        <div class="wishlist-placeholder">
+          <i class="bi bi-building"></i>
+        </div>
+
+        {% endif %} {% endwith %}
+
+        <span class="wishlist-type hotel-type">
+          <i class="bi bi-building me-1"></i>
+
+          Hotel
+        </span>
+      </div>
+
+      <!-- BODY -->
+
+      <div class="wishlist-body">
+        <h5>{{ item.hotel.hotel_name }}</h5>
+
+        <p class="text-muted mb-2">
+          <i class="bi bi-geo-alt me-1"></i>
+
+          {{ item.hotel.location }}
+        </p>
+
+        <div class="wishlist-price text-primary">
+          ₹{{ item.hotel.price }}
+
+          <small class="text-muted fw-normal"> / night </small>
+        </div>
+
+        <div class="wishlist-actions mt-3">
+          <a
+            href="{% url 'hotel_detail' item.hotel.id %}"
+            class="btn btn-primary btn-sm"
+          >
+            <i class="bi bi-eye me-1"></i>
+
+            View Hotel
+          </a>
+
+          <form
+            method="POST"
+            action="{% url 'customer_wishlist_remove' item.id %}"
+          >
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+              <i class="bi bi-heartbreak me-1"></i>
+
+              Remove
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================
+       TOUR
+  ========================== -->
+
+  {% elif item.tour %}
+
+  <div class="col-xl-4 col-lg-6">
+    <div class="card wishlist-card shadow-sm">
+      <!-- IMAGE -->
+
+      <div class="wishlist-image">
+        {% with image=item.tour.images.first %} {% if image and image.image %}
+
+        <img src="{{ image.image.url }}" alt="{{ item.tour.tour_name }}" />
+
+        {% else %}
+
+        <div class="wishlist-placeholder">
+          <i class="bi bi-airplane"></i>
+        </div>
+
+        {% endif %} {% endwith %}
+
+        <span class="wishlist-type tour-type">
+          <i class="bi bi-airplane me-1"></i>
+
+          Tour
+        </span>
+      </div>
+
+      <!-- BODY -->
+
+      <div class="wishlist-body">
+        <h5>{{ item.tour.tour_name }}</h5>
+
+        <p class="text-muted mb-2">
+          <i class="bi bi-geo-alt me-1"></i>
+
+          {{ item.tour.location }}
+        </p>
+
+        <div class="wishlist-price text-success">
+          ₹{{ item.tour.price }}
+
+          <small class="text-muted fw-normal"> / person </small>
+        </div>
+
+        <div class="wishlist-actions mt-3">
+          <a
+            href="{% url 'tour_detail' item.tour.id %}"
+            class="btn btn-success btn-sm"
+          >
+            <i class="bi bi-eye me-1"></i>
+
+            View Tour
+          </a>
+
+          <form
+            method="POST"
+            action="{% url 'customer_wishlist_remove' item.id %}"
+          >
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+              <i class="bi bi-heartbreak me-1"></i>
+
+              Remove
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endif %} {% endfor %}
+</div>
+
+{% else %}
+
+<!-- =========================
+     EMPTY WISHLIST
+========================== -->
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body text-center empty-box">
+    <div class="empty-icon">
+      <i class="bi bi-heart"></i>
+    </div>
+
+    <h4 class="fw-bold mt-4">Your Wishlist is Empty</h4>
+
+    <p class="text-muted">
+      Save hotels and tours you love and find them here later.
+    </p>
+
+    <a href="{% url 'home' %}" class="btn btn-danger px-4">
+      <i class="bi bi-search me-1"></i>
+
+      Explore Hotels & Tours
+    </a>
+  </div>
+</div>
+
+{% endif %} {% endblock %}
