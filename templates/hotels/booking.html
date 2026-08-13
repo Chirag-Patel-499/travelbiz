@@ -123,6 +123,11 @@
 
           <h3 class="fw-bold">{{ hotel.hotel_name }}</h3>
 
+          <a href="{% url 'customer_wishlist' %}" class="btn btn-outline-danger w-100 rounded-pill mb-3">
+            <i class="icon_heart_alt me-2"></i>
+            Add to Wishlist
+          </a>
+
           <p class="text-muted">
             <i class="icon_pin_alt"></i>
 

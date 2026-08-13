@@ -160,18 +160,42 @@
 
           <ul class="list-unstyled">
             <li class="mb-2">✅ Instant Confirmation</li>
-
             <li class="mb-2">✅ Best Price Guarantee</li>
-
             <li class="mb-2">✅ Free Cancellation</li>
-
             <li class="mb-2">✅ 24×7 Customer Support</li>
           </ul>
+
+          <!-- WISHLIST -->
+
+          {% if request.user.is_authenticated %}
+
+          <form
+            method="POST"
+            action="{% url 'customer_wishlist_add' %}"
+            class="mt-3"
+          >
+            {% csrf_token %}
+
+            <input type="hidden" name="hotel_id" value="{{ hotel.id }}" />
+
+            <button
+              type="submit"
+              class="btn btn-outline-danger btn-lg w-100 rounded-pill"
+            >
+              <i class="bi bi-heart me-2"></i>
+              Add to Wishlist
+            </button>
+          </form>
+
+          {% endif %}
+
+          <!-- BOOK HOTEL -->
 
           <a
             href="{% url 'hotel_booking' hotel.id %}"
             class="btn btn-success btn-lg w-100 mt-3"
           >
+            <i class="bi bi-building me-2"></i>
             Book Hotel
           </a>
         </div>
