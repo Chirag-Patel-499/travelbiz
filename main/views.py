@@ -1187,9 +1187,13 @@ def tour_booking(request, pk):
 
     if request.method == "POST":
 
-        persons = int(request.POST.get("persons"))
+        persons = int(
+            request.POST.get("persons")
+        )
 
-        total_amount = Decimal(tour.price) * persons
+        total_amount = (
+            Decimal(tour.price) * persons
+        )
 
         booking = Booking.objects.create(
 
@@ -1197,57 +1201,55 @@ def tour_booking(request, pk):
 
             tour=tour,
 
-            customer_name=request.POST.get("customer_name"),
+            # Logged-in Customer
+            customer_name=(
+                request.user.get_full_name()
+                or request.user.username
+            ),
 
-            customer_email=request.POST.get("customer_email"),
+            customer_email=request.user.email,
 
-            customer_phone=request.POST.get("customer_phone"),
+            customer_phone=request.POST.get(
+                "customer_phone"
+            ),
 
             persons=persons,
 
-            booking_date=request.POST.get("booking_date"),
+            booking_date=request.POST.get(
+                "booking_date"
+            ),
 
             total_amount=total_amount,
-
         )
 
         html_content = render_to_string(
-
             "emails/booking_confirmation.html",
-
             {
                 "booking": booking,
             }
-
         )
 
-        text_content = strip_tags(html_content)
+        text_content = strip_tags(
+            html_content
+        )
 
         email = EmailMultiAlternatives(
-
             subject="TravelBiz Booking Confirmation",
-
             body=text_content,
-
             from_email=settings.DEFAULT_FROM_EMAIL,
-
             to=[booking.customer_email],
-
         )
 
         email.attach_alternative(
-
             html_content,
-
             "text/html"
-
         )
 
         email.send()
 
         messages.success(
             request,
-            "Your booking has been submitted successfully."
+            "Your tour booking has been submitted successfully."
         )
 
         return redirect(
@@ -1754,12 +1756,15 @@ def customer_login(request):
     # If already logged in
     if request.user.is_authenticated:
 
-        # If current user is Owner/Admin,
-        # clear Owner session first
+        # Owner/Admin is currently logged in
         if hasattr(request.user, "admin_profile"):
             logout(request)
 
-        # If already a Customer, go to Customer Dashboard
+        # Vendor is currently logged in
+        elif getattr(request.user, "role", None) == "vendor":
+            logout(request)
+
+        # Customer is already logged in
         else:
             return redirect("customer_dashboard")
 
@@ -1782,6 +1787,16 @@ def customer_login(request):
                 messages.error(
                     request,
                     "This is an Admin Panel account. Please use Admin Login."
+                )
+
+                return redirect("customer_login")
+
+            # Vendor account cannot login as Customer
+            if getattr(user, "role", None) == "vendor":
+
+                messages.error(
+                    request,
+                    "This is a Vendor account. Please use Vendor Login."
                 )
 
                 return redirect("customer_login")
