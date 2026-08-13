@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.conf import settings
 from django.utils.text import slugify
 
@@ -554,6 +555,73 @@ class TourImage(models.Model):
 
     def __str__(self):
         return self.tour.tour_name    
+
+
+
+class CustomerWishlist(models.Model):
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="customer_wishlists"
+    )
+
+    hotel = models.ForeignKey(
+        "Hotel",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="customer_wishlists"
+    )
+
+    tour = models.ForeignKey(
+        "Tour",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="customer_wishlists"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+
+        constraints = [
+
+            # One customer cannot wishlist same hotel twice
+            models.UniqueConstraint(
+                fields=["user", "hotel"],
+                condition=Q(hotel__isnull=False),
+                name="unique_customer_hotel_wishlist"
+            ),
+
+            # One customer cannot wishlist same tour twice
+            models.UniqueConstraint(
+                fields=["user", "tour"],
+                condition=Q(tour__isnull=False),
+                name="unique_customer_tour_wishlist"
+            ),
+
+            # A wishlist item must be either hotel OR tour
+            models.CheckConstraint(
+                condition=(
+                    Q(hotel__isnull=False, tour__isnull=True)
+                    |
+                    Q(hotel__isnull=True, tour__isnull=False)
+                ),
+                name="wishlist_must_have_hotel_or_tour"
+            ),
+        ]
+
+    def __str__(self):
+
+        if self.hotel:
+            return f"{self.user.email} - {self.hotel.hotel_name}"
+
+        if self.tour:
+            return f"{self.user.email} - {self.tour.tour_name}"
+
+        return self.user.email        
 
 
 
