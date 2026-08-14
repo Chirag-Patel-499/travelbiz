@@ -1,0 +1,254 @@
+{% extends "customer/base_customer.html" %} {% block customer_content %}
+
+<div class="container-fluid px-4 py-4">
+  <!-- PAGE HEADER -->
+  <div class="mb-4">
+    <h2 class="fw-bold mb-1">
+      <i class="bi bi-person-circle text-primary me-2"></i>
+      My Profile
+    </h2>
+
+    <p class="text-muted mb-0">
+      Manage your personal information and account details.
+    </p>
+  </div>
+
+  <!-- MESSAGES -->
+  {% if messages %} {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+    {{ message }}
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %} {% endif %}
+
+  <div class="row g-4">
+    <!-- PROFILE CARD -->
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-body text-center p-4">
+          <!-- AVATAR -->
+          <div
+            class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
+            style="
+              width: 100px;
+              height: 100px;
+              background: linear-gradient(135deg, #0d6efd, #084298);
+              color: white;
+              font-size: 42px;
+              font-weight: 700;
+            "
+          >
+            {% if user.first_name %} {{ user.first_name|first|upper }} {% else
+            %} {{ user.username|first|upper }} {% endif %}
+          </div>
+
+          <!-- NAME -->
+
+          <h4 class="fw-bold mb-1">
+            {% if user.get_full_name %} {{ user.get_full_name }} {% else %} {{
+            user.username }} {% endif %}
+          </h4>
+
+          <p class="text-muted mb-3">Customer</p>
+
+          <hr />
+
+          <!-- ACCOUNT INFO -->
+
+          <div class="text-start">
+            <div class="d-flex align-items-center mb-3">
+              <div class="rounded-circle bg-primary bg-opacity-10 p-2 me-3">
+                <i class="bi bi-envelope text-primary"></i>
+              </div>
+
+              <div>
+                <small class="text-muted d-block"> Email </small>
+
+                <span class="fw-semibold"> {{ user.email }} </span>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <div class="rounded-circle bg-success bg-opacity-10 p-2 me-3">
+                <i class="bi bi-telephone text-success"></i>
+              </div>
+
+              <div>
+                <small class="text-muted d-block"> Phone </small>
+
+                <span class="fw-semibold">
+                  {% if user.phone %} {{ user.phone }} {% else %} Not added {%
+                  endif %}
+                </span>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle bg-warning bg-opacity-10 p-2 me-3">
+                <i class="bi bi-calendar-check text-warning"></i>
+              </div>
+
+              <div>
+                <small class="text-muted d-block"> Member Since </small>
+
+                <span class="fw-semibold">
+                  {{ user.date_joined|date:"d M Y" }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDIT PROFILE -->
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <div class="d-flex align-items-center mb-4">
+            <div class="rounded-3 bg-primary bg-opacity-10 p-3 me-3">
+              <i class="bi bi-pencil-square fs-4 text-primary"></i>
+            </div>
+
+            <div>
+              <h4 class="fw-bold mb-1">Personal Information</h4>
+
+              <p class="text-muted mb-0">Update your account information.</p>
+            </div>
+          </div>
+
+          <form method="POST">
+            {% csrf_token %}
+
+            <div class="row g-3">
+              <!-- FIRST NAME -->
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold"> First Name </label>
+
+                <div class="input-group">
+                  <span class="input-group-text bg-light">
+                    <i class="bi bi-person"></i>
+                  </span>
+
+                  <input
+                    type="text"
+                    name="first_name"
+                    class="form-control"
+                    value="{{ user.first_name }}"
+                    placeholder="Enter first name"
+                  />
+                </div>
+              </div>
+
+              <!-- LAST NAME -->
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold"> Last Name </label>
+
+                <div class="input-group">
+                  <span class="input-group-text bg-light">
+                    <i class="bi bi-person"></i>
+                  </span>
+
+                  <input
+                    type="text"
+                    name="last_name"
+                    class="form-control"
+                    value="{{ user.last_name }}"
+                    placeholder="Enter last name"
+                  />
+                </div>
+              </div>
+
+              <!-- EMAIL -->
+
+              <div class="col-md-12">
+                <label class="form-label fw-semibold"> Email Address </label>
+
+                <div class="input-group">
+                  <span class="input-group-text bg-light">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    value="{{ user.email }}"
+                    required
+                  />
+                </div>
+
+                <small class="text-muted">
+                  This email will also be used for login.
+                </small>
+              </div>
+
+              <!-- PHONE -->
+
+              <div class="col-md-12">
+                <label class="form-label fw-semibold"> Phone Number </label>
+
+                <div class="input-group">
+                  <span class="input-group-text bg-light">
+                    <i class="bi bi-telephone"></i>
+                  </span>
+
+                  <input
+                    type="text"
+                    name="phone"
+                    class="form-control"
+                    value="{{ user.phone|default:'' }}"
+                    placeholder="Enter phone number"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- BUTTONS -->
+
+            <div class="d-flex justify-content-end gap-2">
+              <a
+                href="{% url 'customer_dashboard' %}"
+                class="btn btn-light border px-4"
+              >
+                Cancel
+              </a>
+
+              <button type="submit" class="btn btn-primary px-4">
+                <i class="bi bi-check2-circle me-2"></i>
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- SECURITY CARD -->
+
+      <div class="card border-0 shadow-sm rounded-4 mt-4">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center">
+            <div class="rounded-3 bg-success bg-opacity-10 p-3 me-3">
+              <i class="bi bi-shield-check fs-4 text-success"></i>
+            </div>
+
+            <div>
+              <h5 class="fw-bold mb-1">Account Security</h5>
+
+              <p class="text-muted mb-0">
+                Your account information is protected.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

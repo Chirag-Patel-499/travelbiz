@@ -1958,4 +1958,75 @@ def customer_logout(request):
         "Logged Out Successfully."
     )
 
-    return redirect("home")        
+    return redirect("home")
+
+
+@customer_only
+def customer_profile(request):
+
+    user = request.user
+
+    if request.method == "POST":
+
+        first_name = request.POST.get("first_name", "").strip()
+        last_name = request.POST.get("last_name", "").strip()
+        email = request.POST.get("email", "").strip().lower()
+        phone = request.POST.get("phone", "").strip()
+
+        # -------------------------
+        # VALIDATION
+        # -------------------------
+
+        if not email:
+            messages.error(
+                request,
+                "Email address is required."
+            )
+
+            return redirect("customer_profile")
+
+        # Check duplicate email
+        if User.objects.filter(
+            email=email
+        ).exclude(
+            id=user.id
+        ).exists():
+
+            messages.error(
+                request,
+                "This email is already registered."
+            )
+
+            return redirect("customer_profile")
+
+        # -------------------------
+        # UPDATE USER
+        # -------------------------
+
+        user.first_name = first_name
+        user.last_name = last_name
+
+        # Email is also used as username
+        user.email = email
+        user.username = email
+
+        # Phone field
+        user.phone = phone
+
+        user.save()
+
+        messages.success(
+            request,
+            "Profile updated successfully."
+        )
+
+        return redirect("customer_profile")
+
+    return render(
+        request,
+        "customer/profile.html",
+        {
+            "user": user
+        }
+    )
+            

@@ -1,6 +1,7 @@
 from django import views
 from django.urls import path
 from .views import (
+    customer_profile,
     customer_tour_bookings,
     customer_hotel_bookings,
     customer_register,
@@ -387,6 +388,13 @@ urlpatterns = [
         "customer/wishlist/remove/<int:pk>/",
         customer_wishlist_remove,
         name="customer_wishlist_remove",
+    ),
+
+
+    path(
+    "customer/profile/",
+    customer_profile,
+    name="customer_profile",
     ),
 
     
