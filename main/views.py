@@ -1,5 +1,7 @@
 from urllib import request
 from decimal import Decimal
+from datetime import datetime
+
 from django.contrib.auth import update_session_auth_hash
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -1382,12 +1384,35 @@ def hotel_booking(request, pk):
         rooms = int(request.POST.get("rooms"))
         guests = int(request.POST.get("guests"))
 
-        days = (
-            Decimal(1)
-            if request.POST.get("check_in") == request.POST.get("check_out")
-            else Decimal(1)
-        )
+        check_in = request.POST.get("check_in")
+        check_out = request.POST.get("check_out")
 
+        # Calculate number of nights
+        check_in_date = datetime.strptime(
+            check_in,
+            "%Y-%m-%d"
+        ).date()
+
+        check_out_date = datetime.strptime(
+            check_out,
+            "%Y-%m-%d"
+        ).date()
+
+        days = (check_out_date - check_in_date).days
+
+        # Check valid dates
+        if days <= 0:
+            messages.error(
+                request,
+                "Check-out date must be after check-in date."
+            )
+
+            return redirect(
+                "hotel_booking",
+                pk=hotel.id
+            )
+
+        # Calculate total
         total_amount = (
             Decimal(hotel.price) * rooms * days
         )
@@ -1409,13 +1434,9 @@ def hotel_booking(request, pk):
                 "customer_phone"
             ),
 
-            check_in=request.POST.get(
-                "check_in"
-            ),
+            check_in=check_in_date,
 
-            check_out=request.POST.get(
-                "check_out"
-            ),
+            check_out=check_out_date,
 
             rooms=rooms,
 
