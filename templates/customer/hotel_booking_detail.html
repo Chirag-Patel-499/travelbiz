@@ -1,0 +1,283 @@
+{% extends "customer/base_customer.html" %} {% block customer_content %}
+
+<style>
+  .booking-header {
+    background: linear-gradient(135deg, #0d6efd, #084298);
+    color: #fff;
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 25px;
+  }
+
+  .booking-header h2 {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .booking-card {
+    border: 0;
+    border-radius: 18px;
+  }
+
+  .info-box {
+    background: #f8f9fa;
+    border-radius: 14px;
+    padding: 18px;
+    height: 100%;
+  }
+
+  .info-label {
+    display: block;
+    font-size: 12px;
+    color: #8a94a6;
+    margin-bottom: 5px;
+  }
+
+  .info-value {
+    font-weight: 600;
+    color: #212529;
+  }
+
+  .hotel-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    background: #eaf2ff;
+    color: #0d6efd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+  }
+</style>
+
+<!-- HEADER -->
+
+<div class="booking-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <span class="badge bg-light text-primary mb-2 px-3 py-2">
+        <i class="bi bi-building me-1"></i>
+        Hotel Booking
+      </span>
+
+      <h2>Booking Details</h2>
+
+      <p class="mb-0">View complete information about your hotel booking.</p>
+    </div>
+
+    <div class="d-none d-md-block">
+      <i class="bi bi-receipt fs-1"></i>
+    </div>
+  </div>
+</div>
+
+<!-- BACK -->
+
+<div class="mb-3">
+  <a href="{% url 'customer_hotel_bookings' %}" class="btn btn-light border">
+    <i class="bi bi-arrow-left me-1"></i>
+    Back to Bookings
+  </a>
+</div>
+
+<div class="row g-4">
+  <!-- LEFT -->
+
+  <div class="col-lg-8">
+    <!-- HOTEL -->
+
+    <div class="card booking-card shadow-sm mb-4">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="hotel-icon">
+            <i class="bi bi-building"></i>
+          </div>
+
+          <div>
+            <h4 class="fw-bold mb-1">{{ booking.hotel.hotel_name }}</h4>
+
+            <p class="text-muted mb-0">
+              <i class="bi bi-geo-alt me-1"></i>
+
+              {{ booking.hotel.location }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAY DETAILS -->
+
+    <div class="card booking-card shadow-sm mb-4">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-4">
+          <i class="bi bi-calendar-check text-primary me-2"></i>
+          Stay Details
+        </h5>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="info-box">
+              <span class="info-label"> Check In </span>
+
+              <span class="info-value">
+                {{ booking.check_in|date:"d M Y" }}
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="info-box">
+              <span class="info-label"> Check Out </span>
+
+              <span class="info-value">
+                {{ booking.check_out|date:"d M Y" }}
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="info-box">
+              <span class="info-label"> Rooms </span>
+
+              <span class="info-value"> {{ booking.rooms }} </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="info-box">
+              <span class="info-label"> Guests </span>
+
+              <span class="info-value"> {{ booking.guests }} </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMER DETAILS -->
+
+    <div class="card booking-card shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-4">
+          <i class="bi bi-person text-primary me-2"></i>
+          Traveller Information
+        </h5>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="info-box">
+              <span class="info-label"> Full Name </span>
+
+              <span class="info-value"> {{ booking.customer_name }} </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="info-box">
+              <span class="info-label"> Email </span>
+
+              <span class="info-value"> {{ booking.customer_email }} </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="info-box">
+              <span class="info-label"> Phone </span>
+
+              <span class="info-value"> {{ booking.customer_phone }} </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="info-box">
+              <span class="info-label"> Booking Date </span>
+
+              <span class="info-value">
+                {{ booking.created_at|date:"d M Y, h:i A" }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+
+  <div class="col-lg-4">
+    <div class="card booking-card shadow-sm sticky-top" style="top: 100px">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="text-muted"> Booking ID </span>
+
+          <strong> #{{ booking.id }} </strong>
+        </div>
+
+        <hr />
+
+        <div class="d-flex justify-content-between mb-3">
+          <span> Total Amount </span>
+
+          <strong class="text-success fs-5">
+            ₹{{ booking.total_amount }}
+          </strong>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3">
+          <span> Booking Status </span>
+
+          {% if booking.status == "Confirmed" %}
+
+          <span class="badge bg-success">
+            <i class="bi bi-check-circle me-1"></i>
+            Confirmed
+          </span>
+
+          {% elif booking.status == "Cancelled" %}
+
+          <span class="badge bg-danger">
+            <i class="bi bi-x-circle me-1"></i>
+            Cancelled
+          </span>
+
+          {% else %}
+
+          <span class="badge bg-warning text-dark">
+            <i class="bi bi-hourglass-split me-1"></i>
+            Pending
+          </span>
+
+          {% endif %}
+        </div>
+
+        <hr />
+
+        <!-- INVOICE PLACEHOLDER -->
+
+        <button
+          type="button"
+          class="btn btn-outline-primary w-100 mb-2"
+          disabled
+        >
+          <i class="bi bi-file-earmark-pdf me-2"></i>
+          Download Invoice
+        </button>
+
+        <!-- CANCEL PLACEHOLDER -->
+
+        <button type="button" class="btn btn-outline-danger w-100" disabled>
+          <i class="bi bi-x-circle me-2"></i>
+          Cancel Booking
+        </button>
+
+        <small class="text-muted d-block text-center mt-3">
+          Cancellation and invoice options will be available here.
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

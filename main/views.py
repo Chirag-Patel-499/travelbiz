@@ -1684,6 +1684,27 @@ def customer_hotel_bookings(request):
 
 
 @customer_only
+def customer_hotel_booking_detail(request, pk):
+
+    booking = get_object_or_404(
+        HotelBooking.objects.select_related(
+            "hotel",
+            "profile",
+        ),
+        id=pk,
+        customer_email=request.user.email,
+    )
+
+    return render(
+        request,
+        "customer/hotel_booking_detail.html",
+        {
+            "booking": booking,
+        }
+    )    
+
+
+@customer_only
 def customer_tour_bookings(request):
 
     bookings = Booking.objects.filter(
