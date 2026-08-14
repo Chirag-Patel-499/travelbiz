@@ -267,14 +267,41 @@
 
         <!-- CANCEL PLACEHOLDER -->
 
-        <button type="button" class="btn btn-outline-danger w-100" disabled>
-          <i class="bi bi-x-circle me-2"></i>
-          Cancel Booking
-        </button>
+        {% if booking.status == "Pending" or booking.status == "Confirmed" %} {%
+        if booking.payment_status != "Paid" %}
+
+        <form
+          method="POST"
+          action="{% url 'customer_hotel_booking_cancel' booking.id %}"
+          onsubmit="
+            return confirm(
+              'Are you sure you want to cancel this hotel booking?',
+            );
+          "
+        >
+          {% csrf_token %}
+
+          <button type="submit" class="btn btn-outline-danger w-100">
+            <i class="bi bi-x-circle me-2"></i>
+            Cancel Booking
+          </button>
+        </form>
+
+        {% endif %} {% endif %} {% if booking.status == "Cancelled" %}
+
+        <div class="alert alert-danger mt-3 mb-0">
+          <i class="bi bi-x-circle me-1"></i>
+          This booking has been cancelled.
+        </div>
+
+        {% elif booking.payment_status == "Paid" %}
 
         <small class="text-muted d-block text-center mt-3">
-          Cancellation and invoice options will be available here.
+          Cancellation is unavailable because payment has already been
+          completed.
         </small>
+
+        {% endif %}
       </div>
     </div>
   </div>

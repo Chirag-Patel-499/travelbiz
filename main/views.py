@@ -1701,7 +1701,78 @@ def customer_hotel_booking_detail(request, pk):
         {
             "booking": booking,
         }
-    )    
+    )
+
+
+@customer_only
+def customer_hotel_booking_cancel(request, pk):
+
+    if request.method != "POST":
+        return redirect(
+            "customer_hotel_booking_detail",
+            pk=pk
+        )
+
+    booking = get_object_or_404(
+        HotelBooking,
+        id=pk,
+        customer_email=request.user.email,
+    )
+
+    # Already cancelled
+    if booking.status == "Cancelled":
+
+        messages.warning(
+            request,
+            "This booking is already cancelled."
+        )
+
+        return redirect(
+            "customer_hotel_booking_detail",
+            pk=booking.id
+        )
+
+    # Payment protection
+    if booking.payment_status == "Paid":
+
+        messages.error(
+            request,
+            "This booking cannot be cancelled online because payment has already been completed."
+        )
+
+        return redirect(
+            "customer_hotel_booking_detail",
+            pk=booking.id
+        )
+
+    # Only Pending / Confirmed bookings can be cancelled
+    if booking.status not in ["Pending", "Confirmed"]:
+
+        messages.error(
+            request,
+            "This booking cannot be cancelled."
+        )
+
+        return redirect(
+            "customer_hotel_booking_detail",
+            pk=booking.id
+        )
+
+    booking.status = "Cancelled"
+
+    booking.save(
+        update_fields=["status"]
+    )
+
+    messages.success(
+        request,
+        "Hotel booking cancelled successfully."
+    )
+
+    return redirect(
+        "customer_hotel_booking_detail",
+        pk=booking.id
+    )        
 
 
 @customer_only
