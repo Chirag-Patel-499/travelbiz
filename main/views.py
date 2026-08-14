@@ -1,5 +1,6 @@
 from urllib import request
 from decimal import Decimal
+from django.contrib.auth import update_session_auth_hash
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -2028,5 +2029,61 @@ def customer_profile(request):
         {
             "user": user
         }
+    )
+
+
+@customer_only
+def customer_settings(request):
+
+    if request.method == "POST":
+
+        current_password = request.POST.get("current_password", "")
+        new_password = request.POST.get("new_password", "")
+        confirm_password = request.POST.get("confirm_password", "")
+
+        # Current password check
+        if not request.user.check_password(current_password):
+            messages.error(
+                request,
+                "Current password is incorrect."
+            )
+            return redirect("customer_settings")
+
+        # Password length
+        if len(new_password) < 8:
+            messages.error(
+                request,
+                "New password must be at least 8 characters."
+            )
+            return redirect("customer_settings")
+
+        # Confirm password
+        if new_password != confirm_password:
+            messages.error(
+                request,
+                "New passwords do not match."
+            )
+            return redirect("customer_settings")
+
+        # Set new password
+        request.user.set_password(new_password)
+        request.user.save()
+
+        # Keep customer logged in
+        update_session_auth_hash(
+            request,
+            request.user
+        )
+
+        messages.success(
+            request,
+            "Password changed successfully."
+        )
+
+        return redirect("customer_settings")
+
+    return render(
+        request,
+        "customer/settings.html"
     )
             
