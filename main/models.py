@@ -740,3 +740,67 @@ class HotelBooking(models.Model):
 
     def __str__(self):
         return self.customer_name    
+
+
+class Payment(models.Model):
+
+    PAYMENT_STATUS = (
+        ("Pending", "Pending"),
+        ("Success", "Success"),
+        ("Failed", "Failed"),
+    )
+
+    hotel_booking = models.OneToOneField(
+        "HotelBooking",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="payment",
+    )
+
+    tour_booking = models.OneToOneField(
+        "Booking",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="payment",
+    )
+
+    merchant_order_id = models.CharField(
+        max_length=100,
+        unique=True,
+    )
+
+    phonepe_order_id = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True,
+    )
+
+    transaction_id = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True,
+    )
+
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS,
+        default="Pending",
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return f"{self.merchant_order_id} - {self.status}"    
