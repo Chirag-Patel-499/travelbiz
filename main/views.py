@@ -1772,7 +1772,99 @@ def customer_hotel_booking_cancel(request, pk):
     return redirect(
         "customer_hotel_booking_detail",
         pk=booking.id
-    )        
+    )       
+
+
+@customer_only
+def customer_tour_booking_detail(request, pk):
+
+    booking = get_object_or_404(
+        Booking.objects.select_related(
+            "tour",
+            "profile",
+        ),
+        id=pk,
+        customer_email=request.user.email,
+    )
+
+    return render(
+        request,
+        "customer/tour_booking_detail.html",
+        {
+            "booking": booking,
+        }
+    )
+
+
+@customer_only
+def customer_tour_booking_cancel(request, pk):
+
+    if request.method != "POST":
+        return redirect(
+            "customer_tour_booking_detail",
+            pk=pk
+        )
+
+    booking = get_object_or_404(
+        Booking,
+        id=pk,
+        customer_email=request.user.email,
+    )
+
+    # Already cancelled
+    if booking.status == "Cancelled":
+
+        messages.warning(
+            request,
+            "This tour booking is already cancelled."
+        )
+
+        return redirect(
+            "customer_tour_booking_detail",
+            pk=booking.id
+        )
+
+    # Payment protection
+    if booking.payment_status == "Paid":
+
+        messages.error(
+            request,
+            "This tour booking cannot be cancelled online because payment has already been completed."
+        )
+
+        return redirect(
+            "customer_tour_booking_detail",
+            pk=booking.id
+        )
+
+    # Only Pending / Confirmed bookings can be cancelled
+    if booking.status not in ["Pending", "Confirmed"]:
+
+        messages.error(
+            request,
+            "This tour booking cannot be cancelled."
+        )
+
+        return redirect(
+            "customer_tour_booking_detail",
+            pk=booking.id
+        )
+
+    # Cancel booking
+    booking.status = "Cancelled"
+    booking.save(
+        update_fields=["status"]
+    )
+
+    messages.success(
+        request,
+        "Tour booking cancelled successfully."
+    )
+
+    return redirect(
+        "customer_tour_booking_detail",
+        pk=booking.id
+    )     
 
 
 @customer_only
