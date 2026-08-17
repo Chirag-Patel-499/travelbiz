@@ -2291,4 +2291,161 @@ def customer_settings(request):
         request,
         "customer/settings.html"
     )
+
+
+@login_required
+def customer_tour_booking_invoice(request, pk):
+
+    booking = get_object_or_404(
+        Booking,
+        id=pk,
+        customer_email=request.user.email
+    )
+
+    response = HttpResponse(
+        content_type="application/pdf"
+    )
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="Tour_Booking_{booking.id}.pdf"'
+    )
+
+    doc = SimpleDocTemplate(
+        response,
+        rightMargin=40,
+        leftMargin=40,
+        topMargin=40,
+        bottomMargin=40
+    )
+
+    styles = getSampleStyleSheet()
+
+    elements = []
+
+    elements.append(
+        Paragraph(
+            "<b>TravelBiz</b>",
+            styles["Title"]
+        )
+    )
+
+    elements.append(
+        Paragraph(
+            "Tour Booking Invoice",
+            styles["Heading2"]
+        )
+    )
+
+    elements.append(
+        Paragraph(
+            f"Booking ID: #{booking.id}",
+            styles["Normal"]
+        )
+    )
+
+    elements.append(
+        Paragraph(
+            "<br/>",
+            styles["Normal"]
+        )
+    )
+
+    data = [
+        ["Booking ID", f"#{booking.id}"],
+
+        ["Customer", booking.customer_name],
+
+        ["Email", booking.customer_email],
+
+        ["Phone", booking.customer_phone or "-"],
+
+        ["Tour", booking.tour.tour_name],
+
+        ["Location", booking.tour.location],
+
+        ["Travel Date", str(booking.booking_date)],
+
+        ["Persons", str(booking.persons)],
+
+        ["Amount", f"₹ {booking.total_amount}"],
+
+        ["Payment Status", booking.payment_status],
+
+        ["Booking Status", booking.status],
+    ]
+
+    table = Table(
+        data,
+        colWidths=[
+            2.2 * inch,
+            3.5 * inch
+        ]
+    )
+
+    table.setStyle(
+        TableStyle([
+            (
+                "GRID",
+                (0, 0),
+                (-1, -1),
+                1,
+                colors.grey
+            ),
+
+            (
+                "BACKGROUND",
+                (0, 0),
+                (0, -1),
+                colors.whitesmoke
+            ),
+
+            (
+                "FONTNAME",
+                (0, 0),
+                (0, -1),
+                "Helvetica-Bold"
+            ),
+
+            (
+                "FONTNAME",
+                (1, 0),
+                (1, -1),
+                "Helvetica"
+            ),
+
+            (
+                "VALIGN",
+                (0, 0),
+                (-1, -1),
+                "MIDDLE"
+            ),
+
+            (
+                "TOPPADDING",
+                (0, 0),
+                (-1, -1),
+                8
+            ),
+
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, -1),
+                8
+            ),
+        ])
+    )
+
+    elements.append(table)
+
+    elements.append(
+        Paragraph(
+            "<br/><b>Thank you for booking with TravelBiz.</b>",
+            styles["Normal"]
+        )
+    )
+
+    doc.build(elements)
+
+    return response    
             

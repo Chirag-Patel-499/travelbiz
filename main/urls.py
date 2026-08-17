@@ -7,6 +7,7 @@ from .views import (
     customer_profile,
     customer_tour_booking_cancel,
     customer_tour_booking_detail,
+    customer_tour_booking_invoice,
     customer_tour_bookings,
     customer_hotel_bookings,
     customer_register,
@@ -430,6 +431,12 @@ urlpatterns = [
         "customer/tour-booking/<int:pk>/cancel/",
         customer_tour_booking_cancel,
         name="customer_tour_booking_cancel",
+    ),
+
+    path(
+    "customer/tour-booking/<int:pk>/invoice/",
+    customer_tour_booking_invoice,
+    name="customer_tour_booking_invoice",
     ),
 
     

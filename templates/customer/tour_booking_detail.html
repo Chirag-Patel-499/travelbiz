@@ -320,6 +320,17 @@
             {% endif %} 
         {% endif %}
 
+        <!-- DOWNLOAD INVOICE -->
+
+        <a
+        href="{% url 'customer_tour_booking_invoice' booking.id %}"
+        class="btn btn-outline-primary w-100 mb-2"
+        target="_blank"
+        >
+        <i class="bi bi-file-earmark-pdf me-2"></i>
+        Download Invoice
+        </a>
+
         <!-- CANCELLED MESSAGE -->
 
         {% if booking.status == "Cancelled" %}
