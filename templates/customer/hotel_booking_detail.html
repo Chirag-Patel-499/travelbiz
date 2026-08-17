@@ -256,14 +256,14 @@
 
         <!-- INVOICE PLACEHOLDER -->
 
-        <button
-          type="button"
+        <a
+          href="{% url 'customer_hotel_booking_invoice' booking.id %}"
           class="btn btn-outline-primary w-100 mb-2"
-          disabled
+          target="_blank"
         >
           <i class="bi bi-file-earmark-pdf me-2"></i>
           Download Invoice
-        </button>
+        </a>
 
         <!-- CANCEL BOOKING -->
 

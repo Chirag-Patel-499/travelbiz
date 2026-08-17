@@ -3,6 +3,7 @@ from django.urls import path
 from .views import (
     customer_hotel_booking_cancel,
     customer_hotel_booking_detail,
+    customer_hotel_booking_invoice,
     customer_settings,
     customer_profile,
     customer_tour_booking_cancel,
@@ -437,6 +438,12 @@ urlpatterns = [
     "customer/tour-booking/<int:pk>/invoice/",
     customer_tour_booking_invoice,
     name="customer_tour_booking_invoice",
+    ),
+
+    path(
+    "customer/hotel-booking/<int:pk>/invoice/",
+    customer_hotel_booking_invoice,
+    name="customer_hotel_booking_invoice",
     ),
 
     
