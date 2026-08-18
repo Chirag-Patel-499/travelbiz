@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -213,6 +217,32 @@ EMAIL_HOST_USER = "cp0824279@gmail.com"
 EMAIL_HOST_PASSWORD = "ckzv cuda muoq bjga"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# ==========================================
+# PHONEPE PAYMENT SETTINGS
+# ==========================================
+
+PHONEPE_CLIENT_ID = os.getenv(
+    "PHONEPE_CLIENT_ID",
+    ""
+)
+
+PHONEPE_CLIENT_SECRET = os.getenv(
+    "PHONEPE_CLIENT_SECRET",
+    ""
+)
+
+PHONEPE_CLIENT_VERSION = int(
+    os.getenv(
+        "PHONEPE_CLIENT_VERSION",
+        "1"
+    )
+)
+
+PHONEPE_ENV = os.getenv(
+    "PHONEPE_ENV",
+    "SANDBOX"
+)
 
 
 # Default primary key field type
