@@ -15,6 +15,23 @@ from django.contrib.auth.models import User
 from functools import wraps
 
 
+import uuid
+
+from django.conf import settings
+from django.urls import reverse
+from django.shortcuts import redirect
+
+from phonepe.sdk.pg.payments.v2.standard_checkout_client import (
+    StandardCheckoutClient
+)
+
+from phonepe.sdk.pg.env import Env
+
+from phonepe.sdk.pg.payments.v2.models.request.standard_checkout_pay_request import (
+    StandardCheckoutPayRequest
+)
+
+
 from django.template.loader import render_to_string
 
 from django.core.mail import EmailMultiAlternatives
@@ -36,7 +53,7 @@ from django.http import HttpResponse
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
     CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, CustomerWishlist, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking, HotelBooking,
+    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, CustomerWishlist, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking, HotelBooking, Payment,
 
 )
 
@@ -2878,4 +2895,152 @@ def customer_hotel_booking_invoice(request, pk):
     doc.build(elements)
 
     return response    
-            
+
+
+
+def get_phonepe_client():
+
+    env = (
+        Env.SANDBOX
+        if settings.PHONEPE_ENV == "SANDBOX"
+        else Env.PRODUCTION
+    )
+
+    client = StandardCheckoutClient.get_instance(
+        client_id=settings.PHONEPE_CLIENT_ID,
+        client_secret=settings.PHONEPE_CLIENT_SECRET,
+        client_version=settings.PHONEPE_CLIENT_VERSION,
+        env=env,
+    )
+
+    return client
+
+
+@customer_only
+def customer_tour_payment(request, pk):
+
+    booking = get_object_or_404(
+        Booking,
+        id=pk,
+        customer_email=request.user.email
+    )
+
+    # Already paid
+    if booking.payment_status == "Paid":
+        messages.info(
+            request,
+            "This booking has already been paid."
+        )
+        return redirect(
+            "customer_tour_booking_detail",
+            pk=booking.id
+        )
+
+    # Cancelled booking cannot be paid
+    if booking.status == "Cancelled":
+        messages.error(
+            request,
+            "Cancelled booking cannot be paid."
+        )
+        return redirect(
+            "customer_tour_booking_detail",
+            pk=booking.id
+        )
+
+    merchant_order_id = (
+        f"TB-TOUR-{booking.id}-"
+        f"{uuid.uuid4().hex[:12].upper()}"
+    )
+
+    payment, created = Payment.objects.get_or_create(
+        tour_booking=booking,
+        defaults={
+            "merchant_order_id": merchant_order_id,
+            "amount": booking.total_amount,
+            "status": "Pending",
+        }
+    )
+
+    if not created:
+
+        if not payment.merchant_order_id:
+            payment.merchant_order_id = merchant_order_id
+
+        payment.amount = booking.total_amount
+        payment.status = "Pending"
+        payment.save()
+
+    messages.info(
+        request,
+        "Payment setup is ready. PhonePe checkout will be connected next."
+    )
+
+    return redirect(
+        "customer_tour_booking_detail",
+        pk=booking.id
+    )
+
+
+@customer_only
+def customer_hotel_payment(request, pk):
+
+    booking = get_object_or_404(
+        HotelBooking,
+        id=pk,
+        customer_email=request.user.email
+    )
+
+    # Already paid
+    if booking.payment_status == "Paid":
+        messages.info(
+            request,
+            "This booking has already been paid."
+        )
+        return redirect(
+            "customer_hotel_booking_detail",
+            pk=booking.id
+        )
+
+    # Cancelled booking cannot be paid
+    if booking.status == "Cancelled":
+        messages.error(
+            request,
+            "Cancelled booking cannot be paid."
+        )
+        return redirect(
+            "customer_hotel_booking_detail",
+            pk=booking.id
+        )
+
+    merchant_order_id = (
+        f"TB-HOTEL-{booking.id}-"
+        f"{uuid.uuid4().hex[:12].upper()}"
+    )
+
+    payment, created = Payment.objects.get_or_create(
+        hotel_booking=booking,
+        defaults={
+            "merchant_order_id": merchant_order_id,
+            "amount": booking.total_amount,
+            "status": "Pending",
+        }
+    )
+
+    if not created:
+
+        if not payment.merchant_order_id:
+            payment.merchant_order_id = merchant_order_id
+
+        payment.amount = booking.total_amount
+        payment.status = "Pending"
+        payment.save()
+
+    messages.info(
+        request,
+        "Payment setup is ready. PhonePe checkout will be connected next."
+    )
+
+    return redirect(
+        "customer_hotel_booking_detail",
+        pk=booking.id
+    )

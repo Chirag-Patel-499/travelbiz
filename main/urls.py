@@ -4,6 +4,7 @@ from .views import (
     customer_hotel_booking_cancel,
     customer_hotel_booking_detail,
     customer_hotel_booking_invoice,
+    customer_hotel_payment,
     customer_settings,
     customer_profile,
     customer_tour_booking_cancel,
@@ -15,6 +16,7 @@ from .views import (
     customer_login,
     customer_logout,
     customer_dashboard,
+    customer_tour_payment,
     customer_wishlist,
     customer_wishlist_add,
     customer_wishlist_remove,
@@ -444,6 +446,18 @@ urlpatterns = [
     "customer/hotel-booking/<int:pk>/invoice/",
     customer_hotel_booking_invoice,
     name="customer_hotel_booking_invoice",
+    ),
+
+    path(
+    "customer/tour/<int:pk>/payment/",
+    customer_tour_payment,
+    name="customer_tour_payment",
+    ),
+
+    path(
+        "customer/hotel/<int:pk>/payment/",
+        customer_hotel_payment,
+        name="customer_hotel_payment",
     ),
 
     
