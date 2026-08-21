@@ -41,73 +41,72 @@
         <tbody>
           {% for booking in bookings %}
 
-          <tr>
-            <td>
-              <strong> {{ booking.hotel.hotel_name }} </strong>
+            <tr>
+              <td>
+                <strong> {{ booking.hotel.hotel_name }} </strong>
 
-              <br />
+                <br />
 
-              <small class="text-muted">
-                <i class="bi bi-geo-alt"></i>
-                {{ booking.hotel.location }}
-              </small>
-            </td>
+                <small class="text-muted">
+                  <i class="bi bi-geo-alt"></i>
+                  {{ booking.hotel.location }}
+                </small>
+              </td>
 
-            <td>{{ booking.check_in|date:"d M Y" }}</td>
+              <td>{{ booking.check_in|date:"d M Y" }}</td>
 
-            <td>{{ booking.check_out|date:"d M Y" }}</td>
+              <td>{{ booking.check_out|date:"d M Y" }}</td>
 
-            <td>{{ booking.rooms }}</td>
+              <td>{{ booking.rooms }}</td>
 
-            <td>{{ booking.guests }}</td>
+              <td>{{ booking.guests }}</td>
 
-            <td>
-              <strong> ₹{{ booking.total_amount }} </strong>
-            </td>
+              <td>
+                <strong> ₹{{ booking.total_amount }} </strong>
+              </td>
 
-            <td>
-              {% if booking.status == "Confirmed" %}
+              <td>
+                {% if booking.status == "Confirmed" %}
 
-              <span class="badge bg-success"> Confirmed </span>
+                <span class="badge bg-success"> Confirmed </span>
 
-              {% elif booking.status == "Pending" %}
+                {% elif booking.status == "Pending" %}
 
-              <span class="badge bg-warning text-dark"> Pending </span>
+                <span class="badge bg-warning text-dark"> Pending </span>
 
-              {% elif booking.status == "Cancelled" %}
+                {% elif booking.status == "Cancelled" %}
 
-              <span class="badge bg-danger"> Cancelled </span>
+                <span class="badge bg-danger"> Cancelled </span>
 
-              {% endif %}
-            </td>
+                {% endif %}
+              </td>
 
-            <td class="text-center">
-              <!-- VIEW DETAILS -->
+              <td class="text-center">
+                <!-- VIEW DETAILS -->
 
-              <a
-                href="{% url 'customer_hotel_booking_detail' booking.id %}"
-                class="btn btn-sm btn-outline-primary mb-1"
-              >
-                <i class="bi bi-eye me-1"></i>
-                View Details
-              </a>
+                <a
+                  href="{% url 'customer_hotel_booking_detail' booking.id %}"
+                  class="btn btn-sm btn-outline-primary mb-1"
+                >
+                  <i class="bi bi-eye me-1"></i>
+                  View Details
+                </a>
 
-              <!-- PAY NOW -->
+                <!-- PAY NOW -->
 
-              {% if booking.payment_status != "Paid" and booking.status !=
-              "Cancelled" %}
+                {% if booking.payment_status != "Paid" and booking.status != "Cancelled" %}
 
-              <a
-                href="{% url 'customer_hotel_fake_payment' booking.id %}"
-                class="btn btn-sm btn-primary mb-1"
-              >
-                <i class="bi bi-credit-card me-1"></i>
-                Pay Now
-              </a>
+                  <a
+                    href="{% url 'customer_hotel_fake_payment' booking.id %}"
+                    class="btn btn-sm btn-primary mb-1"
+                  >
+                    <i class="bi bi-credit-card me-1"></i>
+                    Pay Now
+                  </a>
 
-              {% endif %}
-            </td>
-          </tr>
+                {% endif %}
+              </td>
+            </tr>
 
           {% endfor %}
         </tbody>
