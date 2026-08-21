@@ -14,22 +14,7 @@ from django.contrib.auth.models import User
 
 from functools import wraps
 
-
 import uuid
-
-from django.conf import settings
-from django.urls import reverse
-from django.shortcuts import redirect
-
-from phonepe.sdk.pg.payments.v2.standard_checkout_client import (
-    StandardCheckoutClient
-)
-
-from phonepe.sdk.pg.env import Env
-
-from phonepe.sdk.pg.payments.v2.models.request.standard_checkout_pay_request import (
-    StandardCheckoutPayRequest
-)
 
 
 from django.template.loader import render_to_string
@@ -40,7 +25,6 @@ from django.utils.html import strip_tags
 
 from django.conf import settings
 
-from django.contrib.auth import login
 from .forms import CustomerRegisterForm
 
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
@@ -52,8 +36,8 @@ from django.http import HttpResponse
 
 from .models import (
     HeroSection, Category, Destination, MiddleBanner, Deal,
-    CallSection, FooterQuickLink, FooterCategory, FooterContact,
-    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, CustomerWishlist, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking, HotelBooking, Payment,
+    CallSection, FooterQuickLink, FooterCategory, FooterContact, Payment,
+    SocialLink, Tour, UserAdminProfile, Vendor, Blog, BlogCategory, Wishlist, WishlistBanner, CustomerWishlist, DriverApplication, Destination, SEOSettings, Hotel, HotelImage, TourImage, Booking, HotelBooking,
 
 )
 
@@ -2894,30 +2878,11 @@ def customer_hotel_booking_invoice(request, pk):
 
     doc.build(elements)
 
-    return response    
-
-
-
-def get_phonepe_client():
-
-    env = (
-        Env.SANDBOX
-        if settings.PHONEPE_ENV == "SANDBOX"
-        else Env.PRODUCTION
-    )
-
-    client = StandardCheckoutClient.get_instance(
-        client_id=settings.PHONEPE_CLIENT_ID,
-        client_secret=settings.PHONEPE_CLIENT_SECRET,
-        client_version=settings.PHONEPE_CLIENT_VERSION,
-        env=env,
-    )
-
-    return client
+    return response
 
 
 @customer_only
-def customer_tour_payment(request, pk):
+def customer_tour_fake_payment(request, pk):
 
     booking = get_object_or_404(
         Booking,
@@ -2929,7 +2894,7 @@ def customer_tour_payment(request, pk):
     if booking.payment_status == "Paid":
         messages.info(
             request,
-            "This booking has already been paid."
+            "This booking is already paid."
         )
         return redirect(
             "customer_tour_booking_detail",
@@ -2947,42 +2912,36 @@ def customer_tour_payment(request, pk):
             pk=booking.id
         )
 
-    merchant_order_id = (
-        f"TB-TOUR-{booking.id}-"
-        f"{uuid.uuid4().hex[:12].upper()}"
-    )
-
+    # Get or create payment
     payment, created = Payment.objects.get_or_create(
         tour_booking=booking,
         defaults={
-            "merchant_order_id": merchant_order_id,
+            "merchant_order_id": (
+                f"FAKE-TOUR-{booking.id}-"
+                f"{uuid.uuid4().hex[:8].upper()}"
+            ),
             "amount": booking.total_amount,
             "status": "Pending",
         }
     )
 
-    if not created:
-
-        if not payment.merchant_order_id:
-            payment.merchant_order_id = merchant_order_id
-
+    # Keep payment amount synced with booking amount
+    if payment.amount != booking.total_amount:
         payment.amount = booking.total_amount
-        payment.status = "Pending"
-        payment.save()
+        payment.save(update_fields=["amount"])
 
-    messages.info(
+    return render(
         request,
-        "Payment setup is ready. PhonePe checkout will be connected next."
+        "customer/fake_payment.html",
+        {
+            "booking": booking,
+            "payment": payment,
+            "payment_type": "Tour",
+        }
     )
-
-    return redirect(
-        "customer_tour_booking_detail",
-        pk=booking.id
-    )
-
 
 @customer_only
-def customer_hotel_payment(request, pk):
+def customer_hotel_fake_payment(request, pk):
 
     booking = get_object_or_404(
         HotelBooking,
@@ -2994,7 +2953,7 @@ def customer_hotel_payment(request, pk):
     if booking.payment_status == "Paid":
         messages.info(
             request,
-            "This booking has already been paid."
+            "This booking is already paid."
         )
         return redirect(
             "customer_hotel_booking_detail",
@@ -3012,35 +2971,183 @@ def customer_hotel_payment(request, pk):
             pk=booking.id
         )
 
-    merchant_order_id = (
-        f"TB-HOTEL-{booking.id}-"
-        f"{uuid.uuid4().hex[:12].upper()}"
-    )
-
+    # Get or create payment
     payment, created = Payment.objects.get_or_create(
         hotel_booking=booking,
         defaults={
-            "merchant_order_id": merchant_order_id,
+            "merchant_order_id": (
+                f"FAKE-HOTEL-{booking.id}-"
+                f"{uuid.uuid4().hex[:8].upper()}"
+            ),
             "amount": booking.total_amount,
             "status": "Pending",
         }
     )
 
-    if not created:
-
-        if not payment.merchant_order_id:
-            payment.merchant_order_id = merchant_order_id
-
+    # Keep payment amount synced with booking amount
+    if payment.amount != booking.total_amount:
         payment.amount = booking.total_amount
-        payment.status = "Pending"
-        payment.save()
+        payment.save(update_fields=["amount"])
 
-    messages.info(
+    return render(
         request,
-        "Payment setup is ready. PhonePe checkout will be connected next."
+        "customer/fake_payment.html",
+        {
+            "booking": booking,
+            "payment": payment,
+            "payment_type": "Hotel",
+        }
     )
+
+
+
+@customer_only
+def fake_payment_success(request, pk):
+
+    payment = get_object_or_404(
+        Payment,
+        id=pk
+    )
+
+    # Get related booking
+    if payment.tour_booking:
+        booking = payment.tour_booking
+
+    elif payment.hotel_booking:
+        booking = payment.hotel_booking
+
+    else:
+        messages.error(
+            request,
+            "Invalid payment."
+        )
+        return redirect("customer_dashboard")
+
+    # Security: payment must belong to logged-in customer
+    if booking.customer_email != request.user.email:
+        messages.error(
+            request,
+            "You are not authorized to access this payment."
+        )
+        return redirect("customer_dashboard")
+
+    # Already paid check
+    if payment.status == "Success":
+        messages.info(
+            request,
+            "This payment is already completed."
+        )
+
+        if payment.tour_booking:
+            return redirect(
+                "customer_tour_booking_detail",
+                pk=booking.id
+            )
+
+        return redirect(
+            "customer_hotel_booking_detail",
+            pk=booking.id
+        )
+
+    # Mark payment successful
+    payment.status = "Success"
+    payment.transaction_id = (
+        f"FAKE-TXN-{uuid.uuid4().hex[:12].upper()}"
+    )
+    payment.save()
+
+    # Mark booking as paid
+    booking.payment_status = "Paid"
+    booking.save()
+
+    messages.success(
+        request,
+        "Payment successful."
+    )
+
+    # Redirect to correct booking detail
+    if payment.tour_booking:
+        return redirect(
+            "customer_tour_booking_detail",
+            pk=booking.id
+        )
 
     return redirect(
         "customer_hotel_booking_detail",
         pk=booking.id
     )
+
+@customer_only
+def fake_payment_failed(request, pk):
+
+    payment = get_object_or_404(
+        Payment,
+        id=pk
+    )
+
+    # Get related booking
+    if payment.tour_booking:
+        booking = payment.tour_booking
+
+    elif payment.hotel_booking:
+        booking = payment.hotel_booking
+
+    else:
+        messages.error(
+            request,
+            "Invalid payment."
+        )
+        return redirect("customer_dashboard")
+
+    # Security: payment must belong to logged-in customer
+    if booking.customer_email != request.user.email:
+        messages.error(
+            request,
+            "You are not authorized to access this payment."
+        )
+        return redirect("customer_dashboard")
+
+    # If payment is already successful,
+    # don't allow it to become failed
+    if payment.status == "Success":
+        messages.info(
+            request,
+            "This payment has already been completed."
+        )
+
+        if payment.tour_booking:
+            return redirect(
+                "customer_tour_booking_detail",
+                pk=booking.id
+            )
+
+        return redirect(
+            "customer_hotel_booking_detail",
+            pk=booking.id
+        )
+
+    # Mark payment as failed
+    payment.status = "Failed"
+    payment.save()
+
+    # Keep booking payment status pending
+    booking.payment_status = "Pending"
+    booking.save()
+
+    messages.error(
+        request,
+        "Payment failed. Please try again."
+    )
+
+    # Redirect to correct booking detail
+    if payment.tour_booking:
+        return redirect(
+            "customer_tour_booking_detail",
+            pk=booking.id
+        )
+
+    return redirect(
+        "customer_hotel_booking_detail",
+        pk=booking.id
+    )
+            

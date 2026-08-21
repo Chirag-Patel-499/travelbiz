@@ -4,7 +4,7 @@ from .views import (
     customer_hotel_booking_cancel,
     customer_hotel_booking_detail,
     customer_hotel_booking_invoice,
-    customer_hotel_payment,
+    customer_hotel_fake_payment,
     customer_settings,
     customer_profile,
     customer_tour_booking_cancel,
@@ -16,10 +16,12 @@ from .views import (
     customer_login,
     customer_logout,
     customer_dashboard,
-    customer_tour_payment,
+    customer_tour_fake_payment,
     customer_wishlist,
     customer_wishlist_add,
     customer_wishlist_remove,
+    fake_payment_failed,
+    fake_payment_success,
     hotel_booking,
     hotel_booking_pending,
     hotel_booking_list,
@@ -449,15 +451,27 @@ urlpatterns = [
     ),
 
     path(
-    "customer/tour/<int:pk>/payment/",
-    customer_tour_payment,
-    name="customer_tour_payment",
+    "customer/tour/<int:pk>/fake-payment/",
+    customer_tour_fake_payment,
+    name="customer_tour_fake_payment",
     ),
 
     path(
-        "customer/hotel/<int:pk>/payment/",
-        customer_hotel_payment,
-        name="customer_hotel_payment",
+        "customer/hotel/<int:pk>/fake-payment/",
+        customer_hotel_fake_payment,
+        name="customer_hotel_fake_payment",
+    ),
+
+    path(
+        "customer/fake-payment/<int:pk>/success/",
+        fake_payment_success,
+        name="fake_payment_success",
+    ),
+
+    path(
+        "customer/fake-payment/<int:pk>/failed/",
+        fake_payment_failed,
+        name="fake_payment_failed",
     ),
 
     

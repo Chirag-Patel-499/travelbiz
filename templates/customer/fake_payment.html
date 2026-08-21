@@ -1,0 +1,265 @@
+{% extends "customer/base_customer.html" %} {% block customer_content %}
+
+<style>
+  .payment-wrapper {
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  .payment-header {
+    background: linear-gradient(135deg, #198754, #157347);
+    color: #fff;
+    border-radius: 20px;
+    padding: 28px 30px;
+    margin-bottom: 25px;
+  }
+
+  .payment-card {
+    border: 0;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .payment-summary {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 22px;
+  }
+
+  .payment-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: #eaf7f0;
+    color: #198754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+  }
+
+  .amount {
+    font-size: 30px;
+    font-weight: 800;
+    color: #198754;
+  }
+
+  .test-badge {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffe69c;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .payment-btn {
+    min-height: 52px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+
+  .secure-box {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 14px;
+    color: #6c757d;
+    font-size: 13px;
+  }
+</style>
+
+<div class="payment-wrapper">
+  <!-- HEADER -->
+
+  <div class="payment-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <span class="badge bg-light text-success mb-2 px-3 py-2">
+          <i class="bi bi-credit-card me-1"></i>
+
+          Payment
+        </span>
+
+        <h2 class="fw-bold mb-1">Complete Your Payment</h2>
+
+        <p class="mb-0">Securely complete your booking payment.</p>
+      </div>
+
+      <div class="d-none d-md-block">
+        <i class="bi bi-wallet2 fs-1"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT CARD -->
+
+  <div class="card payment-card shadow-sm">
+    <div class="card-body p-4 p-md-5">
+      <!-- TEST MODE -->
+
+      <div class="test-badge mb-4">
+        <i class="bi bi-info-circle me-2"></i>
+
+        TEST MODE — No real money will be charged.
+      </div>
+
+      <!-- BOOKING SUMMARY -->
+
+      <div class="payment-summary mb-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="payment-icon">
+            {% if payment_type == "Tour" %}
+
+            <i class="bi bi-airplane"></i>
+
+            {% else %}
+
+            <i class="bi bi-building"></i>
+
+            {% endif %}
+          </div>
+
+          <div>
+            {% if payment_type == "Tour" %}
+
+            <h4 class="fw-bold mb-1">{{ booking.tour.tour_name }}</h4>
+
+            <p class="text-muted mb-0">
+              <i class="bi bi-geo-alt me-1"></i>
+
+              {{ booking.tour.location }}
+            </p>
+
+            {% else %}
+
+            <h4 class="fw-bold mb-1">{{ booking.hotel.hotel_name }}</h4>
+
+            <p class="text-muted mb-0">
+              <i class="bi bi-geo-alt me-1"></i>
+
+              {{ booking.hotel.location }}
+            </p>
+
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- BOOKING DETAILS -->
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <div class="border rounded-3 p-3">
+            <small class="text-muted d-block"> Booking ID </small>
+
+            <strong> #{{ booking.id }} </strong>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="border rounded-3 p-3">
+            <small class="text-muted d-block"> Payment Order </small>
+
+            <strong> {{ payment.merchant_order_id }} </strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- AMOUNT -->
+
+      <div class="text-center border-top border-bottom py-4 mb-4">
+        <small class="text-muted d-block mb-1"> Total Amount </small>
+
+        <div class="amount">₹{{ payment.amount }}</div>
+      </div>
+
+      <!-- PAYMENT METHODS -->
+
+      <h5 class="fw-bold mb-3">
+        <i class="bi bi-credit-card text-success me-2"></i>
+
+        Payment Method
+      </h5>
+
+      <div class="border rounded-3 p-3 mb-4">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" checked disabled />
+
+          <label class="form-check-label">
+            <strong>Test Payment</strong>
+
+            <small class="text-muted d-block">
+              Simulate a successful or failed payment.
+            </small>
+          </label>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <a
+            href="{% url 'fake_payment_success' payment.id %}"
+            class="btn btn-success payment-btn w-100"
+          >
+            <i class="bi bi-check-circle me-2"></i>
+
+            Simulate Successful Payment
+          </a>
+        </div>
+
+        <div class="col-md-6">
+          <a
+            href="{% url 'fake_payment_failed' payment.id %}"
+            class="btn btn-outline-danger payment-btn w-100"
+          >
+            <i class="bi bi-x-circle me-2"></i>
+
+            Simulate Failed Payment
+          </a>
+        </div>
+      </div>
+
+      <!-- SECURITY -->
+
+      <div class="secure-box mt-4 text-center">
+        <i class="bi bi-shield-check me-1"></i>
+
+        This is a test payment page. No real payment or money transfer will
+        occur.
+      </div>
+
+      <!-- BACK -->
+
+      <div class="text-center mt-4">
+        {% if payment_type == "Tour" %}
+
+        <a
+          href="{% url 'customer_tour_booking_detail' booking.id %}"
+          class="text-decoration-none"
+        >
+          <i class="bi bi-arrow-left me-1"></i>
+
+          Back to Booking
+        </a>
+
+        {% else %}
+
+        <a
+          href="{% url 'customer_hotel_booking_detail' booking.id %}"
+          class="text-decoration-none"
+        >
+          <i class="bi bi-arrow-left me-1"></i>
+
+          Back to Booking
+        </a>
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
