@@ -265,6 +265,20 @@
           Download Invoice
         </a>
 
+        <!-- PAY NOW -->
+
+        {% if booking.payment_status != "Paid" and booking.status != "Cancelled" %}
+
+        <a
+          href="{% url 'customer_hotel_fake_payment' booking.id %}"
+          class="btn btn-primary w-100 mb-2"
+        >
+          <i class="bi bi-credit-card me-2"></i>
+          Pay Now
+        </a>
+
+        {% endif %}
+
         <!-- CANCEL BOOKING -->
 
         {% if booking.status == "Pending" or booking.status == "Confirmed" %}
