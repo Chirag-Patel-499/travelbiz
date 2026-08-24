@@ -23,6 +23,7 @@ from .views import (
     fake_payment_failed,
     fake_payment_success,
     hotel_booking,
+    hotel_booking_invoice,
     hotel_booking_pending,
     hotel_booking_list,
     hotel_booking_view,
@@ -283,8 +284,14 @@ urlpatterns = [
     name="booking_invoice",
     ),
 
+    path(
+    "dashboard/hotel-bookings/invoice/<int:pk>/",
+    hotel_booking_invoice,
+    name="hotel_booking_invoice",
+    ),
 
-        # -----------------------------------
+
+     # -----------------------------------
     # Hotel Bookings
     # -----------------------------------
 

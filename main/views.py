@@ -1350,7 +1350,212 @@ def booking_invoice(request, pk):
 
     doc.build(elements)
 
-    return response    
+    return response
+
+
+@admin_only
+def hotel_booking_invoice(request, pk):
+
+    profile = UserAdminProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    booking = get_object_or_404(
+        HotelBooking,
+        id=pk,
+        profile=profile
+    )
+
+    response = HttpResponse(
+        content_type="application/pdf"
+    )
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="Hotel_Booking_{booking.id}.pdf"'
+    )
+
+    doc = SimpleDocTemplate(
+        response,
+        rightMargin=36,
+        leftMargin=36,
+        topMargin=36,
+        bottomMargin=36,
+    )
+
+    styles = getSampleStyleSheet()
+
+    elements = []
+
+    # =========================
+    # HEADER
+    # =========================
+
+    elements.append(
+        Paragraph(
+            "<b>TravelBiz</b>",
+            styles["Title"]
+        )
+    )
+
+    elements.append(
+        Paragraph(
+            "Hotel Booking Invoice",
+            styles["Heading2"]
+        )
+    )
+
+    elements.append(
+        Spacer(1, 15)
+    )
+
+    # =========================
+    # PAYMENT INFORMATION
+    # =========================
+
+    payment = getattr(
+        booking,
+        "payment",
+        None
+    )
+
+    transaction_id = "-"
+
+    if payment and payment.transaction_id:
+        transaction_id = payment.transaction_id
+
+    # =========================
+    # BOOKING INFORMATION
+    # =========================
+
+    data = [
+        ["Booking ID", f"#{booking.id}"],
+
+        [
+            "Customer",
+            booking.customer_name or "-"
+        ],
+
+        [
+            "Email",
+            booking.customer_email or "-"
+        ],
+
+        [
+            "Phone",
+            booking.customer_phone or "-"
+        ],
+
+        [
+            "Hotel",
+            booking.hotel.hotel_name
+        ],
+
+        [
+            "Location",
+            booking.hotel.location
+        ],
+
+        [
+            "Check In",
+            str(booking.check_in)
+        ],
+
+        [
+            "Check Out",
+            str(booking.check_out)
+        ],
+
+        [
+            "Rooms",
+            str(booking.rooms)
+        ],
+
+        [
+            "Guests",
+            str(booking.guests)
+        ],
+
+        [
+            "Amount",
+            f"₹ {booking.total_amount}"
+        ],
+
+        [
+            "Booking Status",
+            booking.status
+        ],
+
+        [
+            "Payment Status",
+            booking.payment_status
+        ],
+
+        [
+            "Transaction ID",
+            transaction_id
+        ],
+    ]
+
+    table = Table(
+        data,
+        colWidths=[
+            2.2 * inch,
+            3.5 * inch
+        ]
+    )
+
+    table.setStyle(
+        TableStyle([
+            (
+                "BACKGROUND",
+                (0, 0),
+                (-1, 0),
+                colors.green
+            ),
+
+            (
+                "TEXTCOLOR",
+                (0, 0),
+                (-1, 0),
+                colors.white
+            ),
+
+            (
+                "GRID",
+                (0, 0),
+                (-1, -1),
+                1,
+                colors.grey
+            ),
+
+            (
+                "BACKGROUND",
+                (0, 1),
+                (0, -1),
+                colors.whitesmoke
+            ),
+
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, 0),
+                10
+            ),
+
+            (
+                "FONTNAME",
+                (0, 0),
+                (-1, -1),
+                "Helvetica"
+            ),
+        ])
+    )
+
+    elements.append(table)
+
+    doc.build(elements)
+
+    return response        
 
 
 def hotel_detail(request, pk):

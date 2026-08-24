@@ -4,115 +4,153 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h3 class="mb-1">Hotel Bookings</h3>
-
       <p class="text-muted">Manage customer hotel bookings</p>
     </div>
   </div>
 
-  <table class="table table-hover align-middle">
-    <thead>
-      <tr>
-        <th>#</th>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>#</th>
 
-        <th>Customer</th>
+          <th>Customer</th>
 
-        <th>Hotel</th>
+          <th>Hotel</th>
 
-        <th>Check In</th>
+          <th>Check In</th>
 
-        <th>Check Out</th>
+          <th>Check Out</th>
 
-        <th>Rooms</th>
+          <th>Rooms</th>
 
-        <th>Guests</th>
+          <th>Guests</th>
 
-        <th>Total</th>
+          <th>Total</th>
 
-        <th>Status</th>
+          <th>Status</th>
 
-        <th width="170">Action</th>
-      </tr>
-    </thead>
+          <th>Payment</th>
 
-    <tbody>
-      {% for booking in bookings %}
+          <th width="220">Action</th>
+        </tr>
+      </thead>
 
-      <tr>
-        <td>{{ forloop.counter }}</td>
+      <tbody>
+        {% for booking in bookings %}
 
-        <td>
-          <strong>{{ booking.customer_name }}</strong>
+        <tr>
+          <!-- # -->
+          <td>{{ forloop.counter }}</td>
 
-          <br />
+          <!-- Customer -->
+          <td>
+            <strong> {{ booking.customer_name }} </strong>
 
-          <small>{{ booking.customer_email }}</small>
-        </td>
+            <br />
 
-        <td>{{ booking.hotel.hotel_name }}</td>
+            <small> {{ booking.customer_email }} </small>
+          </td>
 
-        <td>{{ booking.check_in }}</td>
+          <!-- Hotel -->
+          <td>{{ booking.hotel.hotel_name }}</td>
 
-        <td>{{ booking.check_out }}</td>
+          <!-- Check In -->
+          <td>{{ booking.check_in }}</td>
 
-        <td>{{ booking.rooms }}</td>
+          <!-- Check Out -->
+          <td>{{ booking.check_out }}</td>
 
-        <td>{{ booking.guests }}</td>
+          <!-- Rooms -->
+          <td>{{ booking.rooms }}</td>
 
-        <td>₹{{ booking.total_amount }}</td>
+          <!-- Guests -->
+          <td>{{ booking.guests }}</td>
 
-        <td>
-          {% if booking.status == "Pending" %}
+          <!-- Total -->
+          <td>₹{{ booking.total_amount }}</td>
 
-          <span class="badge bg-warning"> Pending </span>
+          <!-- Booking Status -->
+          <td>
+            {% if booking.status == "Pending" %}
 
-          {% elif booking.status == "Confirmed" %}
+            <span class="badge bg-warning"> Pending </span>
 
-          <span class="badge bg-success"> Confirmed </span>
+            {% elif booking.status == "Confirmed" %}
 
-          {% else %}
+            <span class="badge bg-success"> Confirmed </span>
 
-          <span class="badge bg-danger"> Cancelled </span>
+            {% else %}
 
-          {% endif %}
-        </td>
+            <span class="badge bg-danger"> Cancelled </span>
 
-        <td>
-          <a
-            href="{% url 'hotel_booking_view' booking.id %}"
-            class="btn btn-sm btn-info"
-          >
-            View
-          </a>
+            {% endif %}
+          </td>
 
-          {% if booking.status == "Pending" %}
+          <!-- Payment Status -->
+          <td>
+            {% if booking.payment_status == "Paid" %}
 
-          <a
-            href="{% url 'hotel_booking_confirm' booking.id %}"
-            class="btn btn-sm btn-success mt-1"
-          >
-            Confirm
-          </a>
+            <span class="badge bg-success"> Paid </span>
 
-          <a
-            href="{% url 'hotel_booking_cancel' booking.id %}"
-            class="btn btn-sm btn-danger mt-1"
-          >
-            Cancel
-          </a>
+            {% else %}
 
-          {% endif %}
-        </td>
-      </tr>
+            <span class="badge bg-secondary"> Pending </span>
 
-      {% empty %}
+            {% endif %}
+          </td>
 
-      <tr>
-        <td colspan="10" class="text-center py-5">No Hotel Bookings Found</td>
-      </tr>
+          <!-- Actions -->
+          <td>
+            <!-- View -->
+            <a
+              href="{% url 'hotel_booking_view' booking.id %}"
+              class="btn btn-sm btn-info"
+            >
+              View
+            </a>
 
-      {% endfor %}
-    </tbody>
-  </table>
+            <!-- Confirm / Cancel -->
+            {% if booking.status == "Pending" %}
+
+            <a
+              href="{% url 'hotel_booking_confirm' booking.id %}"
+              class="btn btn-sm btn-success mt-1"
+            >
+              Confirm
+            </a>
+
+            <a
+              href="{% url 'hotel_booking_cancel' booking.id %}"
+              class="btn btn-sm btn-danger mt-1"
+            >
+              Cancel
+            </a>
+
+            {% endif %}
+
+            <!-- Invoice -->
+            <a
+              href="{% url 'hotel_booking_invoice' booking.id %}"
+              class="btn btn-sm btn-dark mt-1"
+              target="_blank"
+            >
+              <i class="fa fa-file-pdf"></i>
+              Invoice
+            </a>
+          </td>
+        </tr>
+
+        {% empty %}
+
+        <tr>
+          <td colspan="11" class="text-center py-5">No Hotel Bookings Found</td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
 {% endblock %}
