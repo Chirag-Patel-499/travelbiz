@@ -2,100 +2,558 @@
 
 {% block content %}
 
-<div class="container margin_60_40">
+<style>
+  .admin-login-page {
+    min-height: calc(100vh - 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 20px;
+    background:
+      radial-gradient(circle at top left, rgba(82, 146, 62, 0.08), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(82, 146, 62, 0.06), transparent 35%),
+      #f8faf7;
+  }
 
-<div class="row justify-content-center">
+  .admin-login-wrapper {
+    width: 100%;
+    max-width: 1050px;
+  }
 
-<div class="col-lg-5 col-md-8">
+  .admin-login-card {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 18px 55px rgba(20, 35, 25, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+  }
 
-<div class="box_general shadow rounded p-4">
+  /* LEFT SIDE */
 
-<div class="text-center mb-4">
+  .admin-login-info {
+    position: relative;
+    padding: 55px 45px;
+    background: linear-gradient(145deg, #4f963f, #3f7f32);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
 
-<h2>TravelBiz Admin Login</h2>
+  .admin-login-info::before {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    top: -100px;
+    right: -100px;
+  }
 
-<p>
-Login to access your dashboard.
-</p>
+  .admin-login-info::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    bottom: -100px;
+    left: -90px;
+  }
+
+  .admin-brand-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .admin-login-info h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .admin-login-info p {
+    font-size: 15px;
+    line-height: 1.7;
+    opacity: 0.9;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .admin-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .admin-feature-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* RIGHT SIDE */
+
+  .admin-login-form-area {
+    padding: 55px 55px 45px;
+    background: #fff;
+  }
+
+  .login-heading {
+    margin-bottom: 32px;
+  }
+
+  .login-heading h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #17211a;
+    margin-bottom: 8px;
+  }
+
+  .login-heading p {
+    color: #7a847d;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .login-alert {
+    border: 0;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 22px;
+    padding: 12px 15px;
+  }
+
+  .login-field {
+    margin-bottom: 22px;
+  }
+
+  .login-field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #26312a;
+    margin-bottom: 8px;
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7d887f;
+    font-size: 16px;
+    pointer-events: none;
+  }
+
+  .login-input {
+    width: 100%;
+    height: 52px;
+    border: 1px solid #dfe5e0;
+    border-radius: 11px;
+    padding: 0 45px;
+    font-size: 14px;
+    color: #26312a;
+    background: #fff;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .login-input::placeholder {
+    color: #a4aca6;
+  }
+
+  .login-input:focus {
+    border-color: #4f963f;
+    box-shadow: 0 0 0 4px rgba(79, 150, 63, 0.1);
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: #7d887f;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .password-toggle:hover {
+    color: #4f963f;
+  }
+
+  .login-submit {
+    width: 100%;
+    height: 52px;
+    border: 0;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #559e43, #438535);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 7px 18px rgba(67, 133, 53, 0.2);
+  }
+
+  .login-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(67, 133, 53, 0.28);
+  }
+
+  .login-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 30px 0 25px;
+    color: #9ba39d;
+    font-size: 12px;
+  }
+
+  .login-divider::before,
+  .login-divider::after {
+    content: "";
+    height: 1px;
+    background: #e6ebe7;
+    flex: 1;
+  }
+
+  .register-box {
+    text-align: center;
+    padding: 17px;
+    background: #f7faf6;
+    border-radius: 12px;
+    border: 1px solid #e9eee9;
+  }
+
+  .register-box p {
+    margin: 0 0 6px;
+    color: #7a847d;
+    font-size: 13px;
+  }
+
+  .register-box a {
+    color: #4f963f;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .register-box a:hover {
+    text-decoration: underline;
+  }
+
+  /* RESPONSIVE */
+
+  @media (max-width: 900px) {
+    .admin-login-card {
+      grid-template-columns: 1fr;
+    }
+
+    .admin-login-info {
+      padding: 40px 35px;
+    }
+
+    .admin-login-info h2 {
+      font-size: 28px;
+    }
+
+    .admin-login-form-area {
+      padding: 40px 35px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .admin-login-page {
+      padding: 35px 15px;
+    }
+
+    .admin-login-info {
+      padding: 35px 25px;
+    }
+
+    .admin-login-info h2 {
+      font-size: 25px;
+    }
+
+    .admin-login-form-area {
+      padding: 35px 25px;
+    }
+
+    .login-heading h1 {
+      font-size: 25px;
+    }
+  }
+</style>
+
+
+<div class="admin-login-page">
+
+  <div class="admin-login-wrapper">
+
+    <div class="admin-login-card">
+
+      <!-- LEFT INFORMATION -->
+
+      <div class="admin-login-info">
+
+        <div class="admin-brand-icon">
+          <i class="bi bi-speedometer2"></i>
+        </div>
+
+        <h2>Manage Your TravelBiz Business</h2>
+
+        <p>
+          Login to your TravelBiz Admin Panel and manage your
+          bookings, hotels, tours and business activities from one place.
+        </p>
+
+        <div class="admin-feature">
+          <span class="admin-feature-icon">
+            <i class="bi bi-calendar-check"></i>
+          </span>
+          <span>Manage customer bookings</span>
+        </div>
+
+        <div class="admin-feature">
+          <span class="admin-feature-icon">
+            <i class="bi bi-building"></i>
+          </span>
+          <span>Manage hotels and rooms</span>
+        </div>
+
+        <div class="admin-feature">
+          <span class="admin-feature-icon">
+            <i class="bi bi-map"></i>
+          </span>
+          <span>Manage tours and destinations</span>
+        </div>
+
+        <div class="admin-feature">
+          <span class="admin-feature-icon">
+            <i class="bi bi-bar-chart"></i>
+          </span>
+          <span>Track your business activity</span>
+        </div>
+
+      </div>
+
+
+      <!-- LOGIN FORM -->
+
+      <div class="admin-login-form-area">
+
+        <div class="login-heading">
+
+          <h1>Welcome Back</h1>
+
+          <p>
+            Login to access your TravelBiz Admin Dashboard.
+          </p>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+
+        {% if messages %}
+
+          {% for message in messages %}
+
+            <div class="alert alert-danger login-alert">
+
+              <i class="bi bi-exclamation-circle me-2"></i>
+
+              {{ message }}
+
+            </div>
+
+          {% endfor %}
+
+        {% endif %}
+
+
+        <form method="POST">
+
+          {% csrf_token %}
+
+
+          <!-- EMAIL -->
+
+          <div class="login-field">
+
+            <label for="admin-email">
+              Email Address
+            </label>
+
+            <div class="input-wrapper">
+
+              <i class="bi bi-envelope input-icon"></i>
+
+              <input
+                id="admin-email"
+                type="email"
+                name="email"
+                class="login-input"
+                placeholder="Enter your email address"
+                autocomplete="email"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="login-field">
+
+            <label for="admin-password">
+              Password
+            </label>
+
+            <div class="input-wrapper">
+
+              <i class="bi bi-lock input-icon"></i>
+
+              <input
+                id="admin-password"
+                type="password"
+                name="password"
+                class="login-input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword()"
+                aria-label="Show password"
+              >
+                <i id="password-icon" class="bi bi-eye"></i>
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- LOGIN BUTTON -->
+
+          <button
+            type="submit"
+            class="login-submit"
+          >
+
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+
+            Login to Admin Panel
+
+          </button>
+
+
+          <!-- DIVIDER -->
+
+          <div class="login-divider">
+            OR
+          </div>
+
+
+          <!-- REGISTER -->
+
+          <div class="register-box">
+
+            <p>
+              Don't have a TravelBiz Admin account?
+            </p>
+
+            <a href="{% url 'user_admin_register' %}">
+
+              <i class="bi bi-plus-circle me-1"></i>
+
+              Create Admin Panel
+
+            </a>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
 
-{% if messages %}
 
-{% for message in messages %}
+<script>
 
-<div class="alert alert-danger">
+  function togglePassword() {
 
-{{ message }}
+    const passwordInput =
+      document.getElementById("admin-password");
 
-</div>
+    const passwordIcon =
+      document.getElementById("password-icon");
 
-{% endfor %}
+    if (passwordInput.type === "password") {
 
-{% endif %}
+      passwordInput.type = "text";
 
-<form method="POST">
+      passwordIcon.classList.remove("bi-eye");
 
-{% csrf_token %}
+      passwordIcon.classList.add("bi-eye-slash");
 
-<div class="form-group mb-3">
+    } else {
 
-<label>Email Address</label>
+      passwordInput.type = "password";
 
-<input
-type="email"
-name="email"
-class="form-control"
-placeholder="Enter Email"
-required>
+      passwordIcon.classList.remove("bi-eye-slash");
 
-</div>
+      passwordIcon.classList.add("bi-eye");
 
-<div class="form-group mb-4">
+    }
 
-<label>Password</label>
+  }
 
-<input
-type="password"
-name="password"
-class="form-control"
-placeholder="Enter Password"
-required>
-
-</div>
-
-<button
-type="submit"
-class="btn_1 full-width">
-
-Login
-
-</button>
-
-<hr>
-
-<div class="text-center">
-
-Don't have an account?
-
-<br>
-
-<a href="{% url 'user_admin_register' %}">
-
-Create Admin Panel
-
-</a>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+</script>
 
 {% endblock %}
