@@ -59,18 +59,10 @@
       {% else %}
 
       <li>
-        <a
-          href="{% url 'customer_login' %}"
-          style="
-            cursor: pointer;
-            position: relative;
-            z-index: 9999;
-            display: inline-block;
-          "
-        >
-          <i class="icon-user"></i>
-          Customer Login
-        </a>
+          <a href="{% url 'customer_login' %}" class="customer-login-btn">
+              <i class="bi bi-person-circle"></i>
+              <span>Customer Login</span>
+          </a>
       </li>
 
       {% endif %}

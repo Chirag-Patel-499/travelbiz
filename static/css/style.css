@@ -2290,6 +2290,42 @@ ul#top_menu li a.login:before {
   content: '\0042';
 }
 
+.customer-login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 11px 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff !important;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+
+    text-decoration: none !important;
+
+    transition: all 0.25s ease;
+}
+
+.customer-login-btn i {
+    font-size: 17px;
+}
+
+.customer-login-btn:hover {
+    background: #fff;
+    color: #198754 !important;
+    border-color: #fff;
+
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
 /*-------- 1.4 Heros/Above the fold  --------*/
 .hero_single {
   width: 100%;
