@@ -1,51 +1,629 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
+<style>
+  .admin-register-page {
+    min-height: calc(100vh - 100px);
+    padding: 60px 20px 80px;
+    background:
+      radial-gradient(
+        circle at top left,
+        rgba(76, 175, 80, 0.1),
+        transparent 35%
+      ),
+      linear-gradient(135deg, #f7faf8 0%, #ffffff 55%, #f3f8f4 100%);
+  }
 
-<div class="container margin_60_40">
+  .register-wrapper {
+    max-width: 1050px;
+    margin: 0 auto;
+  }
 
-    <div class="row justify-content-center">
+  .register-card {
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 18px 60px rgba(20, 50, 30, 0.1);
+    border: 1px solid #edf1ee;
+  }
 
-        <div class="col-lg-8">
+  /* LEFT SIDE */
 
-            <div class="box_general">
+  .register-info {
+    background: linear-gradient(145deg, #198754, #146c43);
+    color: #ffffff;
+    padding: 48px 40px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
 
-                <h3>Create Your TravelBiz Admin Panel</h3>
+  .register-info::before {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    top: -100px;
+    right: -100px;
+  }
 
-                <p>
-                    Fill the details below to create your own dashboard.
-                </p>
+  .register-info::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    bottom: -80px;
+    left: -70px;
+  }
 
-                <form method="POST" enctype="multipart/form-data">
+  .brand-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
 
-                    {% csrf_token %}
+  .register-info h2 {
+    font-size: 31px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+  }
 
-                    {{ form.as_p }}
+  .register-info > p {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+  }
 
-                    <button type="submit" class="btn_1">
-                        Create Admin Panel
-                    </button>
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
 
-                    <hr>
+  .feature-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-                    <p class="text-center">
+  .feature-item strong {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 14px;
+  }
 
-                        Already have an account?
+  .feature-item span {
+    display: block;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.72);
+  }
 
-                        <a href="{% url 'user_admin_login' %}">
-                            Login Here
-                        </a>
+  /* RIGHT SIDE */
 
-                    </p>
+  .register-form {
+    padding: 45px 45px 40px;
+  }
 
-                </form>
+  .form-heading {
+    margin-bottom: 30px;
+  }
 
+  .form-heading h3 {
+    font-size: 27px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 7px;
+  }
+
+  .form-heading p {
+    color: #7b8490;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 27px 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #edf0f2;
+  }
+
+  .section-title:first-of-type {
+    margin-top: 0;
+  }
+
+  .section-title-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: #eaf7f0;
+    color: #198754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section-title h5 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #343a40;
+  }
+
+  .field-group {
+    margin-bottom: 18px;
+  }
+
+  .field-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 7px;
+  }
+
+  .field-group label .required {
+    color: #dc3545;
+  }
+
+  .field-control {
+    width: 100%;
+    height: 46px;
+    padding: 10px 13px;
+    border: 1px solid #dfe4e8;
+    border-radius: 10px;
+    background: #fff;
+    color: #212529;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  textarea.field-control {
+    height: auto;
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .field-control:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.1);
+  }
+
+  .field-control::placeholder {
+    color: #a2aab3;
+  }
+
+  .file-control {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px dashed #cfd6dc;
+    border-radius: 10px;
+    background: #fafbfc;
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .password-note {
+    font-size: 11px;
+    color: #8a94a0;
+    margin-top: 6px;
+  }
+
+  .error-box {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #b42318;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .field-error {
+    display: block;
+    color: #dc3545;
+    font-size: 11px;
+    margin-top: 5px;
+  }
+
+  .create-btn {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #198754, #157347);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 20px rgba(25, 135, 84, 0.18);
+  }
+
+  .create-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 25px rgba(25, 135, 84, 0.25);
+  }
+
+  .login-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0 18px;
+    color: #9aa2aa;
+    font-size: 12px;
+  }
+
+  .login-divider::before,
+  .login-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e8ecef;
+  }
+
+  .login-text {
+    text-align: center;
+    font-size: 13px;
+    color: #737b84;
+    margin: 0;
+  }
+
+  .login-text a {
+    color: #198754;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .login-text a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 991px) {
+    .register-info {
+      padding: 35px 30px;
+    }
+
+    .register-form {
+      padding: 35px 30px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .admin-register-page {
+      padding: 30px 15px 50px;
+    }
+
+    .register-card {
+      border-radius: 18px;
+    }
+
+    .register-info {
+      padding: 32px 25px;
+    }
+
+    .register-info h2 {
+      font-size: 25px;
+    }
+
+    .register-form {
+      padding: 30px 22px;
+    }
+  }
+</style>
+
+<div class="admin-register-page">
+  <div class="register-wrapper">
+    <div class="register-card">
+      <div class="row g-0">
+        <!-- LEFT INFORMATION PANEL -->
+
+        <div class="col-lg-5">
+          <div class="register-info">
+            <div class="brand-icon">
+              <i class="bi bi-building"></i>
             </div>
 
+            <h2>Build Your TravelBiz Admin Panel</h2>
+
+            <p>
+              Create your own business dashboard and manage your travel
+              operations from one place.
+            </p>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="bi bi-speedometer2"></i>
+              </div>
+
+              <div>
+                <strong>Powerful Dashboard</strong>
+                <span> Manage your business from a single dashboard. </span>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="bi bi-building"></i>
+              </div>
+
+              <div>
+                <strong>Hotels & Tours</strong>
+                <span> Manage hotels, tours and customer bookings. </span>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="bi bi-bar-chart"></i>
+              </div>
+
+              <div>
+                <strong>Business Management</strong>
+                <span> Keep your business information organized. </span>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="bi bi-shield-check"></i>
+              </div>
+
+              <div>
+                <strong>Secure Account</strong>
+                <span>
+                  Your admin account is protected with secure login.
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
-    </div>
+        <!-- RIGHT FORM -->
 
+        <div class="col-lg-7">
+          <div class="register-form">
+            <div class="form-heading">
+              <h3>Create Admin Panel</h3>
+
+              <p>Enter your business details to get started.</p>
+            </div>
+
+            {% if form.non_field_errors %}
+
+            <div class="error-box">{{ form.non_field_errors }}</div>
+
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <!-- BUSINESS INFORMATION -->
+
+              <div class="section-title">
+                <div class="section-title-icon">
+                  <i class="bi bi-building"></i>
+                </div>
+
+                <h5>Business Information</h5>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="field-group">
+                    <label>
+                      Company Name
+                      <span class="required">*</span>
+                    </label>
+
+                    {{ form.company_name }} {% for error in
+                    form.company_name.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="field-group">
+                    <label>
+                      Owner Name
+                      <span class="required">*</span>
+                    </label>
+
+                    {{ form.owner_name }} {% for error in form.owner_name.errors
+                    %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="field-group">
+                    <label>
+                      Email Address
+                      <span class="required">*</span>
+                    </label>
+
+                    {{ form.email }} {% for error in form.email.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="field-group">
+                    <label>
+                      Mobile Number
+                      <span class="required">*</span>
+                    </label>
+
+                    {{ form.mobile }} {% for error in form.mobile.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="field-group">
+                    <label>
+                      Business Type
+                      <span class="required">*</span>
+                    </label>
+
+                    {{ form.business_type }} {% for error in
+                    form.business_type.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- LOCATION -->
+
+              <div class="section-title">
+                <div class="section-title-icon">
+                  <i class="bi bi-geo-alt"></i>
+                </div>
+
+                <h5>Business Location</h5>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="field-group">
+                    <label>Country</label>
+
+                    {{ form.country }} {% for error in form.country.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="field-group">
+                    <label>State</label>
+
+                    {{ form.state }} {% for error in form.state.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="field-group">
+                    <label>City</label>
+
+                    {{ form.city }} {% for error in form.city.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- BRANDING -->
+
+              <div class="section-title">
+                <div class="section-title-icon">
+                  <i class="bi bi-image"></i>
+                </div>
+
+                <h5>Business Branding</h5>
+              </div>
+
+              <div class="field-group">
+                <label> Business Logo </label>
+
+                {{ form.logo }} {% for error in form.logo.errors %}
+                <span class="field-error">{{ error }}</span>
+                {% endfor %}
+              </div>
+
+              <!-- SECURITY -->
+
+              <div class="section-title">
+                <div class="section-title-icon">
+                  <i class="bi bi-shield-lock"></i>
+                </div>
+
+                <h5>Account Security</h5>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="field-group">
+                    <label>
+                      Password
+                      <span class="required">*</span>
+                    </label>
+
+                    {{ form.password }} {% for error in form.password.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="field-group">
+                    <label>
+                      Confirm Password
+                      <span class="required">*</span>
+                    </label>
+
+                    {{ form.confirm_password }} {% for error in
+                    form.confirm_password.errors %}
+                    <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="create-btn">
+                <i class="bi bi-check-circle me-2"></i>
+
+                Create Admin Panel
+              </button>
+
+              <div class="login-divider">Already registered?</div>
+
+              <p class="login-text">
+                Already have an account?
+
+                <a href="{% url 'user_admin_login' %}"> Login Here </a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
