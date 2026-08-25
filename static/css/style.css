@@ -2296,12 +2296,12 @@ ul#top_menu li a.login:before {
     justify-content: center;
     gap: 8px;
 
-    padding: 11px 20px;
+    padding: 10px 18px;
 
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid #198754;
     border-radius: 8px;
 
-    background: rgba(255, 255, 255, 0.08);
+    background: #198754;
     color: #fff !important;
 
     font-size: 14px;
@@ -2318,9 +2318,9 @@ ul#top_menu li a.login:before {
 }
 
 .customer-login-btn:hover {
-    background: #fff;
-    color: #198754 !important;
-    border-color: #fff;
+    background: #157347;
+    border-color: #157347;
+    color: #fff !important;
 
     transform: translateY(-1px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
