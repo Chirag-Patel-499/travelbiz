@@ -172,6 +172,35 @@
     margin-bottom: 22px;
   }
 
+
+  .customer-alert {
+  border: 0;
+  border-radius: 11px;
+  font-size: 14px;
+  padding: 13px 15px;
+  margin-bottom: 18px;
+}
+
+.customer-alert.alert-success {
+  color: #176b2c;
+  background: #eaf7ee;
+}
+
+.customer-alert.alert-danger {
+  color: #a52834;
+  background: #fdecee;
+}
+
+.customer-alert.alert-warning {
+  color: #856404;
+  background: #fff8df;
+}
+
+.customer-alert.alert-info {
+  color: #145b72;
+  background: #e8f7fb;
+}
+
   /* =========================
      INPUTS
   ========================= */
@@ -466,9 +495,28 @@
 
           {% for message in messages %}
 
-            <div class="alert alert-danger customer-alert">
+            <div
+              class="alert customer-alert
+              {% if 'success' in message.tags %}
+                alert-success
+              {% elif 'error' in message.tags %}
+                alert-danger
+              {% elif 'warning' in message.tags %}
+                alert-warning
+              {% else %}
+                alert-info
+              {% endif %}"
+            >
 
-              <i class="bi bi-exclamation-circle me-2"></i>
+              {% if 'success' in message.tags %}
+                <i class="bi bi-check-circle me-2"></i>
+              {% elif 'error' in message.tags %}
+                <i class="bi bi-exclamation-circle me-2"></i>
+              {% elif 'warning' in message.tags %}
+                <i class="bi bi-exclamation-triangle me-2"></i>
+              {% else %}
+                <i class="bi bi-info-circle me-2"></i>
+              {% endif %}
 
               {{ message }}
 
