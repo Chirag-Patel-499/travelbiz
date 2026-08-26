@@ -1,57 +1,637 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %}
+{% load static %}
 
-<section class="margin_80">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-5">
-        <div class="card shadow border-0 rounded-4">
-          <div class="card-body p-5">
-            <div class="text-center mb-4">
-              <h2 class="fw-bold">Welcome Back</h2>
+{% block content %}
 
-              <p class="text-muted">Login to your TravelBiz account</p>
-            </div>
+<style>
+  .customer-login-page {
+    min-height: calc(100vh - 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 20px;
+    background:
+      radial-gradient(
+        circle at top left,
+        rgba(82, 150, 63, 0.08),
+        transparent 35%
+      ),
+      radial-gradient(
+        circle at bottom right,
+        rgba(82, 150, 63, 0.06),
+        transparent 35%
+      ),
+      #f8faf7;
+  }
 
-            <form method="POST">
-              {% csrf_token %}
+  .customer-login-wrapper {
+    width: 100%;
+    max-width: 1050px;
+  }
 
-              <div class="mb-3">
-                <label>Email Address</label>
+  .customer-login-card {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 18px 55px rgba(20, 35, 25, 0.12);
+  }
 
-                <input
-                  type="email"
-                  name="email"
-                  class="form-control"
-                  required
-                />
-              </div>
+  /* =========================
+     LEFT PANEL
+  ========================= */
 
-              <div class="mb-4">
-                <label>Password</label>
+  .customer-login-info {
+    position: relative;
+    padding: 55px 45px;
+    color: #ffffff;
+    background: linear-gradient(
+      145deg,
+      #559e43,
+      #3f8133
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
 
-                <input
-                  type="password"
-                  name="password"
-                  class="form-control"
-                  required
-                />
-              </div>
+  .customer-login-info::before {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    top: -120px;
+    right: -100px;
+  }
 
-              <button class="btn btn-success btn-lg w-100">Login</button>
-            </form>
+  .customer-login-info::after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    bottom: -110px;
+    left: -100px;
+  }
 
-            <hr />
+  .customer-icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 29px;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 2;
+  }
 
-            <div class="text-center">
-              Don't have an account?
+  .customer-login-info h2 {
+    font-size: 34px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+  }
 
-              <a href="{% url 'customer_register' %}"> Register Here </a>
-            </div>
-          </div>
+  .customer-login-info p {
+    font-size: 15px;
+    line-height: 1.7;
+    opacity: 0.9;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .customer-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .customer-feature-icon {
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* =========================
+     RIGHT FORM
+  ========================= */
+
+  .customer-login-form-area {
+    padding: 55px 55px 45px;
+    background: #ffffff;
+  }
+
+  .customer-login-heading {
+    margin-bottom: 32px;
+  }
+
+  .customer-login-heading h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #17211a;
+    margin-bottom: 8px;
+  }
+
+  .customer-login-heading p {
+    color: #7a847d;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  /* =========================
+     MESSAGES
+  ========================= */
+
+  .customer-alert {
+    border: 0;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 12px 15px;
+    margin-bottom: 22px;
+  }
+
+  /* =========================
+     INPUTS
+  ========================= */
+
+  .customer-login-field {
+    margin-bottom: 22px;
+  }
+
+  .customer-login-field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #26312a;
+    margin-bottom: 8px;
+  }
+
+  .customer-input-wrapper {
+    position: relative;
+  }
+
+  .customer-input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7d887f;
+    font-size: 16px;
+    pointer-events: none;
+  }
+
+  .customer-login-input {
+    width: 100%;
+    height: 52px;
+    border: 1px solid #dfe5e0;
+    border-radius: 11px;
+    padding: 0 45px;
+    font-size: 14px;
+    color: #26312a;
+    background: #ffffff;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .customer-login-input::placeholder {
+    color: #a4aca6;
+  }
+
+  .customer-login-input:focus {
+    border-color: #4f963f;
+    box-shadow: 0 0 0 4px rgba(79, 150, 63, 0.1);
+  }
+
+  /* =========================
+     PASSWORD TOGGLE
+  ========================= */
+
+  .customer-password-toggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: #7d887f;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .customer-password-toggle:hover {
+    color: #4f963f;
+  }
+
+  /* =========================
+     LOGIN BUTTON
+  ========================= */
+
+  .customer-login-submit {
+    width: 100%;
+    height: 52px;
+    border: 0;
+    border-radius: 11px;
+    background: linear-gradient(
+      135deg,
+      #559e43,
+      #438535
+    );
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 7px 18px rgba(67, 133, 53, 0.2);
+  }
+
+  .customer-login-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(67, 133, 53, 0.28);
+  }
+
+  /* =========================
+     DIVIDER
+  ========================= */
+
+  .customer-login-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 30px 0 25px;
+    color: #9ba39d;
+    font-size: 12px;
+  }
+
+  .customer-login-divider::before,
+  .customer-login-divider::after {
+    content: "";
+    height: 1px;
+    background: #e6ebe7;
+    flex: 1;
+  }
+
+  /* =========================
+     REGISTER BOX
+  ========================= */
+
+  .customer-register-box {
+    text-align: center;
+    padding: 17px;
+    background: #f7faf6;
+    border-radius: 12px;
+    border: 1px solid #e9eee9;
+  }
+
+  .customer-register-box p {
+    margin: 0 0 6px;
+    color: #7a847d;
+    font-size: 13px;
+  }
+
+  .customer-register-box a {
+    color: #4f963f;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .customer-register-box a:hover {
+    text-decoration: underline;
+  }
+
+  /* =========================
+     RESPONSIVE
+  ========================= */
+
+  @media (max-width: 900px) {
+
+    .customer-login-card {
+      grid-template-columns: 1fr;
+    }
+
+    .customer-login-info {
+      padding: 40px 35px;
+    }
+
+    .customer-login-info h2 {
+      font-size: 28px;
+    }
+
+    .customer-login-form-area {
+      padding: 40px 35px;
+    }
+  }
+
+  @media (max-width: 576px) {
+
+    .customer-login-page {
+      padding: 35px 15px;
+    }
+
+    .customer-login-info {
+      padding: 35px 25px;
+    }
+
+    .customer-login-info h2 {
+      font-size: 25px;
+    }
+
+    .customer-login-form-area {
+      padding: 35px 25px;
+    }
+
+    .customer-login-heading h1 {
+      font-size: 25px;
+    }
+  }
+</style>
+
+
+<div class="customer-login-page">
+
+  <div class="customer-login-wrapper">
+
+    <div class="customer-login-card">
+
+      <!-- LEFT INFORMATION PANEL -->
+
+      <div class="customer-login-info">
+
+        <div class="customer-icon-box">
+          <i class="bi bi-airplane"></i>
         </div>
+
+        <h2>
+          Your Next Adventure Starts Here
+        </h2>
+
+        <p>
+          Login to your TravelBiz account and manage
+          your bookings, trips and travel plans from one place.
+        </p>
+
+        <div class="customer-feature">
+
+          <span class="customer-feature-icon">
+            <i class="bi bi-calendar-check"></i>
+          </span>
+
+          <span>
+            Manage your bookings
+          </span>
+
+        </div>
+
+        <div class="customer-feature">
+
+          <span class="customer-feature-icon">
+            <i class="bi bi-building"></i>
+          </span>
+
+          <span>
+            Book hotels with ease
+          </span>
+
+        </div>
+
+        <div class="customer-feature">
+
+          <span class="customer-feature-icon">
+            <i class="bi bi-map"></i>
+          </span>
+
+          <span>
+            Explore tours and destinations
+          </span>
+
+        </div>
+
+        <div class="customer-feature">
+
+          <span class="customer-feature-icon">
+            <i class="bi bi-receipt"></i>
+          </span>
+
+          <span>
+            Access your invoices
+          </span>
+
+        </div>
+
       </div>
+
+
+      <!-- LOGIN FORM -->
+
+      <div class="customer-login-form-area">
+
+        <div class="customer-login-heading">
+
+          <h1>
+            Welcome Back
+          </h1>
+
+          <p>
+            Login to your TravelBiz customer account.
+          </p>
+
+        </div>
+
+
+        <!-- DJANGO MESSAGES -->
+
+        {% if messages %}
+
+          {% for message in messages %}
+
+            <div class="alert alert-danger customer-alert">
+
+              <i class="bi bi-exclamation-circle me-2"></i>
+
+              {{ message }}
+
+            </div>
+
+          {% endfor %}
+
+        {% endif %}
+
+
+        <form method="POST">
+
+          {% csrf_token %}
+
+
+          <!-- EMAIL -->
+
+          <div class="customer-login-field">
+
+            <label for="customer-email">
+              Email Address
+            </label>
+
+            <div class="customer-input-wrapper">
+
+              <i class="bi bi-envelope customer-input-icon"></i>
+
+              <input
+                id="customer-email"
+                type="email"
+                name="email"
+                class="customer-login-input"
+                placeholder="Enter your email address"
+                autocomplete="email"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="customer-login-field">
+
+            <label for="customer-password">
+              Password
+            </label>
+
+            <div class="customer-input-wrapper">
+
+              <i class="bi bi-lock customer-input-icon"></i>
+
+              <input
+                id="customer-password"
+                type="password"
+                name="password"
+                class="customer-login-input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="customer-password-toggle"
+                onclick="toggleCustomerPassword()"
+                aria-label="Show password"
+              >
+
+                <i
+                  id="customer-password-icon"
+                  class="bi bi-eye"
+                ></i>
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- LOGIN BUTTON -->
+
+          <button
+            type="submit"
+            class="customer-login-submit"
+          >
+
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+
+            Login to TravelBiz
+
+          </button>
+
+
+          <!-- DIVIDER -->
+
+          <div class="customer-login-divider">
+            OR
+          </div>
+
+
+          <!-- REGISTER -->
+
+          <div class="customer-register-box">
+
+            <p>
+              Don't have a TravelBiz account?
+            </p>
+
+            <a href="{% url 'customer_register' %}">
+
+              <i class="bi bi-person-plus me-1"></i>
+
+              Create Customer Account
+
+            </a>
+
+          </div>
+
+        </form>
+
+      </div>
+
     </div>
+
   </div>
-</section>
+
+</div>
+
+
+<script>
+
+  function toggleCustomerPassword() {
+
+    const passwordInput =
+      document.getElementById("customer-password");
+
+    const passwordIcon =
+      document.getElementById("customer-password-icon");
+
+    if (passwordInput.type === "password") {
+
+      passwordInput.type = "text";
+
+      passwordIcon.classList.remove("bi-eye");
+
+      passwordIcon.classList.add("bi-eye-slash");
+
+    } else {
+
+      passwordInput.type = "password";
+
+      passwordIcon.classList.remove("bi-eye-slash");
+
+      passwordIcon.classList.add("bi-eye");
+
+    }
+
+  }
+
+</script>
 
 {% endblock %}
