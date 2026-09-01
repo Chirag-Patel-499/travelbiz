@@ -962,100 +962,78 @@
             if (!dailymotionUrl) return;
 
             // ------------------------------------------------
-            // Extract Dailymotion Video ID
-            // Supports:
-            // https://www.dailymotion.com/video/xXXXXXX
-            // https://dai.ly/xXXXXXX
+            // Extract Dailymotion Video ID (કોઈપણ લિંક સપોર્ટ કરશે)
             // ------------------------------------------------
-
             function getVideoId(url) {
-
                 try {
+                    // જો એડમિનમાં ડાયરેક્ટ આઈડી જ લખી દીધો હોય (જેમ કે xb2npze)
+                    if (url.indexOf('/') === -1 && url.length > 0) {
+                        return url;
+                    }
 
                     // dai.ly/xXXXXXX
                     const shortMatch = url.match(/dai\.ly\/([a-zA-Z0-9]+)/);
-
-                    if (shortMatch) {
+                    if (shortMatch && shortMatch[1]) {
                         return shortMatch[1];
                     }
 
-                    // dailymotion.com/video/xXXXXXX
-                    const videoMatch = url.match(
-                        /dailymotion\.com\/video\/([a-zA-Z0-9]+)/
-                    );
-
-                    if (videoMatch) {
+                    // ://dailymotion.com
+                    const videoMatch = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+                    if (videoMatch && videoMatch[1]) {
                         return videoMatch[1];
                     }
 
-                    // geo.dailymotion.com/player...?...video=xXXXXXX
+                    // ://dailymotion.com (આ તમારી લિંક માટે છે)
+                    const embedMatch = url.match(/dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/);
+                    if (embedMatch && embedMatch[1]) {
+                        return embedMatch[1];
+                    }
+
+                    // ://dailymotion.com
                     const parsed = new URL(url);
                     const video = parsed.searchParams.get("video");
-
                     if (video) {
                         return video;
                     }
 
                 } catch (error) {
-
-                    console.error(
-                        "Dailymotion URL error:",
-                        error
-                    );
-
+                    console.error("Dailymotion URL error:", error);
                 }
-
                 return null;
             }
 
             const videoId = getVideoId(dailymotionUrl);
 
             if (!videoId) {
-
-                console.error(
-                    "Invalid Dailymotion video URL:",
-                    dailymotionUrl
-                );
-
+                console.error("Invalid Dailymotion video URL:", dailymotionUrl);
                 return;
             }
 
             // ------------------------------------------------
             // STANDARD DAILYMOTION PLAYER (WITHOUT PLAYER ID)
             // ------------------------------------------------
-
             const iframe = document.createElement("iframe");
-
             iframe.className = "hero-video-frame";
 
-            // પ્લેયર આઈડી વગર ચાલતી નવી લીંક (બેકગ્રાઉન્ડ લુક માટે પેરામીટર્સ સાથે)
+            // પ્લેયર આઈડી વગર ચાલતી પરફેક્ટ લીંક
             iframe.src =
-                "https://dailymotion.com" +
+                "https://www.dailymotion.com/embed/video/" +
                 encodeURIComponent(videoId) +
                 "?autoplay=1" +
                 "&mute=1" +
                 "&loop=1" +
-                "&playlist=" + encodeURIComponent(videoId) + // લૂપ બરાબર કામ કરે તે માટે પ્લેલિસ્ટ જરૂરી છે
+                "&playlist=" + encodeURIComponent(videoId) +
                 "&ui-start-screen-info=0" +
                 "&ui-logo=0" +
                 "&controls=0";
 
             iframe.frameBorder = "0";
-
             iframe.allowFullscreen = true;
 
-            iframe.setAttribute(
-                "allow",
-                "autoplay; fullscreen"
-            );
-
-            iframe.setAttribute(
-                "referrerpolicy",
-                "strict-origin-when-cross-origin"
-            );
+            iframe.setAttribute("allow", "autoplay; fullscreen");
+            iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
 
             videoContainer.appendChild(iframe);
-
         });
     </script>
 
