@@ -338,143 +338,6 @@
         </div>
         <!-- /bg_gray -->
 
-
-        <div class="container margin_60_40">
-            <div class="main_title">
-                <span><em></em></span>
-                <h2>Popular Destinations</h2>
-                <p>Handpicked places loved by travellers.</p>
-                <a href="grid-destinations.html">View All</a>
-            </div>
-
-            <div class="owl-carousel owl-theme carousel_4">
-                {% for d in destinations %}
-                <div class="item">
-                    <div class="strip">
-                        <figure>
-                            {% if d.ribbon_text %}
-                            <span class="ribbon off">{{ d.ribbon_text }}</span>
-                            {% endif %}
-
-                            <img src="{{ d.image.url }}" alt="{{ d.title }}">
-
-                            <a href="{{ d.url }}" class="strip_info">
-                                <small>{{ d.country_category }}</small>
-                                <div class="item_title">
-                                    <h3>{{ d.title }}</h3>
-                                    <small>{{ d.price_text }}</small>
-                                </div>
-                            </a>
-                        </figure>
-
-                        <ul>
-                            <li><span class="loc_open">{{ d.open_text }}</span></li>
-                            <li>
-                                <div class="score">
-                                    <span>{{ d.reviews_text }}</span>
-                                    <strong>{{ d.rating }}</strong>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <!-- /carousel -->
-
-            <div class="banner lazy" data-bg="url({{ middle_banner.background_image.url }})">
-
-                <div class="wrapper d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.2)">
-                    <div>
-                        {% if middle_banner.small_title %}
-                        <small>{{ middle_banner.small_title }}</small>
-                        {% endif %}
-
-                        <h3>{{ middle_banner.main_title }}</h3>
-
-                        {% if middle_banner.subtitle %}
-                        <p>{{ middle_banner.subtitle }}</p>
-                        {% endif %}
-
-                        <a href="{{ middle_banner.button_url }}" class="btn_1">
-                            {{ middle_banner.button_text }}
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- /banner -->
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="main_title version_2">
-                        <span><em></em></span>
-                        <h2>Top Deals & Packages</h2>
-                        <p>Special offers for families, couples and solo travellers.</p>
-                        <a href="#0">View All</a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="list_home">
-                        <ul>
-                            {% for d in deals|slice:":3" %}
-                            <li>
-                                <a href="{{ d.url }}">
-                                    <figure>
-                                        <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
-                                    </figure>
-                                    <div class="score"><strong>{{ d.rating }}</strong></div>
-                                    <em>{{ d.category }}</em>
-                                    <h3>{{ d.title }}</h3>
-                                    <small>{{ d.subtitle }}</small>
-                                    <ul>
-                                        {% if d.discount %}
-                                        <li><span class="ribbon off">{{ d.discount }}</span></li>
-                                        {% endif %}
-                                        <li>{{ d.person_type }}</li>
-                                    </ul>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="list_home">
-                        <ul>
-                            {% for d in deals|slice:"3:6" %}
-                            <li>
-                                <a href="{{ d.url }}">
-                                    <figure>
-                                        <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
-                                    </figure>
-                                    <div class="score"><strong>{{ d.rating }}</strong></div>
-                                    <em>{{ d.category }}</em>
-                                    <h3>{{ d.title }}</h3>
-                                    <small>{{ d.subtitle }}</small>
-                                    <ul>
-                                        {% if d.discount %}
-                                        <li><span class="ribbon off">{{ d.discount }}</span></li>
-                                        {% endif %}
-                                        <li>{{ d.person_type }}</li>
-                                    </ul>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /row -->
-            <p class="text-center d-block d-md-block d-lg-none"><a href="grid-destinations.html" class="btn_1">View
-                    All</a></p>
-            <!-- /button visibile on tablet/mobile only -->
-        </div>
-        <!-- /container -->
-
         <div class="container margin_60_40">
 
             <div class="d-flex justify-content-between align-items-center mb-5">
@@ -676,6 +539,145 @@
             </div>
 
         </div>
+
+
+        <div class="container margin_60_40">
+            <div class="main_title">
+                <span><em></em></span>
+                <h2>Popular Destinations</h2>
+                <p>Handpicked places loved by travellers.</p>
+                <a href="grid-destinations.html">View All</a>
+            </div>
+
+            <div class="owl-carousel owl-theme carousel_4">
+                {% for d in destinations %}
+                <div class="item">
+                    <div class="strip">
+                        <figure>
+                            {% if d.ribbon_text %}
+                            <span class="ribbon off">{{ d.ribbon_text }}</span>
+                            {% endif %}
+
+                            <img src="{{ d.image.url }}" alt="{{ d.title }}">
+
+                            <a href="{{ d.url }}" class="strip_info">
+                                <small>{{ d.country_category }}</small>
+                                <div class="item_title">
+                                    <h3>{{ d.title }}</h3>
+                                    <small>{{ d.price_text }}</small>
+                                </div>
+                            </a>
+                        </figure>
+
+                        <ul>
+                            <li><span class="loc_open">{{ d.open_text }}</span></li>
+                            <li>
+                                <div class="score">
+                                    <span>{{ d.reviews_text }}</span>
+                                    <strong>{{ d.rating }}</strong>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- /carousel -->
+
+            <div class="banner lazy" data-bg="url({{ middle_banner.background_image.url }})">
+
+                <div class="wrapper d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.2)">
+                    <div>
+                        {% if middle_banner.small_title %}
+                        <small>{{ middle_banner.small_title }}</small>
+                        {% endif %}
+
+                        <h3>{{ middle_banner.main_title }}</h3>
+
+                        {% if middle_banner.subtitle %}
+                        <p>{{ middle_banner.subtitle }}</p>
+                        {% endif %}
+
+                        <a href="{{ middle_banner.button_url }}" class="btn_1">
+                            {{ middle_banner.button_text }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /banner -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="main_title version_2">
+                        <span><em></em></span>
+                        <h2>Top Deals & Packages</h2>
+                        <p>Special offers for families, couples and solo travellers.</p>
+                        <a href="#0">View All</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="list_home">
+                        <ul>
+                            {% for d in deals|slice:":3" %}
+                            <li>
+                                <a href="{{ d.url }}">
+                                    <figure>
+                                        <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
+                                    </figure>
+                                    <div class="score"><strong>{{ d.rating }}</strong></div>
+                                    <em>{{ d.category }}</em>
+                                    <h3>{{ d.title }}</h3>
+                                    <small>{{ d.subtitle }}</small>
+                                    <ul>
+                                        {% if d.discount %}
+                                        <li><span class="ribbon off">{{ d.discount }}</span></li>
+                                        {% endif %}
+                                        <li>{{ d.person_type }}</li>
+                                    </ul>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="list_home">
+                        <ul>
+                            {% for d in deals|slice:"3:6" %}
+                            <li>
+                                <a href="{{ d.url }}">
+                                    <figure>
+                                        <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
+                                    </figure>
+                                    <div class="score"><strong>{{ d.rating }}</strong></div>
+                                    <em>{{ d.category }}</em>
+                                    <h3>{{ d.title }}</h3>
+                                    <small>{{ d.subtitle }}</small>
+                                    <ul>
+                                        {% if d.discount %}
+                                        <li><span class="ribbon off">{{ d.discount }}</span></li>
+                                        {% endif %}
+                                        <li>{{ d.person_type }}</li>
+                                    </ul>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /row -->
+            <p class="text-center d-block d-md-block d-lg-none"><a href="grid-destinations.html" class="btn_1">View
+                    All</a></p>
+            <!-- /button visibile on tablet/mobile only -->
+        </div>
+        <!-- /container -->
+
+
 
         <div class="container margin_60_40">
             <div class="main_title">
