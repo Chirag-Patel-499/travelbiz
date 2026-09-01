@@ -321,7 +321,7 @@
 
                     {% for c in categories %}
                     <div class="item">
-                        <a href="{{ c.url }}">
+                        <a href="{% url 'category_tours' c.id %}">
                             <span>{{ c.count }}</span>
                             <i class="{{ c.icon_class }}"></i>
                             <h3>{{ c.title }}</h3>
