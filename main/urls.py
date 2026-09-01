@@ -1,6 +1,7 @@
 from django import views
 from django.urls import path
 from .views import (
+    category_tours ,
     customer_hotel_booking_cancel,
     customer_hotel_booking_detail,
     customer_hotel_booking_invoice,
@@ -109,7 +110,7 @@ urlpatterns = [
 
     path("search/", search_results, name="search_results"),
 
-    path('category/<int:category_id>/', views.category_tours, name='category_tours'),
+    path('category/<int:category_id>/', category_tours, name='category_tours'),
 
     # User Admin Login
     path(
