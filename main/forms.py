@@ -156,6 +156,10 @@ class TourForm(forms.ModelForm):
 
         widgets = {
 
+            "category": forms.Select(attrs={
+                "class": "form-select",
+            }),
+
             "tour_name": forms.TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "Enter Tour Name"

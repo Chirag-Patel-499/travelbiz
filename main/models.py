@@ -511,6 +511,14 @@ class Tour(models.Model):
         on_delete=models.CASCADE
     )
 
+    category = models.ForeignKey(
+        Category, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name="tours"
+    )
+
     tour_name = models.CharField(max_length=200)
 
     location = models.CharField(max_length=200)

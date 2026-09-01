@@ -109,6 +109,8 @@ urlpatterns = [
 
     path("search/", search_results, name="search_results"),
 
+    path('category/<int:category_id>/', views.category_tours, name='category_tours'),
+
     # User Admin Login
     path(
         "create-admin/",
