@@ -12,17 +12,17 @@ class HeroSection(models.Model):
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255)
 
-    # Dailymotion video URL
     background_video_url = models.URLField(
         blank=True,
         null=True,
-        help_text="Paste Dailymotion video URL (e.g. https://www.dailymotion.com/video/xxxx)"
+        help_text="Paste Dailymotion video URL"
     )
 
     search_placeholder_1 = models.CharField(
         max_length=255,
         default="Where do you want to go?"
     )
+
     search_placeholder_2 = models.CharField(
         max_length=255,
         default="Dates / flexible"

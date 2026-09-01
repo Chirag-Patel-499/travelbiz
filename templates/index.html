@@ -5,6 +5,67 @@
 <html lang="en">
 
 <head>
+    <style>
+
+        .hero-video {
+            position: absolute;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            z-index: 0;
+
+            background: #000;
+        }
+
+
+        .hero-video-frame {
+            position: absolute;
+
+            top: 50%;
+            left: 50%;
+
+            width: 100vw;
+            height: 56.25vw;
+
+            min-height: 100%;
+            min-width: 177.78vh;
+
+            transform: translate(-50%, -50%);
+
+            border: 0;
+
+            pointer-events: none;
+        }
+
+
+        .hero-video-wrap {
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+
+        .hero-video-wrap .opacity-mask {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        @media (max-width: 767px) {
+
+            .hero-video-frame {
+                width: 177.78vh;
+                height: 100vh;
+            }
+
+        }
+
+    </style>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -212,14 +273,7 @@
         <!-- ================= HERO ================= -->
         <div class="hero_single version_2 hero-video-wrap">
 
-            {% if hero.background_video_url %}
-            <iframe class="hero-video"
-                src="{{ hero.background_video_url }}?autoplay=1&mute=1&controls=0&ui-start-screen-info=false&sharing-enable=false&queue-enable=false"
-                frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
-            </iframe>
-            {% else %}
-            <div class="hero-fallback" style="background:#ededed;"></div>
-            {% endif %}
+            <div id="hero-dailymotion" class="hero-video"></div>
 
 
             <div class="opacity-mask" data-opacity-mask="rgba(0,0,0,0.55)">
@@ -895,18 +949,113 @@
         });
     </script>
 
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const iframe = document.querySelector(".hero-video");
-            if (!iframe) return;
 
-            const baseSrc = iframe.src.split("?")[0];
-            const params = "?autoplay=1&mute=1&controls=0&queue-enable=false";
+            const videoContainer = document.getElementById("hero-dailymotion");
 
-            // restart video every 80 sec (1.22 min video)
-            setInterval(() => {
-                iframe.src = baseSrc + params;
-            }, 80000); // milliseconds
+            if (!videoContainer) return;
+
+            const dailymotionUrl = "{{ hero.background_video_url|escapejs }}";
+
+            if (!dailymotionUrl) return;
+
+            // ------------------------------------------------
+            // Extract Dailymotion Video ID
+            // Supports:
+            // https://www.dailymotion.com/video/xXXXXXX
+            // https://dai.ly/xXXXXXX
+            // ------------------------------------------------
+
+            function getVideoId(url) {
+
+                try {
+
+                    // dai.ly/xXXXXXX
+                    const shortMatch = url.match(/dai\.ly\/([a-zA-Z0-9]+)/);
+
+                    if (shortMatch) {
+                        return shortMatch[1];
+                    }
+
+                    // dailymotion.com/video/xXXXXXX
+                    const videoMatch = url.match(
+                        /dailymotion\.com\/video\/([a-zA-Z0-9]+)/
+                    );
+
+                    if (videoMatch) {
+                        return videoMatch[1];
+                    }
+
+                    // geo.dailymotion.com/player...?...video=xXXXXXX
+                    const parsed = new URL(url);
+                    const video = parsed.searchParams.get("video");
+
+                    if (video) {
+                        return video;
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Dailymotion URL error:",
+                        error
+                    );
+
+                }
+
+                return null;
+            }
+
+            const videoId = getVideoId(dailymotionUrl);
+
+            if (!videoId) {
+
+                console.error(
+                    "Invalid Dailymotion video URL:",
+                    dailymotionUrl
+                );
+
+                return;
+            }
+
+            // ------------------------------------------------
+            // STANDARD DAILYMOTION PLAYER (WITHOUT PLAYER ID)
+            // ------------------------------------------------
+
+            const iframe = document.createElement("iframe");
+
+            iframe.className = "hero-video-frame";
+
+            // પ્લેયર આઈડી વગર ચાલતી નવી લીંક (બેકગ્રાઉન્ડ લુક માટે પેરામીટર્સ સાથે)
+            iframe.src =
+                "https://dailymotion.com" +
+                encodeURIComponent(videoId) +
+                "?autoplay=1" +
+                "&mute=1" +
+                "&loop=1" +
+                "&playlist=" + encodeURIComponent(videoId) + // લૂપ બરાબર કામ કરે તે માટે પ્લેલિસ્ટ જરૂરી છે
+                "&ui-start-screen-info=0" +
+                "&ui-logo=0" +
+                "&controls=0";
+
+            iframe.frameBorder = "0";
+
+            iframe.allowFullscreen = true;
+
+            iframe.setAttribute(
+                "allow",
+                "autoplay; fullscreen"
+            );
+
+            iframe.setAttribute(
+                "referrerpolicy",
+                "strict-origin-when-cross-origin"
+            );
+
+            videoContainer.appendChild(iframe);
+
         });
     </script>
 
