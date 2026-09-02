@@ -258,17 +258,17 @@
     }
 
     .filter-apply-btn {
-    width: 100%;
-    border: 0;
-    background: #559b48;
-    color: #fff;
-    padding: 12px 15px;
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
+        width: 100%;
+        border: 0;
+        background: #559b48;
+        color: #fff;
+        padding: 12px 15px;
+        border-radius: 3px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
 
     .filter-apply-btn:hover {
         background: #438337;
@@ -285,6 +285,60 @@
 
     .filter-clear-btn:hover {
         color: #559b48;
+    }
+
+    .results-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .sort-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .sort-form label {
+        color: #777;
+        font-size: 13px;
+    }
+
+    .sort-form select {
+        border: 1px solid #ddd;
+        background: #fff;
+        padding: 8px 30px 8px 10px;
+        border-radius: 3px;
+        font-size: 13px;
+        color: #444;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .sort-form select:focus {
+        border-color: #559b48;
+    }
+
+    @media (max-width: 767px) {
+
+        .results-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .results-right {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .sort-form {
+            width: 100%;
+        }
+
+        .sort-form select {
+            flex: 1;
+        }
     }
 
     /* MOBILE */
@@ -485,9 +539,71 @@
                         {{ category.title }} Tours
                     </strong>
 
-                    <span>
-                        {{ tours|length }} tour{{ tours|length|pluralize }} found
-                    </span>
+                    <div class="results-right">
+
+                        <span>
+                            {{ tours|length }} tour{{ tours|length|pluralize }} found
+                        </span>
+
+                        <form method="GET" class="sort-form">
+
+                            {% if selected_price %}
+                                <input
+                                    type="hidden"
+                                    name="price"
+                                    value="{{ selected_price }}"
+                                >
+                            {% endif %}
+
+                            {% if selected_duration %}
+                                <input
+                                    type="hidden"
+                                    name="duration"
+                                    value="{{ selected_duration }}"
+                                >
+                            {% endif %}
+
+                            <label for="sort">Sort by:</label>
+
+                            <select
+                                name="sort"
+                                id="sort"
+                                onchange="this.form.submit()"
+                            >
+
+                                <option
+                                    value="recommended"
+                                    {% if selected_sort == "recommended" %}selected{% endif %}
+                                >
+                                    Recommended
+                                </option>
+
+                                <option
+                                    value="price-low"
+                                    {% if selected_sort == "price-low" %}selected{% endif %}
+                                >
+                                    Price: Low to High
+                                </option>
+
+                                <option
+                                    value="price-high"
+                                    {% if selected_sort == "price-high" %}selected{% endif %}
+                                >
+                                    Price: High to Low
+                                </option>
+
+                                <option
+                                    value="newest"
+                                    {% if selected_sort == "newest" %}selected{% endif %}
+                                >
+                                    Newest
+                                </option>
+
+                            </select>
+
+                        </form>
+
+                    </div>
 
                 </div>
 

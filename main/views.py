@@ -204,12 +204,28 @@ def category_tours(request, category_id):
 
         tours = filtered_tours
 
+    # -----------------------------
+    # SORTING
+    # -----------------------------
+
+    sort = request.GET.get("sort", "recommended")
+
+    if sort == "price-low":
+        tours = tours.order_by("price")
+
+    elif sort == "price-high":
+        tours = tours.order_by("-price")
+
+    elif sort == "newest":
+        tours = tours.order_by("-created_at")    
+
 
     context = {
         "category": category,
         "tours": tours,
         "selected_price": price_filter,
         "selected_duration": duration_filter,
+        "selected_sort": sort,
     }
 
     return render(
