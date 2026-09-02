@@ -126,18 +126,17 @@ def admin_only(view_func):
 
 
 def category_tours(request, category_id):
-    # ૧. જે કેટેગરી પર ક્લિક કર્યું તેની વિગત મેળવો
+
     category = get_object_or_404(Category, id=category_id)
     
-    # ૨. તે કેટેગરીની બધી જ એક્ટિવ ટૂર્સ ફિલ્ટર કરો
-    # (નોંધ: તમારા Tour મોડેલમાં category ની ForeignKey નું જે નામ હોય તે અહીં લખવું)
+
     tours = Tour.objects.filter(category=category, status="Active")
     
     context = {
         'category': category,
         'tours': tours,
     }
-    return render(request, 'category_tours.html', context)    
+    return render(request, 'tours/category_tours.html', context)    
 
 
 def customer_only(view_func):
