@@ -16,6 +16,8 @@ from functools import wraps
 
 import uuid
 
+import re
+
 
 from django.template.loader import render_to_string
 
@@ -127,16 +129,94 @@ def admin_only(view_func):
 
 def category_tours(request, category_id):
 
-    category = get_object_or_404(Category, id=category_id)
-    
+    category = get_object_or_404(
+        Category,
+        id=category_id
+    )
 
-    tours = Tour.objects.filter(category=category, status="Active")
-    
+    # Only active tours of selected category
+    tours = Tour.objects.filter(
+        category=category,
+        status="Active"
+    )
+
+    # -----------------------------
+    # PRICE FILTER
+    # -----------------------------
+
+    price_filter = request.GET.get("price", "")
+
+    if price_filter == "under-5000":
+        tours = tours.filter(price__lt=5000)
+
+    elif price_filter == "5000-10000":
+        tours = tours.filter(
+            price__gte=5000,
+            price__lte=10000
+        )
+
+    elif price_filter == "10000-20000":
+        tours = tours.filter(
+            price__gt=10000,
+            price__lte=20000
+        )
+
+    elif price_filter == "20000-plus":
+        tours = tours.filter(price__gt=20000)
+
+
+    # -----------------------------
+    # DURATION FILTER
+    # -----------------------------
+
+    duration_filter = request.GET.get("duration", "")
+
+    if duration_filter:
+
+        filtered_tours = []
+
+        for tour in tours:
+
+            # Example:
+            # "3 days 2 nights"
+            # "1 day"
+            # "5 Days"
+            match = re.search(
+                r"(\d+)\s*day",
+                tour.duration.lower()
+            )
+
+            if match:
+
+                days = int(match.group(1))
+
+                if duration_filter == "1-day" and days == 1:
+                    filtered_tours.append(tour)
+
+                elif duration_filter == "2-3-days" and 2 <= days <= 3:
+                    filtered_tours.append(tour)
+
+                elif duration_filter == "4-7-days" and 4 <= days <= 7:
+                    filtered_tours.append(tour)
+
+                elif duration_filter == "7-plus-days" and days > 7:
+                    filtered_tours.append(tour)
+
+        tours = filtered_tours
+
+
     context = {
-        'category': category,
-        'tours': tours,
+        "category": category,
+        "tours": tours,
+        "selected_price": price_filter,
+        "selected_duration": duration_filter,
     }
-    return render(request, 'tours/category_tours.html', context)    
+
+    return render(
+        request,
+        "tours/category_tours.html",
+        context
+    )   
 
 
 def customer_only(view_func):

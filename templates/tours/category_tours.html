@@ -257,6 +257,36 @@
         margin: 0;
     }
 
+    .filter-apply-btn {
+    width: 100%;
+    border: 0;
+    background: #559b48;
+    color: #fff;
+    padding: 12px 15px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+    .filter-apply-btn:hover {
+        background: #438337;
+    }
+
+    .filter-clear-btn {
+        display: block;
+        text-align: center;
+        margin-top: 12px;
+        color: #777;
+        font-size: 13px;
+        text-decoration: none;
+    }
+
+    .filter-clear-btn:hover {
+        color: #559b48;
+    }
+
     /* MOBILE */
     @media (max-width: 991px) {
         .category-layout {
@@ -324,58 +354,124 @@
 
                 <h3>Filter Tours</h3>
 
-                <div class="filter-section">
+                <form method="GET">
 
-                    <h4>Price</h4>
+                    <!-- PRICE -->
+                    <div class="filter-section">
 
-                    <label>
-                        <input type="checkbox">
-                        Under ₹5,000
-                    </label>
+                        <h4>Price</h4>
 
-                    <label>
-                        <input type="checkbox">
-                        ₹5,000 – ₹10,000
-                    </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="price"
+                                value="under-5000"
+                                {% if selected_price == "under-5000" %}checked{% endif %}
+                            >
+                            Under ₹5,000
+                        </label>
 
-                    <label>
-                        <input type="checkbox">
-                        ₹10,000 – ₹20,000
-                    </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="price"
+                                value="5000-10000"
+                                {% if selected_price == "5000-10000" %}checked{% endif %}
+                            >
+                            ₹5,000 – ₹10,000
+                        </label>
 
-                    <label>
-                        <input type="checkbox">
-                        ₹20,000+
-                    </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="price"
+                                value="10000-20000"
+                                {% if selected_price == "10000-20000" %}checked{% endif %}
+                            >
+                            ₹10,000 – ₹20,000
+                        </label>
 
-                </div>
+                        <label>
+                            <input
+                                type="radio"
+                                name="price"
+                                value="20000-plus"
+                                {% if selected_price == "20000-plus" %}checked{% endif %}
+                            >
+                            ₹20,000+
+                        </label>
+
+                    </div>
 
 
-                <div class="filter-section">
+                    <!-- DURATION -->
+                    <div class="filter-section">
 
-                    <h4>Duration</h4>
+                        <h4>Duration</h4>
 
-                    <label>
-                        <input type="checkbox">
-                        1 Day
-                    </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="duration"
+                                value="1-day"
+                                {% if selected_duration == "1-day" %}checked{% endif %}
+                            >
+                            1 Day
+                        </label>
 
-                    <label>
-                        <input type="checkbox">
-                        2–3 Days
-                    </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="duration"
+                                value="2-3-days"
+                                {% if selected_duration == "2-3-days" %}checked{% endif %}
+                            >
+                            2–3 Days
+                        </label>
 
-                    <label>
-                        <input type="checkbox">
-                        4–7 Days
-                    </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="duration"
+                                value="4-7-days"
+                                {% if selected_duration == "4-7-days" %}checked{% endif %}
+                            >
+                            4–7 Days
+                        </label>
 
-                    <label>
-                        <input type="checkbox">
-                        7+ Days
-                    </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="duration"
+                                value="7-plus-days"
+                                {% if selected_duration == "7-plus-days" %}checked{% endif %}
+                            >
+                            7+ Days
+                        </label>
 
-                </div>
+                    </div>
+
+
+                    <!-- BUTTONS -->
+                    <div style="margin-top: 22px;">
+
+                        <button
+                            type="submit"
+                            class="filter-apply-btn"
+                        >
+                            Apply Filters
+                        </button>
+
+                        <a
+                            href="{% url 'category_tours' category.id %}"
+                            class="filter-clear-btn"
+                        >
+                            Clear Filters
+                        </a>
+
+                    </div>
+
+                </form>
 
             </aside>
 
