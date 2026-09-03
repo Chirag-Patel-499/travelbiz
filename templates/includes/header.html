@@ -1077,6 +1077,33 @@
         font-size: 13px !important;
     }
 }
+
+/* =========================================================
+   DESKTOP - REMOVE DUPLICATE ACCOUNT MENU ITEMS
+   Keep ONLY the green buttons from #top_menu
+   ========================================================= */
+
+@media only screen and (min-width: 992px) {
+
+    /* Hide complete mobile account section on desktop */
+    header.header .main-menu .mobile-only-menu-item {
+        display: none !important;
+    }
+
+    /* Extra safety - hide account divider/title */
+    header.header .main-menu .mobile-divider {
+        display: none !important;
+    }
+
+    /* Keep desktop green Admin button */
+    header.header #top_menu .desktop-admin {
+        display: block !important;
+    }
+
+    header.header #top_menu .customer-login-btn {
+        display: flex !important;
+    }
+}
     
 
 </style>
