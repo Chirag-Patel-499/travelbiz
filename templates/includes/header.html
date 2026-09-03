@@ -1,751 +1,135 @@
 {% load static %}
 
-<style>
-/* =========================================================
-   TRAVELBIZ - FULLY RESPONSIVE NAVBAR
-   Desktop + Tablet + Mobile
-   ========================================================= */
-
-:root {
-    --tb-green: #559b48;
-    --tb-login: #168b55;
-    --tb-white: #ffffff;
-    --tb-dark: #111111;
-}
-
-/* ---------- HEADER ---------- */
-
-.tb-header {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 72px;
-    z-index: 999999 !important;
-    background: rgba(0, 0, 0, 0.72);
-    transition: background .25s ease, box-shadow .25s ease;
-}
-
-.tb-header.tb-scrolled {
-    background: rgba(12, 12, 12, 0.96);
-    box-shadow: 0 4px 20px rgba(0,0,0,.18);
-}
-
-.tb-header * {
-    box-sizing: border-box;
-}
-
-.tb-header-inner {
-    width: min(1240px, calc(100% - 40px));
-    height: 72px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-/* ---------- LOGO ---------- */
-
-.tb-logo {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
-
-.tb-logo img {
-    display: block;
-    width: 140px;
-    height: 35px;
-    object-fit: contain;
-}
-
-/* ---------- DESKTOP NAV ---------- */
-
-.tb-desktop-nav {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    gap: 2px;
-}
-
-.tb-desktop-nav > a,
-.tb-nav-dropdown > button {
-    height: 44px;
-    padding: 0 12px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    border: 0;
-    background: transparent;
-    color: #fff !important;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none !important;
-    white-space: nowrap;
-    cursor: pointer;
-}
-
-.tb-desktop-nav > a:hover,
-.tb-nav-dropdown > button:hover {
-    color: #fff !important;
-    opacity: .78;
-}
-
-/* ---------- DROPDOWNS ---------- */
-
-.tb-nav-dropdown {
-    position: relative;
-}
-
-.tb-nav-dropdown > button::after {
-    content: "⌄";
-    font-size: 13px;
-    line-height: 1;
-    margin-top: -3px;
-}
-
-.tb-dropdown-menu {
-    position: absolute;
-    top: calc(100% + 7px);
-    left: 0;
-    min-width: 190px;
-    margin: 0;
-    padding: 7px 0;
-    list-style: none;
-    background: #fff;
-    border-radius: 6px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.20);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(5px);
-    transition: .18s ease;
-}
-
-.tb-nav-dropdown:hover .tb-dropdown-menu,
-.tb-nav-dropdown:focus-within .tb-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.tb-dropdown-menu a {
-    display: block;
-    padding: 11px 16px;
-    color: #222 !important;
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none !important;
-    white-space: nowrap;
-}
-
-.tb-dropdown-menu a:hover {
-    background: #f3f3f3;
-}
-
-/* ---------- ACTIONS ---------- */
-
-.tb-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 0 0 auto;
-}
-
-.tb-admin-btn,
-.tb-customer-btn {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    padding: 0 17px;
-    border-radius: 6px;
-    color: #fff !important;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none !important;
-    white-space: nowrap;
-}
-
-.tb-admin-btn {
-    background: var(--tb-green);
-}
-
-.tb-customer-btn {
-    background: var(--tb-login);
-}
-
-.tb-admin-btn:hover,
-.tb-customer-btn:hover {
-    color: #fff !important;
-    opacity: .90;
-}
-
-/* Small icon-only actions */
-
-.tb-icon-btn {
-    width: 36px;
-    height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff !important;
-    text-decoration: none !important;
-    font-size: 22px;
-}
-
-.tb-icon-btn:hover {
-    color: #fff !important;
-    opacity: .75;
-}
-
-.tb-user-name {
-    max-width: 135px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* ---------- MOBILE TOGGLE ---------- */
-
-.tb-mobile-toggle {
-    display: none;
-    margin-left: auto;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: #fff;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    font-size: 27px;
-    line-height: 1;
-}
-
-.tb-mobile-toggle span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    margin: 3px 0;
-    background: #fff;
-    border-radius: 2px;
-}
-
-/* ---------- MOBILE OVERLAY ---------- */
-
-.tb-mobile-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1000000;
-    background: rgba(0,0,0,.52);
-    opacity: 0;
-    visibility: hidden;
-    transition: .25s ease;
-}
-
-.tb-mobile-overlay.tb-open {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* ---------- MOBILE DRAWER ---------- */
-
-.tb-mobile-drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: min(390px, 88vw);
-    height: 100dvh;
-    overflow-y: auto;
-    background: #fff;
-    color: #222;
-    z-index: 1000001;
-    transform: translateX(105%);
-    transition: transform .28s ease;
-    box-shadow: -8px 0 35px rgba(0,0,0,.20);
-}
-
-.tb-mobile-drawer.tb-open {
-    transform: translateX(0);
-}
-
-.tb-mobile-head {
-    height: 76px;
-    padding: 0 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--tb-green);
-}
-
-.tb-mobile-head img {
-    width: 140px;
-    height: 35px;
-    object-fit: contain;
-    background: #fff;
-}
-
-.tb-mobile-close {
-    width: 42px;
-    height: 42px;
-    border: 0;
-    background: transparent;
-    color: #fff;
-    font-size: 31px;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.tb-mobile-links {
-    padding: 6px 0 25px;
-}
-
-.tb-mobile-links > a,
-.tb-mobile-accordion {
-    width: 100%;
-    min-height: 54px;
-    padding: 0 22px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 0;
-    border-bottom: 1px solid #e9e9e9;
-    background: #fff;
-    color: #222 !important;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none !important;
-    text-align: left;
-    cursor: pointer;
-}
-
-.tb-mobile-accordion::after {
-    content: "+";
-    font-size: 20px;
-    color: #777;
-}
-
-.tb-mobile-accordion.tb-active::after {
-    content: "−";
-}
-
-.tb-mobile-submenu {
-    display: none;
-    background: #f8f8f8;
-}
-
-.tb-mobile-submenu.tb-active {
-    display: block;
-}
-
-.tb-mobile-submenu a {
-    display: block;
-    padding: 13px 42px;
-    border-bottom: 1px solid #e9e9e9;
-    color: #444 !important;
-    font-size: 13px;
-    text-decoration: none !important;
-}
-
-.tb-mobile-section-title {
-    padding: 20px 22px 9px;
-    color: var(--tb-green);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
-}
-
-.tb-mobile-action {
-    margin: 9px 18px;
-    min-height: 48px;
-    padding: 0 18px;
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    border-radius: 6px;
-    color: #fff !important;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none !important;
-}
-
-.tb-mobile-action.admin {
-    background: var(--tb-green);
-}
-
-.tb-mobile-action.customer {
-    background: var(--tb-login);
-}
-
-.tb-mobile-action.normal {
-    color: #222 !important;
-    background: #fff;
-    border-bottom: 1px solid #e9e9e9;
-    border-radius: 0;
-    margin: 0;
-    min-height: 54px;
-}
-
-.tb-mobile-action i,
-.tb-mobile-action .tb-heart {
-    width: 22px;
-    text-align: center;
-}
-
-/* Prevent page scroll while menu is open */
-body.tb-menu-open {
-    overflow: hidden !important;
-}
-
-/* ---------- TABLET ---------- */
-
-@media (max-width: 1199px) and (min-width: 769px) {
-    .tb-header-inner {
-        width: calc(100% - 28px);
-        gap: 8px;
-    }
-
-    .tb-logo img {
-        width: 125px;
-    }
-
-    .tb-desktop-nav > a,
-    .tb-nav-dropdown > button {
-        padding: 0 7px;
-        font-size: 13px;
-    }
-
-    .tb-admin-btn,
-    .tb-customer-btn {
-        padding: 0 11px;
-        font-size: 13px;
-    }
-
-    .tb-actions {
-        gap: 4px;
-    }
-}
-
-/* ---------- MOBILE ---------- */
-
-@media (max-width: 768px) {
-
-    .tb-header {
-        height: 64px;
-        background: rgba(0,0,0,.62);
-    }
-
-    .tb-header.tb-scrolled {
-        background: rgba(10,10,10,.96);
-    }
-
-    .tb-header-inner {
-        width: 100%;
-        height: 64px;
-        padding: 0 14px;
-        gap: 0;
-    }
-
-    .tb-logo img {
-        width: 132px;
-        height: 34px;
-    }
-
-    .tb-desktop-nav,
-    .tb-actions {
-        display: none !important;
-    }
-
-    .tb-mobile-toggle {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
-/* ---------- VERY SMALL PHONES ---------- */
-
-@media (max-width: 380px) {
-    .tb-logo img {
-        width: 120px;
-    }
-
-    .tb-header-inner {
-        padding: 0 10px;
-    }
-
-    .tb-mobile-drawer {
-        width: 92vw;
-    }
-}
-</style>
-
-
-<header class="tb-header" id="tbHeader">
-
-    <div class="tb-header-inner">
-
-        <!-- LOGO -->
-        <a href="{% url 'home' %}" class="tb-logo" aria-label="TravelBiz Home">
-            <img src="{% static 'img/logon.png' %}" alt="TravelBiz">
-        </a>
-
-        <!-- DESKTOP NAVIGATION -->
-        <nav class="tb-desktop-nav" aria-label="Main navigation">
-
-            <a href="{% url 'home' %}">Home</a>
-
-            <div class="tb-nav-dropdown">
-                <button type="button">Explore</button>
-                <ul class="tb-dropdown-menu">
-                    <li><a href="{% url 'blog_list' %}">Travel Tips</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="tb-nav-dropdown">
-                <button type="button">Other Pages</button>
-                <ul class="tb-dropdown-menu">
-                    <li><a href="{% url 'help' %}">Help &amp; FAQ</a></li>
-                    <li><a href="account.html">Sign Up</a></li>
-                </ul>
-            </div>
-
-        </nav>
-
-        <!-- DESKTOP ACTIONS -->
-        <div class="tb-actions">
-
-            <a href="{% url 'admin:index' %}" class="tb-admin-btn">
-                Create Admin Panel
-            </a>
-
-            {% if user.is_authenticated %}
-
-                <a href="{% url 'customer_dashboard' %}" class="tb-customer-btn">
-                    <i class="bi bi-person-circle"></i>
-                    <span class="tb-user-name">
-                        {{ user.first_name|default:user.email }}
-                    </span>
-                </a>
-
-                <a href="{% url 'customer_logout' %}"
-                   class="tb-icon-btn"
-                   title="Logout"
-                   aria-label="Logout">
-                    <i class="icon-logout"></i>
-                </a>
-
-            {% else %}
-
-                <a href="{% url 'customer_login' %}" class="tb-customer-btn">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Customer Login</span>
-                </a>
-
-            {% endif %}
-
-            <a href="{% url 'wishlist' %}"
-               class="tb-icon-btn"
-               title="Your wishlist"
-               aria-label="Your wishlist">
-                <i class="icon_heart"></i>
-            </a>
-
-        </div>
-
-        <!-- MOBILE HAMBURGER -->
-        <button type="button"
-                class="tb-mobile-toggle"
-                id="tbMobileOpen"
-                aria-label="Open menu"
-                aria-expanded="false">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
+<header class="header clearfix element_to_stick">
+  <div class="container">
+    <!-- LOGO -->
+    <div id="logo">
+      <a href="{% url 'home' %}">
+        <img
+          src="{% static 'img/logon.png' %}"
+          width="140"
+          height="35"
+          alt=""
+          class="logo_normal"
+        />
+        <img
+          src="{% static 'img/logon.png' %}"
+          width="140"
+          height="35"
+          alt=""
+          class="logo_sticky"
+        />
+      </a>
     </div>
+
+    <!-- TOP MENU -->
+    <ul id="top_menu">
+      <!-- Customer Login / Dashboard -->
+      {% if user.is_authenticated %}
+
+      <li>
+        <a
+          href="{% url 'customer_dashboard' %}"
+          style="
+            cursor: pointer;
+            position: relative;
+            z-index: 9999;
+            display: inline-block;
+          "
+        >
+          <i class="icon-user"></i>
+          {{ user.first_name|default:user.email }}
+        </a>
+      </li>
+
+      <li>
+        <a
+          href="{% url 'customer_logout' %}"
+          style="
+            cursor: pointer;
+            position: relative;
+            z-index: 9999;
+            display: inline-block;
+          "
+        >
+          Logout
+        </a>
+      </li>
+
+      {% else %}
+
+      <li>
+          <a href="{% url 'customer_login' %}" class="customer-login-btn">
+              <i class="bi bi-person-circle"></i>
+              <span>Customer Login</span>
+          </a>
+      </li>
+
+      {% endif %}
+
+      <!-- Vendor Login -->
+      <li>
+        <a href="{% url 'vendor_login' %}" class="login"> Vendor Login </a>
+      </li>
+
+      <!-- Wishlist -->
+      <li>
+        <a
+          href="{% url 'wishlist' %}"
+          class="wishlist_bt_top"
+          title="Your wishlist"
+        >
+          Your wishlist
+        </a>
+      </li>
+    </ul>
+
+    <!-- MOBILE MENU ICON -->
+    <a href="#0" class="open_close">
+      <i class="icon_menu"></i><span>Menu</span>
+    </a>
+
+    <!-- MAIN NAV -->
+    <nav class="main-menu">
+      <div id="header_menu">
+        <a href="#0" class="open_close">
+          <i class="icon_close"></i><span>Menu</span>
+        </a>
+        <a href="{% url 'home' %}">
+          <img
+            src="{% static 'img/logon.png' %}"
+            width="140"
+            height="35"
+            alt=""
+          />
+        </a>
+      </div>
+
+      <ul>
+        <li class="submenu">
+          <a href="#0" class="show-submenu">Home</a>
+          <ul>
+            <li><a href="{% url 'home' %}">Default</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu">
+          <a href="#0" class="show-submenu">Explore</a>
+          <ul>
+            <li><a href="{% url 'blog_list' %}">Travel Tips</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu">
+          <a href="#0" class="show-submenu">Other Pages</a>
+          <ul>
+            <li><a href="{% url 'help' %}">Help & FAQ</a></li>
+            <li><a href="account.html">Sign Up</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </header>
-
-
-<!-- MOBILE OVERLAY -->
-<div class="tb-mobile-overlay" id="tbMobileOverlay"></div>
-
-
-<!-- MOBILE DRAWER -->
-<aside class="tb-mobile-drawer" id="tbMobileDrawer" aria-hidden="true">
-
-    <div class="tb-mobile-head">
-
-        <a href="{% url 'home' %}">
-            <img src="{% static 'img/logon.png' %}" alt="TravelBiz">
-        </a>
-
-        <button type="button"
-                class="tb-mobile-close"
-                id="tbMobileClose"
-                aria-label="Close menu">
-            ×
-        </button>
-
-    </div>
-
-    <div class="tb-mobile-links">
-
-        <a href="{% url 'home' %}">
-            <span>Home</span>
-        </a>
-
-        <button type="button"
-                class="tb-mobile-accordion"
-                data-target="tbExploreMenu">
-            <span>Explore</span>
-        </button>
-
-        <div class="tb-mobile-submenu" id="tbExploreMenu">
-            <a href="{% url 'blog_list' %}">Travel Tips</a>
-            <a href="{% url 'contact' %}">Contact</a>
-        </div>
-
-        <button type="button"
-                class="tb-mobile-accordion"
-                data-target="tbOtherMenu">
-            <span>Other Pages</span>
-        </button>
-
-        <div class="tb-mobile-submenu" id="tbOtherMenu">
-            <a href="{% url 'help' %}">Help &amp; FAQ</a>
-            <a href="account.html">Sign Up</a>
-        </div>
-
-
-        <div class="tb-mobile-section-title">Account</div>
-
-        <a href="{% url 'admin:index' %}" class="tb-mobile-action admin">
-            <i class="bi bi-speedometer2"></i>
-            <span>Create Admin Panel</span>
-        </a>
-
-        {% if user.is_authenticated %}
-
-            <a href="{% url 'customer_dashboard' %}"
-               class="tb-mobile-action customer">
-                <i class="bi bi-person-circle"></i>
-                <span>{{ user.first_name|default:user.email }}</span>
-            </a>
-
-            <a href="{% url 'customer_logout' %}"
-               class="tb-mobile-action normal">
-                <i class="icon-logout"></i>
-                <span>Logout</span>
-            </a>
-
-        {% else %}
-
-            <a href="{% url 'customer_login' %}"
-               class="tb-mobile-action customer">
-                <i class="bi bi-person-circle"></i>
-                <span>Customer Login</span>
-            </a>
-
-        {% endif %}
-
-        <a href="{% url 'wishlist' %}"
-           class="tb-mobile-action normal">
-            <i class="icon_heart"></i>
-            <span>Your Wishlist</span>
-        </a>
-
-    </div>
-
-</aside>
-
-
-<script>
-(function () {
-
-    const header = document.getElementById("tbHeader");
-    const openBtn = document.getElementById("tbMobileOpen");
-    const closeBtn = document.getElementById("tbMobileClose");
-    const drawer = document.getElementById("tbMobileDrawer");
-    const overlay = document.getElementById("tbMobileOverlay");
-
-    function updateHeader() {
-        if (window.scrollY > 40) {
-            header.classList.add("tb-scrolled");
-        } else {
-            header.classList.remove("tb-scrolled");
-        }
-    }
-
-    function openMenu() {
-        drawer.classList.add("tb-open");
-        overlay.classList.add("tb-open");
-        document.body.classList.add("tb-menu-open");
-
-        openBtn.setAttribute("aria-expanded", "true");
-        drawer.setAttribute("aria-hidden", "false");
-    }
-
-    function closeMenu() {
-        drawer.classList.remove("tb-open");
-        overlay.classList.remove("tb-open");
-        document.body.classList.remove("tb-menu-open");
-
-        openBtn.setAttribute("aria-expanded", "false");
-        drawer.setAttribute("aria-hidden", "true");
-    }
-
-    openBtn.addEventListener("click", openMenu);
-    closeBtn.addEventListener("click", closeMenu);
-    overlay.addEventListener("click", closeMenu);
-
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
-            closeMenu();
-        }
-    });
-
-    /* Mobile dropdowns */
-    document.querySelectorAll(".tb-mobile-accordion").forEach(function (button) {
-
-        button.addEventListener("click", function () {
-
-            const targetId = button.getAttribute("data-target");
-            const target = document.getElementById(targetId);
-
-            const isOpen = target.classList.contains("tb-active");
-
-            document.querySelectorAll(".tb-mobile-submenu").forEach(function (menu) {
-                menu.classList.remove("tb-active");
-            });
-
-            document.querySelectorAll(".tb-mobile-accordion").forEach(function (btn) {
-                btn.classList.remove("tb-active");
-            });
-
-            if (!isOpen) {
-                target.classList.add("tb-active");
-                button.classList.add("tb-active");
-            }
-        });
-
-    });
-
-    /* Close mobile drawer after navigation */
-    drawer.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", closeMenu);
-    });
-
-    window.addEventListener("scroll", updateHeader, { passive: true });
-
-    updateHeader();
-
-})();
-</script>
+<!-- /header -->
