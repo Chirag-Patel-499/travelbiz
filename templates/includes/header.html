@@ -1,135 +1,674 @@
 {% load static %}
 
 <header class="header clearfix element_to_stick">
-  <div class="container">
-    <!-- LOGO -->
-    <div id="logo">
-      <a href="{% url 'home' %}">
-        <img
-          src="{% static 'img/logon.png' %}"
-          width="140"
-          height="35"
-          alt=""
-          class="logo_normal"
-        />
-        <img
-          src="{% static 'img/logon.png' %}"
-          width="140"
-          height="35"
-          alt=""
-          class="logo_sticky"
-        />
-      </a>
+
+    <div class="container">
+
+        <!-- ================= LOGO ================= -->
+        <div id="logo">
+            <a href="{% url 'home' %}">
+                <img
+                    src="{% static 'img/logon.png' %}"
+                    width="140"
+                    height="35"
+                    alt="TravelBiz"
+                    class="logo_normal"
+                >
+
+                <img
+                    src="{% static 'img/logon.png' %}"
+                    width="140"
+                    height="35"
+                    alt="TravelBiz"
+                    class="logo_sticky"
+                >
+            </a>
+        </div>
+
+
+        <!-- ================= DESKTOP TOP MENU ================= -->
+        <ul id="top_menu">
+
+            <!-- Create Admin Panel -->
+            <li class="desktop-admin">
+                <a
+                    href="{% url 'user_admin_login' %}"
+                    class="header-admin-btn"
+                >
+                    Create Admin Panel
+                </a>
+            </li>
+
+
+            <!-- Customer -->
+            {% if user.is_authenticated %}
+
+            <li>
+                <a
+                    href="{% url 'customer_dashboard' %}"
+                    class="header-account-btn"
+                >
+                    <i class="icon-user"></i>
+
+                    <span>
+                        {{ user.first_name|default:user.email }}
+                    </span>
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="{% url 'customer_logout' %}"
+                    class="header-logout-btn"
+                >
+                    Logout
+                </a>
+            </li>
+
+            {% else %}
+
+            <li>
+                <a
+                    href="{% url 'customer_login' %}"
+                    class="customer-login-btn"
+                >
+                    <i class="bi bi-person-circle"></i>
+                    <span>Customer Login</span>
+                </a>
+            </li>
+
+            {% endif %}
+
+
+            <!-- Vendor Login -->
+            <li class="desktop-vendor">
+                <a
+                    href="{% url 'vendor_login' %}"
+                    class="login"
+                >
+                    Vendor Login
+                </a>
+            </li>
+
+
+            <!-- Wishlist -->
+            <li class="desktop-wishlist">
+                <a
+                    href="{% url 'wishlist' %}"
+                    class="wishlist_bt_top"
+                    title="Your Wishlist"
+                >
+                    Your Wishlist
+                </a>
+            </li>
+
+        </ul>
+
+
+        <!-- ================= MOBILE MENU BUTTON ================= -->
+        <a
+            href="#0"
+            class="open_close mobile-menu-trigger"
+            aria-label="Open menu"
+        >
+            <i class="icon_menu"></i>
+            <span>Menu</span>
+        </a>
+
+
+        <!-- ================= MAIN NAVIGATION ================= -->
+        <nav class="main-menu">
+
+            <!-- Mobile menu header -->
+            <div id="header_menu">
+
+                <a
+                    href="#0"
+                    class="open_close"
+                    aria-label="Close menu"
+                >
+                    <i class="icon_close"></i>
+                    <span>Close</span>
+                </a>
+
+                <a href="{% url 'home' %}">
+                    <img
+                        src="{% static 'img/logon.png' %}"
+                        width="140"
+                        height="35"
+                        alt="TravelBiz"
+                    >
+                </a>
+
+            </div>
+
+
+            <!-- Navigation -->
+            <ul>
+
+                <!-- HOME -->
+                <li>
+                    <a href="{% url 'home' %}">
+                        Home
+                    </a>
+                </li>
+
+
+                <!-- EXPLORE -->
+                <li class="submenu">
+
+                    <a
+                        href="#0"
+                        class="show-submenu"
+                    >
+                        Explore
+                    </a>
+
+                    <ul>
+
+                        <li>
+                            <a href="{% url 'blog_list' %}">
+                                Travel Tips
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'contact' %}">
+                                Contact
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+
+                <!-- OTHER PAGES -->
+                <li class="submenu">
+
+                    <a
+                        href="#0"
+                        class="show-submenu"
+                    >
+                        Other Pages
+                    </a>
+
+                    <ul>
+
+                        <li>
+                            <a href="{% url 'help' %}">
+                                Help & FAQ
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'vendor_register' %}">
+                                Sign Up
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+
+                <!-- ================= MOBILE ACCOUNT LINKS ================= -->
+
+                <li class="mobile-only-menu-item mobile-divider">
+                    <span class="mobile-menu-section-title">
+                        Account
+                    </span>
+                </li>
+
+
+                <!-- Admin -->
+                <li class="mobile-only-menu-item">
+                    <a href="{% url 'user_admin_login' %}">
+                        <i class="icon-user"></i>
+                        Create Admin Panel
+                    </a>
+                </li>
+
+
+                {% if user.is_authenticated %}
+
+                <li class="mobile-only-menu-item">
+                    <a href="{% url 'customer_dashboard' %}">
+                        <i class="icon-user"></i>
+
+                        {{ user.first_name|default:user.email }}
+                    </a>
+                </li>
+
+                <li class="mobile-only-menu-item">
+                    <a href="{% url 'customer_logout' %}">
+                        Logout
+                    </a>
+                </li>
+
+                {% else %}
+
+                <li class="mobile-only-menu-item">
+                    <a href="{% url 'customer_login' %}">
+                        <i class="bi bi-person-circle"></i>
+                        Customer Login
+                    </a>
+                </li>
+
+                {% endif %}
+
+
+                <!-- Vendor -->
+                <li class="mobile-only-menu-item">
+                    <a href="{% url 'vendor_login' %}">
+                        Vendor Login
+                    </a>
+                </li>
+
+
+                <!-- Wishlist -->
+                <li class="mobile-only-menu-item">
+                    <a href="{% url 'wishlist' %}">
+                        <i class="icon_heart"></i>
+                        Wishlist
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
     </div>
 
-    <!-- TOP MENU -->
-    <ul id="top_menu">
-      <!-- Customer Login / Dashboard -->
-      {% if user.is_authenticated %}
-
-      <li>
-        <a
-          href="{% url 'customer_dashboard' %}"
-          style="
-            cursor: pointer;
-            position: relative;
-            z-index: 9999;
-            display: inline-block;
-          "
-        >
-          <i class="icon-user"></i>
-          {{ user.first_name|default:user.email }}
-        </a>
-      </li>
-
-      <li>
-        <a
-          href="{% url 'customer_logout' %}"
-          style="
-            cursor: pointer;
-            position: relative;
-            z-index: 9999;
-            display: inline-block;
-          "
-        >
-          Logout
-        </a>
-      </li>
-
-      {% else %}
-
-      <li>
-          <a href="{% url 'customer_login' %}" class="customer-login-btn">
-              <i class="bi bi-person-circle"></i>
-              <span>Customer Login</span>
-          </a>
-      </li>
-
-      {% endif %}
-
-      <!-- Vendor Login -->
-      <li>
-        <a href="{% url 'vendor_login' %}" class="login"> Vendor Login </a>
-      </li>
-
-      <!-- Wishlist -->
-      <li>
-        <a
-          href="{% url 'wishlist' %}"
-          class="wishlist_bt_top"
-          title="Your wishlist"
-        >
-          Your wishlist
-        </a>
-      </li>
-    </ul>
-
-    <!-- MOBILE MENU ICON -->
-    <a href="#0" class="open_close">
-      <i class="icon_menu"></i><span>Menu</span>
-    </a>
-
-    <!-- MAIN NAV -->
-    <nav class="main-menu">
-      <div id="header_menu">
-        <a href="#0" class="open_close">
-          <i class="icon_close"></i><span>Menu</span>
-        </a>
-        <a href="{% url 'home' %}">
-          <img
-            src="{% static 'img/logon.png' %}"
-            width="140"
-            height="35"
-            alt=""
-          />
-        </a>
-      </div>
-
-      <ul>
-        <li class="submenu">
-          <a href="#0" class="show-submenu">Home</a>
-          <ul>
-            <li><a href="{% url 'home' %}">Default</a></li>
-          </ul>
-        </li>
-
-        <li class="submenu">
-          <a href="#0" class="show-submenu">Explore</a>
-          <ul>
-            <li><a href="{% url 'blog_list' %}">Travel Tips</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-          </ul>
-        </li>
-
-        <li class="submenu">
-          <a href="#0" class="show-submenu">Other Pages</a>
-          <ul>
-            <li><a href="{% url 'help' %}">Help & FAQ</a></li>
-            <li><a href="account.html">Sign Up</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </div>
 </header>
+
+
+<!-- =========================================================
+     RESPONSIVE NAVBAR CSS
+     ========================================================= -->
+
+<style>
+
+    /* ---------------------------------------------
+       MOBILE MENU ITEMS HIDDEN ON DESKTOP
+       --------------------------------------------- */
+
+    .mobile-only-menu-item {
+        display: none;
+    }
+
+
+    /* ---------------------------------------------
+       DESKTOP ADMIN BUTTON
+       --------------------------------------------- */
+
+    .header-admin-btn {
+        background: #559b48 !important;
+        color: #fff !important;
+        padding: 11px 18px !important;
+        border-radius: 4px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+
+    /* ---------------------------------------------
+       DESKTOP ACCOUNT BUTTON
+       --------------------------------------------- */
+
+    .header-account-btn {
+        display: flex !important;
+        align-items: center;
+        gap: 7px;
+        white-space: nowrap;
+    }
+
+
+    /* ---------------------------------------------
+       DESKTOP CUSTOMER LOGIN
+       --------------------------------------------- */
+
+    .customer-login-btn {
+        display: flex !important;
+        align-items: center;
+        gap: 7px;
+        white-space: nowrap;
+    }
+
+
+    /* ---------------------------------------------
+       DESKTOP
+       --------------------------------------------- */
+
+    @media (min-width: 992px) {
+
+        .mobile-menu-trigger {
+            display: none !important;
+        }
+
+        .main-menu {
+            display: block;
+        }
+
+    }
+
+
+    /* =================================================
+       TABLET + MOBILE
+       ================================================= */
+
+    @media (max-width: 991px) {
+
+        /* ---------------------------------------------
+           HEADER
+           --------------------------------------------- */
+
+        .header {
+            min-height: 65px;
+        }
+
+
+        .header .container {
+            min-height: 65px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        /* ---------------------------------------------
+           LOGO
+           --------------------------------------------- */
+
+        #logo {
+            position: relative;
+            left: auto;
+            top: auto;
+
+            float: none;
+
+            margin: 0;
+        }
+
+
+        #logo img {
+            width: 125px;
+            height: auto;
+        }
+
+
+        /* ---------------------------------------------
+           HIDE DESKTOP ACTIONS
+           --------------------------------------------- */
+
+        #top_menu {
+            display: none !important;
+        }
+
+
+        /* ---------------------------------------------
+           MOBILE MENU BUTTON
+           --------------------------------------------- */
+
+        .mobile-menu-trigger {
+            display: flex !important;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 6px;
+
+            width: auto;
+            height: 42px;
+
+            padding: 0 12px;
+
+            color: #333 !important;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+
+        .mobile-menu-trigger i {
+            font-size: 22px;
+        }
+
+
+        /* ---------------------------------------------
+           MOBILE SIDE MENU
+           --------------------------------------------- */
+
+        .main-menu {
+            width: min(340px, 88vw) !important;
+
+            background: #fff;
+
+            box-shadow: 5px 0 25px rgba(0,0,0,0.15);
+
+            overflow-y: auto;
+        }
+
+
+        /* ---------------------------------------------
+           MOBILE MENU HEADER
+           --------------------------------------------- */
+
+        #header_menu {
+            height: 78px;
+
+            background: #559b48;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+        }
+
+
+        #header_menu > a:last-child img {
+            width: 115px;
+            height: auto;
+
+            background: #fff;
+
+            padding: 5px 8px;
+        }
+
+
+        #header_menu .open_close {
+            position: absolute;
+
+            right: 14px;
+            top: 14px;
+
+            color: #fff !important;
+
+            width: 35px;
+            height: 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        #header_menu .open_close i {
+            font-size: 20px;
+        }
+
+
+        #header_menu .open_close span {
+            display: none;
+        }
+
+
+        /* ---------------------------------------------
+           MOBILE NAV
+           --------------------------------------------- */
+
+        .main-menu > ul {
+            padding: 0;
+            margin: 0;
+        }
+
+
+        .main-menu > ul > li {
+            border-bottom: 1px solid #eee;
+        }
+
+
+        .main-menu > ul > li > a {
+            min-height: 52px;
+
+            display: flex !important;
+            align-items: center;
+
+            padding: 0 18px;
+
+            color: #333 !important;
+
+            font-size: 14px;
+            font-weight: 500;
+
+            text-decoration: none;
+        }
+
+
+        .main-menu > ul > li > a:hover {
+            background: #f7f7f7;
+            color: #559b48 !important;
+        }
+
+
+        /* ---------------------------------------------
+           SUBMENU
+           --------------------------------------------- */
+
+        .main-menu .submenu > ul {
+            background: #f8f8f8;
+        }
+
+
+        .main-menu .submenu > ul > li {
+            border-top: 1px solid #eee;
+        }
+
+
+        .main-menu .submenu > ul > li > a {
+            display: block;
+
+            padding: 13px 35px;
+
+            color: #666 !important;
+
+            font-size: 13px;
+        }
+
+
+        /* ---------------------------------------------
+           MOBILE ACCOUNT SECTION
+           --------------------------------------------- */
+
+        .mobile-only-menu-item {
+            display: block;
+        }
+
+
+        .mobile-divider {
+            margin-top: 10px;
+
+            border-top: 1px solid #ddd;
+        }
+
+
+        .mobile-menu-section-title {
+            display: block;
+
+            padding: 14px 18px 8px;
+
+            color: #559b48;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+
+        .mobile-only-menu-item > a {
+            display: flex !important;
+            align-items: center;
+
+            gap: 10px;
+
+            min-height: 48px;
+
+            padding: 0 18px;
+
+            color: #333 !important;
+
+            font-size: 14px;
+
+            text-decoration: none;
+        }
+
+
+        .mobile-only-menu-item > a:hover {
+            background: #f7f7f7;
+            color: #559b48 !important;
+        }
+
+    }
+
+
+    /* =================================================
+       SMALL MOBILE
+       ================================================= */
+
+    @media (max-width: 575px) {
+
+        .header {
+            min-height: 60px;
+        }
+
+
+        .header .container {
+            min-height: 60px;
+
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+
+        #logo img {
+            width: 115px;
+        }
+
+
+        .mobile-menu-trigger {
+            padding: 0 8px;
+
+            font-size: 12px;
+        }
+
+
+        .mobile-menu-trigger i {
+            font-size: 21px;
+        }
+
+
+        .main-menu {
+            width: min(330px, 90vw) !important;
+        }
+
+    }
+
+</style>
+
 <!-- /header -->
