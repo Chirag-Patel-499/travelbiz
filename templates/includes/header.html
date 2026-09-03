@@ -668,6 +668,237 @@
         }
 
     }
+
+    /* =========================================================
+   FINAL DESKTOP NAVBAR FIX
+   ========================================================= */
+
+@media only screen and (min-width: 992px) {
+
+    /* Header */
+    header.header {
+        position: relative !important;
+        z-index: 9999 !important;
+    }
+
+    header.header > .container {
+        position: relative !important;
+        min-height: 70px !important;
+    }
+
+    /* Logo - left */
+    header.header #logo {
+        position: absolute !important;
+        left: 15px !important;
+        top: 18px !important;
+
+        float: none !important;
+
+        width: 140px !important;
+        margin: 0 !important;
+        z-index: 100 !important;
+    }
+
+    header.header #logo img {
+        width: 140px !important;
+        height: 35px !important;
+    }
+
+    /* -----------------------------------------------------
+       MAIN NAVIGATION
+       Home / Explore / Other Pages
+       ----------------------------------------------------- */
+
+    header.header .main-menu {
+        position: absolute !important;
+
+        top: 20px !important;
+        right: 390px !important;
+
+        float: none !important;
+
+        width: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        z-index: 100 !important;
+    }
+
+    header.header .main-menu > ul {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: flex-end !important;
+
+        gap: 4px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        list-style: none !important;
+    }
+
+    header.header .main-menu > ul > li {
+        float: none !important;
+
+        display: block !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        white-space: nowrap !important;
+    }
+
+    header.header .main-menu > ul > li > a {
+        display: block !important;
+
+        padding: 0 8px 10px !important;
+
+        color: #fff !important;
+
+        font-size: 14px !important;
+        font-weight: 500 !important;
+
+        white-space: nowrap !important;
+
+        text-decoration: none !important;
+    }
+
+    /* Hide mobile account links on desktop */
+    header.header .main-menu .mobile-only-menu-item {
+        display: none !important;
+    }
+
+
+    /* -----------------------------------------------------
+       TOP ACTIONS
+       Create Admin / Customer Login / Icons
+       ----------------------------------------------------- */
+
+    header.header #top_menu {
+        position: absolute !important;
+
+        top: 12px !important;
+        right: 0 !important;
+
+        float: none !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: flex-end !important;
+
+        gap: 14px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        z-index: 200 !important;
+
+        white-space: nowrap !important;
+    }
+
+    header.header #top_menu > li {
+        float: none !important;
+
+        display: block !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Admin button */
+    header.header #top_menu .header-admin-btn {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        height: 43px !important;
+
+        padding: 0 18px !important;
+
+        border-radius: 4px !important;
+
+        background: #559b48 !important;
+        color: #fff !important;
+
+        font-weight: 600 !important;
+
+        white-space: nowrap !important;
+    }
+
+    /* Customer login */
+    header.header #top_menu .customer-login-btn {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        height: 43px !important;
+
+        padding: 0 18px !important;
+
+        border-radius: 8px !important;
+
+        background: #168b55 !important;
+        color: #fff !important;
+
+        font-weight: 600 !important;
+
+        white-space: nowrap !important;
+    }
+
+    /* Vendor */
+    header.header #top_menu .desktop-vendor a {
+        color: #fff !important;
+
+        white-space: nowrap !important;
+    }
+
+    /* Wishlist */
+    header.header #top_menu .desktop-wishlist a {
+        color: #fff !important;
+
+        white-space: nowrap !important;
+    }
+
+    /* Mobile button hidden */
+    header.header .mobile-menu-trigger {
+        display: none !important;
+    }
+
+}
+
+
+/* =========================================================
+   DESKTOP - SMALLER LAPTOP
+   ========================================================= */
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+
+    header.header .main-menu {
+        right: 350px !important;
+    }
+
+    header.header .main-menu > ul > li > a {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+        font-size: 13px !important;
+    }
+
+    header.header #top_menu {
+        gap: 8px !important;
+    }
+
+    header.header #top_menu .header-admin-btn,
+    header.header #top_menu .customer-login-btn {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+}
     
 
 </style>
