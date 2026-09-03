@@ -669,372 +669,6 @@
 
     }
 
-/* =========================================================
-   FINAL TRAVELBIZ NAVBAR
-   DESKTOP + STICKY
-   ========================================================= */
-
-@media only screen and (min-width: 992px) {
-
-    /* ================= HEADER ================= */
-
-    header.header {
-        position: sticky !important;
-        top: 0 !important;
-
-        width: 100% !important;
-
-        min-height: 78px !important;
-
-        background: #ffffff !important;
-
-        z-index: 99999 !important;
-
-        box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
-    }
-
-
-    /* ================= CONTAINER ================= */
-
-    header.header > .container {
-        width: 100% !important;
-
-        max-width: 1350px !important;
-
-        min-height: 78px !important;
-
-        margin: 0 auto !important;
-
-        padding: 0 20px !important;
-
-        display: flex !important;
-
-        align-items: center !important;
-
-        position: relative !important;
-    }
-
-
-    /* ================= LOGO ================= */
-
-    header.header #logo {
-        position: static !important;
-
-        float: none !important;
-
-        flex: 0 0 140px !important;
-
-        width: 140px !important;
-
-        height: auto !important;
-
-        margin: 0 !important;
-
-        padding: 0 !important;
-    }
-
-    header.header #logo img {
-        display: block !important;
-
-        width: 140px !important;
-
-        height: 35px !important;
-
-        object-fit: contain !important;
-    }
-
-    /* Hide duplicate sticky logo */
-    header.header #logo .logo_sticky {
-        display: none !important;
-    }
-
-
-    /* ================= MAIN NAV ================= */
-
-    header.header .main-menu {
-        position: static !important;
-
-        display: flex !important;
-
-        flex: 1 1 auto !important;
-
-        width: auto !important;
-
-        height: auto !important;
-
-        margin: 0 20px !important;
-
-        padding: 0 !important;
-
-        float: none !important;
-
-        visibility: visible !important;
-
-        transform: none !important;
-
-        z-index: 10 !important;
-    }
-
-
-    header.header .main-menu > ul {
-        display: flex !important;
-
-        align-items: center !important;
-
-        justify-content: center !important;
-
-        width: 100% !important;
-
-        margin: 0 !important;
-
-        padding: 0 !important;
-
-        gap: 4px !important;
-
-        list-style: none !important;
-    }
-
-
-    header.header .main-menu > ul > li {
-        display: block !important;
-
-        position: relative !important;
-
-        float: none !important;
-
-        margin: 0 !important;
-
-        padding: 0 !important;
-
-        white-space: nowrap !important;
-    }
-
-
-    header.header .main-menu > ul > li > a {
-        display: flex !important;
-
-        align-items: center !important;
-
-        justify-content: center !important;
-
-        min-height: 45px !important;
-
-        padding: 0 10px !important;
-
-        color: #333333 !important;
-
-        font-size: 14px !important;
-
-        font-weight: 600 !important;
-
-        line-height: 1 !important;
-
-        white-space: nowrap !important;
-
-        text-decoration: none !important;
-    }
-
-
-    header.header .main-menu > ul > li > a:hover {
-        color: #559b48 !important;
-    }
-
-
-    /* ================= DROPDOWNS ================= */
-
-    header.header .main-menu .submenu > ul {
-        background: #ffffff !important;
-
-        min-width: 190px !important;
-
-        padding: 8px 0 !important;
-
-        border-radius: 5px !important;
-
-        box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
-    }
-
-
-    header.header .main-menu .submenu > ul > li > a {
-        display: block !important;
-
-        padding: 11px 18px !important;
-
-        color: #333333 !important;
-
-        background: #ffffff !important;
-
-        font-size: 13px !important;
-    }
-
-
-    header.header .main-menu .submenu > ul > li > a:hover {
-        color: #559b48 !important;
-
-        background: #f7f7f7 !important;
-    }
-
-
-    /* ================= RIGHT ACTIONS ================= */
-
-    header.header #top_menu {
-        position: static !important;
-
-        display: flex !important;
-
-        flex: 0 0 auto !important;
-
-        align-items: center !important;
-
-        justify-content: flex-end !important;
-
-        gap: 12px !important;
-
-        width: auto !important;
-
-        margin: 0 !important;
-
-        padding: 0 !important;
-
-        float: none !important;
-
-        list-style: none !important;
-
-        white-space: nowrap !important;
-    }
-
-
-    header.header #top_menu > li {
-        display: block !important;
-
-        float: none !important;
-
-        margin: 0 !important;
-
-        padding: 0 !important;
-
-        white-space: nowrap !important;
-    }
-
-
-    /* ================= ADMIN ================= */
-
-    header.header #top_menu .header-admin-btn {
-        display: flex !important;
-
-        align-items: center !important;
-
-        justify-content: center !important;
-
-        height: 44px !important;
-
-        padding: 0 18px !important;
-
-        background: #559b48 !important;
-
-        color: #ffffff !important;
-
-        border-radius: 5px !important;
-
-        font-size: 14px !important;
-
-        font-weight: 600 !important;
-
-        white-space: nowrap !important;
-
-        text-decoration: none !important;
-    }
-
-
-    /* ================= CUSTOMER LOGIN ================= */
-
-    header.header #top_menu .customer-login-btn {
-        display: flex !important;
-
-        align-items: center !important;
-
-        justify-content: center !important;
-
-        gap: 7px !important;
-
-        height: 44px !important;
-
-        padding: 0 18px !important;
-
-        background: #168b55 !important;
-
-        color: #ffffff !important;
-
-        border-radius: 7px !important;
-
-        font-size: 14px !important;
-
-        font-weight: 600 !important;
-
-        white-space: nowrap !important;
-
-        text-decoration: none !important;
-    }
-
-
-    /* ================= VENDOR ================= */
-
-    header.header #top_menu .desktop-vendor a {
-        display: flex !important;
-
-        align-items: center !important;
-
-        color: #333333 !important;
-
-        font-size: 14px !important;
-
-        font-weight: 600 !important;
-
-        white-space: nowrap !important;
-    }
-
-
-    header.header #top_menu .desktop-vendor a:hover {
-        color: #559b48 !important;
-    }
-
-
-    /* ================= WISHLIST ================= */
-
-    header.header #top_menu .desktop-wishlist a {
-        display: flex !important;
-
-        align-items: center !important;
-
-        color: #333333 !important;
-
-        font-size: 14px !important;
-
-        font-weight: 600 !important;
-
-        white-space: nowrap !important;
-    }
-
-
-    header.header #top_menu .desktop-wishlist a:hover {
-        color: #559b48 !important;
-    }
-
-
-    /* ================= MOBILE ITEMS HIDDEN ================= */
-
-    header.header .mobile-menu-trigger {
-        display: none !important;
-    }
-
-    header.header .mobile-only-menu-item {
-        display: none !important;
-    }
-
-    header.header #header_menu {
-        display: none !important;
-    }
-}
 
 
 /* =========================================================
@@ -1105,6 +739,380 @@
     }
 }
     
+
+/* =========================================================
+   TRAVELBIZ FINAL NAVBAR
+   DESKTOP + STICKY
+   ========================================================= */
+
+@media only screen and (min-width: 992px) {
+
+    /* ================================
+       HEADER
+       ================================= */
+
+    header.header {
+        position: sticky !important;
+        top: 0 !important;
+
+        width: 100% !important;
+        min-height: 78px !important;
+
+        background: #ffffff !important;
+
+        z-index: 99999 !important;
+
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+    }
+
+
+    /* ================================
+       HEADER CONTAINER
+       ================================= */
+
+    header.header > .container {
+        width: 100% !important;
+        max-width: 1350px !important;
+
+        min-height: 78px !important;
+
+        margin: 0 auto !important;
+
+        padding: 0 20px !important;
+
+        display: flex !important;
+        align-items: center !important;
+
+        position: relative !important;
+    }
+
+
+    /* ================================
+       LOGO
+       ================================= */
+
+    header.header #logo {
+        position: static !important;
+
+        float: none !important;
+
+        flex: 0 0 140px !important;
+
+        width: 140px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    header.header #logo img {
+        display: block !important;
+
+        width: 140px !important;
+        height: 35px !important;
+
+        object-fit: contain !important;
+    }
+
+    /* Only one logo on desktop */
+    header.header #logo .logo_sticky {
+        display: none !important;
+    }
+
+
+    /* ================================
+       MAIN NAVIGATION
+       ================================= */
+
+    header.header .main-menu {
+        position: static !important;
+
+        display: flex !important;
+
+        visibility: visible !important;
+
+        transform: none !important;
+
+        float: none !important;
+
+        width: auto !important;
+        height: auto !important;
+
+        flex: 1 1 auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+
+    /* Hide mobile menu header */
+    header.header .main-menu #header_menu {
+        display: none !important;
+    }
+
+
+    /* Navigation */
+    header.header .main-menu > ul {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        width: 100% !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        gap: 3px !important;
+
+        list-style: none !important;
+    }
+
+
+    header.header .main-menu > ul > li {
+        display: block !important;
+
+        position: relative !important;
+
+        float: none !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        white-space: nowrap !important;
+    }
+
+
+    header.header .main-menu > ul > li > a {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        min-height: 45px !important;
+
+        padding: 0 10px !important;
+
+        color: #333333 !important;
+
+        font-size: 14px !important;
+        font-weight: 600 !important;
+
+        line-height: 1 !important;
+
+        white-space: nowrap !important;
+
+        text-decoration: none !important;
+    }
+
+
+    header.header .main-menu > ul > li > a:hover {
+        color: #559b48 !important;
+    }
+
+
+    /* ================================
+       DROPDOWNS
+       ================================= */
+
+    header.header .main-menu .submenu > ul {
+        background: #ffffff !important;
+
+        min-width: 190px !important;
+
+        padding: 7px 0 !important;
+
+        border-radius: 5px !important;
+
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+    }
+
+
+    header.header .main-menu .submenu > ul > li > a {
+        display: block !important;
+
+        padding: 11px 18px !important;
+
+        color: #333333 !important;
+
+        background: #ffffff !important;
+
+        font-size: 13px !important;
+    }
+
+
+    header.header .main-menu .submenu > ul > li > a:hover {
+        color: #559b48 !important;
+
+        background: #f7f7f7 !important;
+    }
+
+
+    /* ================================
+       RIGHT SIDE BUTTONS
+       ================================= */
+
+    header.header #top_menu {
+        position: static !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: flex-end !important;
+
+        flex: 0 0 auto !important;
+
+        width: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        gap: 10px !important;
+
+        float: none !important;
+
+        list-style: none !important;
+
+        white-space: nowrap !important;
+    }
+
+
+    header.header #top_menu > li {
+        display: block !important;
+
+        float: none !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+
+    /* ================================
+       CREATE ADMIN PANEL
+       ================================= */
+
+    header.header #top_menu .desktop-admin {
+        display: block !important;
+    }
+
+    header.header #top_menu .header-admin-btn {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        height: 44px !important;
+
+        padding: 0 17px !important;
+
+        background: #559b48 !important;
+
+        color: #ffffff !important;
+
+        border-radius: 5px !important;
+
+        font-size: 14px !important;
+        font-weight: 600 !important;
+
+        white-space: nowrap !important;
+
+        text-decoration: none !important;
+    }
+
+
+    /* ================================
+       CUSTOMER LOGIN
+       ================================= */
+
+    header.header #top_menu .customer-login-btn {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        gap: 7px !important;
+
+        height: 44px !important;
+
+        padding: 0 17px !important;
+
+        background: #168b55 !important;
+
+        color: #ffffff !important;
+
+        border-radius: 7px !important;
+
+        font-size: 14px !important;
+        font-weight: 600 !important;
+
+        white-space: nowrap !important;
+
+        text-decoration: none !important;
+    }
+
+
+    /* ================================
+       REMOVE DESKTOP DUPLICATES
+       ================================= */
+
+    header.header #top_menu .desktop-vendor,
+    header.header #top_menu .desktop-wishlist {
+        display: none !important;
+    }
+
+
+    /* Remove mobile account copies */
+    header.header .main-menu .mobile-only-menu-item {
+        display: none !important;
+    }
+
+
+    /* Mobile menu trigger hidden */
+    header.header .mobile-menu-trigger {
+        display: none !important;
+    }
+
+}
+
+
+/* =========================================================
+   LAPTOP 992px - 1200px
+   ========================================================= */
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+
+    header.header > .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    header.header #logo,
+    header.header #logo img {
+        width: 120px !important;
+    }
+
+    header.header #logo {
+        flex-basis: 120px !important;
+    }
+
+    header.header .main-menu > ul > li > a {
+        padding-left: 7px !important;
+        padding-right: 7px !important;
+
+        font-size: 13px !important;
+    }
+
+    header.header #top_menu {
+        gap: 7px !important;
+    }
+
+    header.header #top_menu .header-admin-btn,
+    header.header #top_menu .customer-login-btn {
+        padding-left: 11px !important;
+        padding-right: 11px !important;
+
+        font-size: 13px !important;
+    }
+}
 
 </style>
 
