@@ -33,7 +33,10 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 from .models import (
@@ -3465,4 +3468,81 @@ def fake_payment_failed(request, pk):
         "customer_hotel_booking_detail",
         pk=booking.id
     )
+
+
+# ============================================================
+# WHATSAPP CLOUD API WEBHOOK
+# ============================================================
+
+@csrf_exempt
+def whatsapp_webhook(request):
+
+    # --------------------------------------------------------
+    # META WEBHOOK VERIFICATION
+    # --------------------------------------------------------
+    if request.method == "GET":
+
+        mode = request.GET.get("hub.mode")
+        token = request.GET.get("hub.verify_token")
+        challenge = request.GET.get("hub.challenge")
+
+        verify_token = getattr(
+            settings,
+            "WHATSAPP_VERIFY_TOKEN",
+            ""
+        )
+
+        if mode == "subscribe" and token == verify_token:
+            return HttpResponse(
+                challenge,
+                status=200
+            )
+
+        return HttpResponse(
+            "Verification failed",
+            status=403
+        )
+
+    # --------------------------------------------------------
+    # WHATSAPP EVENTS
+    # --------------------------------------------------------
+    if request.method == "POST":
+
+        try:
+            data = json.loads(
+                request.body.decode("utf-8")
+            )
+
+            print("====================================")
+            print("WHATSAPP WEBHOOK RECEIVED")
+            print(data)
+            print("====================================")
+
+            # ------------------------------------------------
+            # TODO:
+            # Incoming WhatsApp messages / status updates
+            # can be processed here.
+            # ------------------------------------------------
+
+            return JsonResponse(
+                {"status": "received"},
+                status=200
+            )
+
+        except Exception as e:
+
+            print(
+                "WhatsApp Webhook Error:",
+                str(e)
+            )
+
+            return JsonResponse(
+                {"status": "error"},
+                status=200
+            )
+
+    return HttpResponse(
+        "Method not allowed",
+        status=405
+    )    
             

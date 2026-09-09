@@ -54,6 +54,7 @@ from .views import (
     blog_list,
     blog_detail,
     contact_page,
+    whatsapp_webhook,
     wishlist_page,
     become_driver,
     my_account,
@@ -79,6 +80,13 @@ from .views import (
 )
 
 urlpatterns = [
+
+    path(
+        "webhook/whatsapp/",
+        whatsapp_webhook,
+        name="whatsapp_webhook",
+    ),
+
     path("", home, name="home"),
 
     # Vendor Registration
@@ -483,6 +491,8 @@ urlpatterns = [
         fake_payment_failed,
         name="fake_payment_failed",
     ),
+
+
 
     
 
