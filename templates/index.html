@@ -46,95 +46,173 @@
   <link href="{% static 'css/gsap_premium.css' %}" rel="stylesheet">
 
   <style>
-    /* =========================================================
-      TRAVELBIZ — FINAL FULLSCREEN HERO VIDEO
-      ========================================================= */
+  /* =========================================================
+    TRAVELBIZ — TRUE FULL WIDTH HERO VIDEO
+    ========================================================= */
 
-    #tb-hero-pinned {
-        position: relative !important;
-        width: 100% !important;
-        height: 100vh !important;
-        min-height: 700px !important;
-        overflow: hidden !important;
-        background: #000 !important;
-    }
+  #tb-hero-pinned {
+      position: relative !important;
 
-    #tb-hero-bg {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        overflow: hidden !important;
-        background: #000 !important;
-        z-index: 0 !important;
-    }
+      width: 100vw !important;
+      max-width: 100vw !important;
 
-    #hero-dailymotion {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        overflow: hidden !important;
-        z-index: 0 !important;
-    }
+      height: 100vh !important;
+      min-height: 700px !important;
 
-    #hero-dailymotion iframe.hero-video-frame {
-        position: absolute !important;
+      margin-left: calc(50% - 50vw) !important;
+      margin-right: 0 !important;
 
-        top: 50% !important;
-        left: 50% !important;
-
-        /* JS will calculate exact cover size */
-        width: 100vw !important;
-        height: 100vh !important;
-
-        min-width: 0 !important;
-        min-height: 0 !important;
-
-        max-width: none !important;
-        max-height: none !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-        border: 0 !important;
-
-        transform: translate(-50%, -50%) !important;
-
-        display: block !important;
-    }
+      overflow: hidden !important;
+      background: #000 !important;
+  }
 
 
-    /* Overlay must cover complete hero */
-    .hero-overlay-grad {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        z-index: 2 !important;
-    }
+  #tb-hero-bg {
+      position: absolute !important;
+
+      top: 0 !important;
+      left: 0 !important;
+      right: auto !important;
+      bottom: auto !important;
+
+      width: 100vw !important;
+      max-width: 100vw !important;
+      height: 100vh !important;
+
+      overflow: hidden !important;
+
+      background: #000 !important;
+
+      z-index: 0 !important;
+
+      transform-origin: center center !important;
+  }
 
 
-    /* Content above video */
-    .hero-content-layer {
-        position: relative !important;
-        z-index: 5 !important;
-    }
+  #hero-dailymotion {
+      position: absolute !important;
 
-    .hero-scroll-hint {
-        position: absolute !important;
-        z-index: 6 !important;
-    }
+      top: 0 !important;
+      left: 0 !important;
+
+      width: 100vw !important;
+      max-width: 100vw !important;
+
+      height: 100vh !important;
+
+      overflow: hidden !important;
+
+      background: #000 !important;
+
+      z-index: 0 !important;
+  }
 
 
-    /* Mobile */
-    @media (max-width: 768px) {
+  /* =========================================================
+    DAILYMOTION — TRUE COVER
+    ========================================================= */
 
-        #tb-hero-pinned {
-            height: 100svh !important;
-            min-height: 600px !important;
-        }
+  #hero-dailymotion iframe.hero-video-frame {
 
-    }
+      position: absolute !important;
+
+      top: 50% !important;
+      left: 50% !important;
+
+      /*
+        Always larger than viewport while maintaining 16:9.
+        This creates TRUE object-fit:cover behaviour.
+      */
+
+      width: max(100vw, 177.7777778vh) !important;
+
+      height: max(100vh, 56.25vw) !important;
+
+      min-width: 0 !important;
+      min-height: 0 !important;
+
+      max-width: none !important;
+      max-height: none !important;
+
+      margin: 0 !important;
+      padding: 0 !important;
+
+      border: 0 !important;
+
+      transform: translate(-50%, -50%) !important;
+
+      display: block !important;
+  }
+
+
+  /* =========================================================
+    HERO OVERLAY
+    ========================================================= */
+
+  .hero-overlay-grad {
+      position: absolute !important;
+
+      top: 0 !important;
+      left: 0 !important;
+
+      width: 100% !important;
+      height: 100% !important;
+
+      z-index: 2 !important;
+  }
+
+
+  /* =========================================================
+    HERO CONTENT
+    ========================================================= */
+
+  .hero-content-layer {
+      position: relative !important;
+
+      width: 100% !important;
+
+      z-index: 5 !important;
+  }
+
+
+  .hero-scroll-hint {
+      position: absolute !important;
+
+      z-index: 6 !important;
+  }
+
+
+  /* =========================================================
+    MOBILE
+    ========================================================= */
+
+  @media (max-width: 768px) {
+
+      #tb-hero-pinned {
+
+          width: 100vw !important;
+          max-width: 100vw !important;
+
+          height: 100svh !important;
+          min-height: 600px !important;
+
+          margin-left: calc(50% - 50vw) !important;
+      }
+
+      #tb-hero-bg,
+      #hero-dailymotion {
+
+          width: 100vw !important;
+          height: 100svh !important;
+      }
+
+      #hero-dailymotion iframe.hero-video-frame {
+
+          width: max(100vw, 177.7777778svh) !important;
+
+          height: max(100svh, 56.25vw) !important;
+      }
+  }
   </style>
 
   <!-- ═══ JS ═══ -->
