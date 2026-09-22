@@ -44,176 +44,7 @@
 
   <!-- ★ PREMIUM STYLESHEET ★ -->
   <link href="{% static 'css/gsap_premium.css' %}" rel="stylesheet">
-
-  <style>
-  /* =========================================================
-    TRAVELBIZ — TRUE FULL WIDTH HERO VIDEO
-    ========================================================= */
-
-  #tb-hero-pinned {
-      position: relative !important;
-
-      width: 100vw !important;
-      max-width: 100vw !important;
-
-      height: 100vh !important;
-      min-height: 700px !important;
-
-      margin-left: calc(50% - 50vw) !important;
-      margin-right: 0 !important;
-
-      overflow: hidden !important;
-      background: #000 !important;
-  }
-
-
-  #tb-hero-bg {
-      position: absolute !important;
-
-      top: 0 !important;
-      left: 0 !important;
-      right: auto !important;
-      bottom: auto !important;
-
-      width: 100vw !important;
-      max-width: 100vw !important;
-      height: 100vh !important;
-
-      overflow: hidden !important;
-
-      background: #000 !important;
-
-      z-index: 0 !important;
-
-      transform-origin: center center !important;
-  }
-
-
-  #hero-dailymotion {
-      position: absolute !important;
-
-      top: 0 !important;
-      left: 0 !important;
-
-      width: 100vw !important;
-      max-width: 100vw !important;
-
-      height: 100vh !important;
-
-      overflow: hidden !important;
-
-      background: #000 !important;
-
-      z-index: 0 !important;
-  }
-
-
-  /* =========================================================
-    DAILYMOTION — TRUE COVER
-    ========================================================= */
-
-  #hero-dailymotion iframe.hero-video-frame {
-
-      position: absolute !important;
-
-      top: 50% !important;
-      left: 50% !important;
-
-      /*
-        Always larger than viewport while maintaining 16:9.
-        This creates TRUE object-fit:cover behaviour.
-      */
-
-      width: max(100vw, 177.7777778vh) !important;
-
-      height: max(100vh, 56.25vw) !important;
-
-      min-width: 0 !important;
-      min-height: 0 !important;
-
-      max-width: none !important;
-      max-height: none !important;
-
-      margin: 0 !important;
-      padding: 0 !important;
-
-      border: 0 !important;
-
-      transform: translate(-50%, -50%) !important;
-
-      display: block !important;
-  }
-
-
-  /* =========================================================
-    HERO OVERLAY
-    ========================================================= */
-
-  .hero-overlay-grad {
-      position: absolute !important;
-
-      top: 0 !important;
-      left: 0 !important;
-
-      width: 100% !important;
-      height: 100% !important;
-
-      z-index: 2 !important;
-  }
-
-
-  /* =========================================================
-    HERO CONTENT
-    ========================================================= */
-
-  .hero-content-layer {
-      position: relative !important;
-
-      width: 100% !important;
-
-      z-index: 5 !important;
-  }
-
-
-  .hero-scroll-hint {
-      position: absolute !important;
-
-      z-index: 6 !important;
-  }
-
-
-  /* =========================================================
-    MOBILE
-    ========================================================= */
-
-  @media (max-width: 768px) {
-
-      #tb-hero-pinned {
-
-          width: 100vw !important;
-          max-width: 100vw !important;
-
-          height: 100svh !important;
-          min-height: 600px !important;
-
-          margin-left: calc(50% - 50vw) !important;
-      }
-
-      #tb-hero-bg,
-      #hero-dailymotion {
-
-          width: 100vw !important;
-          height: 100svh !important;
-      }
-
-      #hero-dailymotion iframe.hero-video-frame {
-
-          width: max(100vw, 177.7777778svh) !important;
-
-          height: max(100svh, 56.25vw) !important;
-      }
-  }
-  </style>
+  
 
   <!-- ═══ JS ═══ -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -895,239 +726,43 @@
 
   <!-- Dailymotion video embed -->
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-
+    document.addEventListener("DOMContentLoaded", function () {
       const videoContainer = document.getElementById("hero-dailymotion");
-
       if (!videoContainer) return;
-
       const dailymotionUrl = "{{ hero.background_video_url|escapejs }}";
-
       if (!dailymotionUrl) return;
 
-
-      /* ===============================
-        GET VIDEO ID
-        =============================== */
-
       function getVideoId(url) {
-
-          try {
-
-              if (url.indexOf('/') === -1 && url.length > 0) {
-                  return url;
-              }
-
-              const shortMatch = url.match(
-                  /dai\.ly\/([a-zA-Z0-9]+)/
-              );
-
-              if (shortMatch && shortMatch[1]) {
-                  return shortMatch[1];
-              }
-
-              const videoMatch = url.match(
-                  /dailymotion\.com\/video\/([a-zA-Z0-9]+)/
-              );
-
-              if (videoMatch && videoMatch[1]) {
-                  return videoMatch[1];
-              }
-
-              const embedMatch = url.match(
-                  /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/
-              );
-
-              if (embedMatch && embedMatch[1]) {
-                  return embedMatch[1];
-              }
-
-              const parsed = new URL(url);
-
-              const video = parsed.searchParams.get("video");
-
-              if (video) {
-                  return video;
-              }
-
-          } catch (e) {
-
-              console.error(
-                  "Dailymotion URL error:",
-                  e
-              );
-
-          }
-
-          return null;
+        try {
+          if (url.indexOf('/') === -1 && url.length > 0) return url;
+          const shortMatch = url.match(/dai\.ly\/([a-zA-Z0-9]+)/);
+          if (shortMatch && shortMatch[1]) return shortMatch[1];
+          const videoMatch = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+          if (videoMatch && videoMatch[1]) return videoMatch[1];
+          const embedMatch = url.match(/dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/);
+          if (embedMatch && embedMatch[1]) return embedMatch[1];
+          const parsed = new URL(url);
+          const video = parsed.searchParams.get("video");
+          if (video) return video;
+        } catch (e) { console.error("DM URL error:", e); }
+        return null;
       }
-
 
       const videoId = getVideoId(dailymotionUrl);
-
-
-      if (!videoId) {
-
-          console.error(
-              "Invalid Dailymotion URL:",
-              dailymotionUrl
-          );
-
-          return;
-      }
-
-
-      /* ===============================
-        CREATE IFRAME
-        =============================== */
+      if (!videoId) { console.error("Invalid Dailymotion URL:", dailymotionUrl); return; }
 
       const iframe = document.createElement("iframe");
-
       iframe.className = "hero-video-frame";
-
-      iframe.src =
-          "https://www.dailymotion.com/embed/video/" +
-          encodeURIComponent(videoId) +
-          "?autoplay=1" +
-          "&mute=1" +
-          "&loop=1" +
-          "&playlist=" +
-          encodeURIComponent(videoId) +
-          "&ui-start-screen-info=0" +
-          "&ui-logo=0" +
-          "&controls=0";
-
+      iframe.src = "https://www.dailymotion.com/embed/video/" +
+        encodeURIComponent(videoId) +
+        "?autoplay=1&mute=1&loop=1&playlist=" + encodeURIComponent(videoId) +
+        "&ui-start-screen-info=0&ui-logo=0&controls=0";
       iframe.frameBorder = "0";
-
       iframe.allowFullscreen = true;
-
-      iframe.setAttribute(
-          "allow",
-          "autoplay; fullscreen"
-      );
-
-      iframe.setAttribute(
-          "referrerpolicy",
-          "strict-origin-when-cross-origin"
-      );
-
+      iframe.setAttribute("allow", "autoplay; fullscreen");
+      iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
       videoContainer.appendChild(iframe);
-
-
-      /* ===============================
-        PERFECT VIDEO COVER
-        =============================== */
-
-      function resizeHeroVideo() {
-
-          const hero =
-              document.getElementById(
-                  "tb-hero-pinned"
-              );
-
-          if (!hero) return;
-
-
-          const containerWidth =
-              hero.clientWidth;
-
-          const containerHeight =
-              hero.clientHeight;
-
-
-          const videoRatio = 16 / 9;
-
-          let videoWidth;
-          let videoHeight;
-
-
-          /* Screen wider than 16:9 */
-
-          if (
-              containerWidth / containerHeight >
-              videoRatio
-          ) {
-
-              videoWidth =
-                  containerWidth;
-
-              videoHeight =
-                  containerWidth /
-                  videoRatio;
-
-          }
-
-          /* Screen taller than 16:9 */
-
-          else {
-
-              videoHeight =
-                  containerHeight;
-
-              videoWidth =
-                  containerHeight *
-                  videoRatio;
-
-          }
-
-
-          iframe.style.setProperty(
-              "width",
-              videoWidth + "px",
-              "important"
-          );
-
-          iframe.style.setProperty(
-              "height",
-              videoHeight + "px",
-              "important"
-          );
-
-          iframe.style.setProperty(
-              "top",
-              "50%",
-              "important"
-          );
-
-          iframe.style.setProperty(
-              "left",
-              "50%",
-              "important"
-          );
-
-          iframe.style.setProperty(
-              "transform",
-              "translate(-50%, -50%)",
-              "important"
-          );
-      }
-
-
-      /* Initial calculation */
-      resizeHeroVideo();
-
-
-      /* Browser resize */
-      window.addEventListener(
-          "resize",
-          resizeHeroVideo
-      );
-
-
-      /* Mobile orientation */
-      window.addEventListener(
-          "orientationchange",
-          function () {
-
-              setTimeout(
-                  resizeHeroVideo,
-                  300
-              );
-
-          }
-      );
-
-  });
+    });
   </script>
 
 
