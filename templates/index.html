@@ -45,6 +45,123 @@
   <!-- ★ PREMIUM STYLESHEET ★ -->
   <link href="{% static 'css/gsap_premium.css' %}" rel="stylesheet">
 
+  <style>
+/* =========================================================
+   FINAL HERO VIDEO FIX
+   ========================================================= */
+
+#tb-hero-pinned {
+    position: relative !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 700px !important;
+    overflow: hidden !important;
+    background: #000 !important;
+}
+
+#tb-hero-bg {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    background: #000 !important;
+    z-index: 0 !important;
+}
+
+#hero-dailymotion {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+}
+
+/* Dailymotion iframe */
+#hero-dailymotion iframe.hero-video-frame {
+    position: absolute !important;
+
+    top: 50% !important;
+    left: 50% !important;
+
+    width: 177.78vh !important;
+    height: 100vh !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    display: block !important;
+
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform: translate(-50%, -50%) !important;
+}
+
+
+/* Keep overlay/content above video */
+.hero-overlay-grad {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 2 !important;
+}
+
+.hero-content-layer {
+    position: relative !important;
+    z-index: 5 !important;
+}
+
+.hero-scroll-hint {
+    position: absolute !important;
+    z-index: 6 !important;
+}
+
+
+/* Desktop */
+@media (min-width: 769px) {
+
+    #tb-hero-pinned,
+    #tb-hero-bg,
+    #hero-dailymotion {
+        width: 100vw !important;
+        height: 100vh !important;
+    }
+
+    #hero-dailymotion iframe.hero-video-frame {
+        width: 177.78vh !important;
+        height: 100vh !important;
+    }
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    #tb-hero-pinned {
+        width: 100% !important;
+        height: 100svh !important;
+        min-height: 600px !important;
+    }
+
+    #tb-hero-bg,
+    #hero-dailymotion {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    #hero-dailymotion iframe.hero-video-frame {
+        width: 177.78vh !important;
+        height: 100vh !important;
+    }
+}
+</style>
+
   <!-- ═══ JS ═══ -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{% static 'js/owl.carousel.min.js' %}"></script>
