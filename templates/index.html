@@ -1,931 +1,1012 @@
 {% load static %}
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        .hero-video {
-            position: absolute;
-            inset: 0;
+  <!-- ═══ SEO ═══ -->
+  <title>
+    {% if seo and seo.meta_title %}{{ seo.meta_title }}
+    {% else %}TravelBiz – Discover &amp; Book the Best Tours, Hotels &amp; Destinations{% endif %}
+  </title>
+  <meta name="description" content="{% if seo and seo.meta_description %}{{ seo.meta_description }}{% else %}TravelBiz helps you discover and book the best tours, hotels and travel experiences across India.{% endif %}">
+  {% if seo and seo.meta_keywords %}<meta name="keywords" content="{{ seo.meta_keywords }}">{% endif %}
+  <meta name="author" content="TravelBiz">
 
-            width: 100%;
-            height: 100%;
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% if seo and seo.og_title %}{{ seo.og_title }}{% else %}{{ seo.meta_title }}{% endif %}">
+  <meta property="og:description" content="{% if seo and seo.og_description %}{{ seo.og_description }}{% else %}{{ seo.meta_description }}{% endif %}">
+  {% if seo and seo.og_image %}<meta property="og:image" content="{{ seo.og_image.url }}">{% endif %}
 
-            overflow: hidden;
+  <!-- ═══ FAVICONS ═══ -->
+  <link rel="shortcut icon" href="{% static 'img/apple_touch_57 (1).ico' %}" type="image/x-icon">
+  <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon-57x57-precomposed.png' %}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/apple-touch-icon-72x72-precomposed.png' %}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/apple-touch-icon-114x114-precomposed.png' %}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/apple-touch-icon-144x144-precomposed.png' %}">
 
-            z-index: 0;
+  <!-- ═══ FONTS ═══ -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-            background: #000;
-        }
+  <!-- ═══ CSS ═══ -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'css/home.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+  <link href="{% static 'css/custom.css' %}" rel="stylesheet">
 
+  <!-- ★ PREMIUM STYLESHEET ★ -->
+  <link href="{% static 'css/gsap_premium.css' %}" rel="stylesheet">
 
-        .hero-video-frame {
-            position: absolute;
+  <!-- ═══ JS ═══ -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 
-            top: 50%;
-            left: 50%;
-
-            width: 100vw;
-            height: 56.25vw;
-
-            min-height: 100%;
-            min-width: 177.78vh;
-
-            transform: translate(-50%, -50%);
-
-            border: 0;
-
-            pointer-events: none;
-        }
-
-
-        .hero-video-wrap {
-            position: relative;
-            overflow: hidden;
-            background: #000;
-        }
-
-
-        .hero-video-wrap .opacity-mask {
-            position: relative;
-            z-index: 2;
-        }
-
-
-        @media (max-width: 767px) {
-
-            .hero-video-frame {
-                width: 177.78vh;
-                height: 100vh;
-            }
-
-        }
-
-    </style>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- ================= SEO ================= -->
-    <title>
-        {% if seo and seo.meta_title %}
-        {{ seo.meta_title }}
-        {% else %}
-        TravelBiz – Discover & Book the Best Tours, Hotels & Destinations
-        {% endif %}
-    </title>
-
-    <meta name="description" content="{% if seo and seo.meta_description %}
-                       {{ seo.meta_description }}
-                   {% else %}
-                       TravelBiz helps you discover and book the best tours, hotels and travel experiences across India.
-                   {% endif %}">
-
-    {% if seo and seo.meta_keywords %}
-    <meta name="keywords" content="{{ seo.meta_keywords }}">
-    {% endif %}
-
-    <meta name="author" content="TravelBiz">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="{% if seo and seo.og_title %}
-                       {{ seo.og_title }}
-                   {% else %}
-                       {{ seo.meta_title }}
-                   {% endif %}">
-    <meta property="og:description" content="{% if seo and seo.og_description %}
-                       {{ seo.og_description }}
-                   {% else %}
-                       {{ seo.meta_description }}
-                   {% endif %}">
-    {% if seo and seo.og_image %}
-    <meta property="og:image" content="{{ seo.og_image.url }}">
-    {% endif %}
-
-    <!-- ================= FAVICONS ================= -->
-    <link rel="shortcut icon" href="{% static 'img/apple_touch_57 (1).ico' %}" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon-57x57-precomposed.png' %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/apple-touch-icon-72x72-precomposed.png' %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/apple-touch-icon-114x114-precomposed.png' %}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/apple-touch-icon-144x144-precomposed.png' %}">
-
-    <!-- ================= FONTS ================= -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- ================= CSS ================= -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
-
-    <!-- ================= JS ================= -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-
-    <script>
-        $(document).ready(function () {
-            $(".owl-carousel").owlCarousel({
-                items: 1,
-                loop: true,
-                nav: false,
-                dots: true
-            });
-        });
-    </script>
-
-    <!-- ================= CUSTOM CSS ================= -->
-    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+  <script>
+    $(document).ready(function () {
+      $(".owl-carousel").owlCarousel({ items: 1, loop: true, nav: false, dots: true });
+    });
+  </script>
 </head>
 
 <body>
+  <!-- SCROLL PROGRESS BAR -->
+  <div id="tb-scroll-progress"></div>
 
-    {% include "includes/header.html" %}
+  {% include "includes/header.html" %}
 
-    <main>
-        <!-- ================= HERO ================= -->
-        <div class="hero_single version_2 hero-video-wrap">
+  <main>
 
-            <div id="hero-dailymotion" class="hero-video"></div>
+    <!-- ═══════════════════════════════════════════════════════
+         HERO — PINNED, PARALLAX ZOOM + CINEMATIC ENTRANCE
+    ════════════════════════════════════════════════════════ -->
+    <div id="tb-hero-pinned">
 
+      <!-- Background video wrapper — GSAP scales this -->
+      <div id="tb-hero-bg">
+        <div id="hero-dailymotion" class="hero-video"></div>
+      </div>
 
-            <div class="opacity-mask" data-opacity-mask="rgba(0,0,0,0.55)">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-xl-9 col-lg-10 col-md-8">
+      <!-- Gradient overlay -->
+      <div class="hero-overlay-grad"></div>
 
-                            <h1>{{ hero.title }}</h1>
-                            <p>{{ hero.subtitle }}</p>
+      <!-- Content layer -->
+      <div class="hero-content-layer">
 
-                            <form method="get" action="{% url 'search_results' %}">
-                                <div class="row g-0 custom-search-input">
-                                    <div class="col-lg-4">
-                                        <input class="form-control" name="q"
-                                            placeholder="{{ hero.search_placeholder_1 }}">
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input class="form-control no_border_r" name="date"
-                                            placeholder="{{ hero.search_placeholder_2 }}">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <input type="submit" value="Search">
-                                    </div>
-                                </div>
-                            </form>
+        <span class="hero-eyebrow" id="hero-eyebrow">
+          <span></span> Curated India Travel <span></span>
+        </span>
 
-                        </div>
-                    </div>
-                </div>
+        <h1 id="hero-title">
+          {{ hero.title|default:"Discover Your Next<br><em>Grand Adventure</em>" }}
+        </h1>
+
+        <p class="hero-sub" id="hero-sub">
+          {{ hero.subtitle|default:"Handcrafted journeys, iconic destinations, unforgettable experiences." }}
+        </p>
+
+        <div class="hero-search-wrap" id="hero-search">
+          <form method="get" action="{% url 'search_results' %}">
+            <div class="row g-0 custom-search-input">
+              <div class="col-lg-4">
+                <input class="form-control" name="q"
+                  placeholder="{{ hero.search_placeholder_1|default:'Where do you want to go?' }}">
+              </div>
+              <div class="col-lg-5">
+                <input class="form-control no_border_r datepicker" name="date"
+                  placeholder="{{ hero.search_placeholder_2|default:'Choose travel date' }}">
+              </div>
+              <div class="col-lg-3">
+                <input type="submit" value="Explore Now">
+              </div>
             </div>
+          </form>
         </div>
-        <!-- /hero_single -->
+
+      </div><!-- /hero-content-layer -->
+
+      <!-- Scroll hint arrow -->
+      <div class="hero-scroll-hint" id="hero-scroll-hint">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+
+    </div><!-- /#tb-hero-pinned -->
 
 
-        <div class="bg_gray">
-            <div class="container margin_60_40">
-                <div class="main_title center">
-                    <span><em></em></span>
-                    <h2>Popular Categories</h2>
-                    <p>Find trips by interest — Beaches, Mountains, Cities, Adventure & more</p>
-                </div>
-                <!-- /main_title -->
+    <!-- ═══════════════════════════════════════════════════════
+         STATS COUNTER STRIP
+    ════════════════════════════════════════════════════════ -->
+    <section id="section-stats">
+      <div class="container">
+        <div class="stats-inner">
+          <div class="row justify-content-center align-items-center g-0">
 
-                <div class="owl-carousel owl-theme categories_carousel">
-
-                    {% for c in categories %}
-                    <div class="item">
-                        <a href="{% url 'category_tours' c.id %}">
-                            <span>{{ c.count }}</span>
-                            <i class="{{ c.icon_class }}"></i>
-                            <h3>{{ c.title }}</h3>
-                            <small>{{ c.price_text }}</small>
-                        </a>
-                    </div>
-                    {% endfor %}
-
-                </div>
-                <!-- /carousel -->
-
+            <div class="col-6 col-md-3 gsap-fade-up">
+              <div class="stat-item">
+                <span class="stat-number">
+                  <span class="counter" data-target="2400">0</span><span class="stat-plus">+</span>
+                </span>
+                <span class="stat-label">Happy Travellers</span>
+              </div>
             </div>
-            <!-- /container -->
+
+            <div class="col-1 d-none d-md-flex">
+              <div class="stat-divider"></div>
+            </div>
+
+            <div class="col-6 col-md-3 gsap-fade-up" style="animation-delay:.1s">
+              <div class="stat-item">
+                <span class="stat-number">
+                  <span class="counter" data-target="180">0</span><span class="stat-plus">+</span>
+                </span>
+                <span class="stat-label">Destinations</span>
+              </div>
+            </div>
+
+            <div class="col-1 d-none d-md-flex">
+              <div class="stat-divider"></div>
+            </div>
+
+            <div class="col-6 col-md-3 gsap-fade-up" style="animation-delay:.2s">
+              <div class="stat-item">
+                <span class="stat-number">
+                  <span class="counter" data-target="98">0</span><span class="stat-plus">%</span>
+                </span>
+                <span class="stat-label">Satisfaction Rate</span>
+              </div>
+            </div>
+
+          </div><!-- /row -->
         </div>
-        <!-- /bg_gray -->
+      </div>
+    </section>
 
-        <div class="container margin_60_40">
 
-            <div class="d-flex justify-content-between align-items-center mb-5">
+    <!-- ═══════════════════════════════════════════════════════
+         POPULAR CATEGORIES
+    ════════════════════════════════════════════════════════ -->
+    <section id="section-categories">
+      <div class="container">
 
-                <div>
+        <div class="text-center mb-5 gsap-fade-up">
+          <span class="tb-section-eyebrow">Explore by Interest</span>
+          <h2 class="tb-section-title">Popular <em>Categories</em></h2>
+          <p class="tb-section-sub mx-auto">Find trips by interest — Beaches, Mountains, Cities, Adventure &amp; more</p>
+        </div>
 
-                    <span class="text-success fw-bold">
-                        EXPLORE INDIA
-                    </span>
+        <div class="tb-divider gsap-fade-in"><span class="tb-divider-icon">✦</span></div>
 
-                    <h2 class="fw-bold display-6 mb-2">
-                        Featured Tours
-                    </h2>
+        <div class="owl-carousel owl-theme categories_carousel gsap-fade-up">
+          {% for c in categories %}
+          <div class="item">
+            <a href="{% url 'category_tours' c.id %}">
+              <span>{{ c.count }}</span>
+              <i class="{{ c.icon_class }}"></i>
+              <h3>{{ c.title }}</h3>
+              <small>{{ c.price_text }}</small>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
 
-                    <p class="text-muted mb-0">
-                        Handpicked destinations for your next unforgettable journey.
-                    </p>
+      </div>
+    </section>
 
+
+    <!-- ═══════════════════════════════════════════════════════
+         FEATURED TOURS
+    ════════════════════════════════════════════════════════ -->
+    <section id="section-tours">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-end mb-5 gsap-fade-up">
+          <div>
+            <span class="section-badge green-badge">Explore India</span>
+            <h2 class="tb-section-title mb-1">Featured <em>Tours</em></h2>
+            <p class="tb-section-sub">Handpicked destinations for your next unforgettable journey.</p>
+          </div>
+          <a href="#" class="btn-view-all">All Tours &rarr;</a>
+        </div>
+
+        <div class="row">
+          {% for tour in tours %}
+          <div class="col-lg-4 mb-4 gsap-fade-up">
+            <div class="card shadow">
+              {% with image=tour.images.first %}
+                {% if image %}
+                <div style="overflow:hidden; height:220px;">
+                  <img src="{{ image.image.url }}" class="card-img-top"
+                    style="height:220px;width:100%;object-fit:cover;">
                 </div>
+                {% endif %}
+              {% endwith %}
+              <div class="card-body">
+                <h5>{{ tour.tour_name }}</h5>
+                <p class="text-muted mb-1"><i class="fa fa-map-marker-alt me-1"></i>{{ tour.location }}</p>
+                <h4>₹{{ tour.price }}</h4>
+                <a href="{% url 'tour_detail' tour.id %}" class="btn btn-primary w-100 mt-3">View Details</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
 
-                <a href="#" class="btn btn-outline-success rounded-pill px-4">
+      </div>
+    </section>
 
-                    View All Tours
 
+    <!-- ═══════════════════════════════════════════════════════
+         WHY CHOOSE US
+    ════════════════════════════════════════════════════════ -->
+    <section id="section-why">
+      <div class="container position-relative" style="z-index:2">
+
+        <div class="text-center mb-5 gsap-fade-up">
+          <span class="tb-section-eyebrow">Our Promise</span>
+          <h2 class="tb-section-title" style="color:#fff;">Why Choose <em>TravelBiz</em></h2>
+          <p class="tb-section-sub mx-auto" style="color:rgba(255,255,255,0.5);">
+            Every journey we craft is a masterpiece of planning, passion and local expertise.
+          </p>
+        </div>
+
+        <div class="row g-4">
+
+          <div class="col-md-4 gsap-fade-up">
+            <div class="why-card">
+              <div class="why-card-icon">
+                <i class="fa fa-compass"></i>
+              </div>
+              <h4>Expert Guidance</h4>
+              <p>Curated journeys tailored to your unique preferences by global travel specialists who know every hidden gem.</p>
+            </div>
+          </div>
+
+          <div class="col-md-4 gsap-fade-up">
+            <div class="why-card">
+              <div class="why-card-icon">
+                <i class="fa fa-mountain"></i>
+              </div>
+              <h4>Iconic Destinations</h4>
+              <p>Discover the world's most spectacular and exclusive landscapes — from Himalayan peaks to Kerala backwaters.</p>
+            </div>
+          </div>
+
+          <div class="col-md-4 gsap-fade-up">
+            <div class="why-card">
+              <div class="why-card-icon">
+                <i class="fa fa-shield-alt"></i>
+              </div>
+              <h4>Safe &amp; Trusted</h4>
+              <p>Verified vendors, secure payments via PhonePe, and 24/7 support — because peace of mind is priceless.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         FEATURED HOTELS
+    ════════════════════════════════════════════════════════ -->
+    <section id="section-hotels">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-end mb-5 gsap-fade-up">
+          <div>
+            <span class="section-badge">Premium Stays</span>
+            <h2 class="tb-section-title mb-1">Featured <em>Hotels</em></h2>
+            <p class="tb-section-sub">Discover luxury hotels and comfortable stays across India.</p>
+          </div>
+          <a href="{% url 'hotel_list' %}" class="btn-view-all">All Hotels &rarr;</a>
+        </div>
+
+        <div class="row">
+          {% for hotel in hotels %}
+          <div class="col-lg-4 col-md-6 mb-4 gsap-fade-up">
+            <div class="card hotel-card border-0 shadow rounded-4 h-100">
+              {% with image=hotel.images.first %}
+              {% if image %}
+              <div class="overflow-hidden rounded-top-4" style="height:260px;">
+                <img src="{{ image.image.url }}" class="card-img-top hotel-img"
+                  style="height:260px;width:100%;object-fit:cover;">
+              </div>
+              {% else %}
+              <img src="{% static 'img/hotel_1.jpg' %}" class="card-img-top hotel-img"
+                style="height:260px;object-fit:cover;">
+              {% endif %}
+              {% endwith %}
+
+              <div class="card-body">
+                <span class="badge bg-success mb-3">Best Choice</span>
+                <h4 class="fw-bold">{{ hotel.hotel_name }}</h4>
+                <p class="text-muted">
+                  <i class="icon_pin_alt"></i> {{ hotel.location }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <h3 class="text-success fw-bold mb-0">₹{{ hotel.price }}</h3>
+                  <small class="text-muted">/ Night</small>
+                </div>
+              </div>
+
+              <div class="card-footer bg-white border-0 pb-4">
+                <a href="{% url 'hotel_detail' hotel.id %}" class="btn btn-success rounded-pill w-100">
+                  View Hotel
                 </a>
+              </div>
 
             </div>
-
-            <div class="row">
-
-                {% for tour in tours %}
-
-                <div class="col-lg-4 mb-4">
-
-                    <div class="card shadow">
-
-                        {% with image=tour.images.first %}
-
-                            {% if image %}
-
-                            <img src="{{ image.image.url }}"
-                                class="card-img-top"
-                                style="height:220px;object-fit:cover;">
-
-                            {% endif %}
-
-                        {% endwith %}
-
-                        <div class="card-body">
-
-                            <h5>{{ tour.tour_name }}</h5>
-
-                            <p>{{ tour.location }}</p>
-
-                            <h4>₹{{ tour.price }}</h4>
-
-
-                            <a href="{% url 'tour_detail' tour.id %}"
-                            class="btn btn-primary w-100 mt-3">
-
-                                View Details
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {% endfor %}
-
-            </div>
-
+          </div>
+          {% endfor %}
         </div>
 
-        <div class="container margin_60_40">
+      </div>
+    </section>
 
-            <div class="d-flex justify-content-between align-items-center mb-5">
 
-                <div>
+    <!-- ═══════════════════════════════════════════════════════
+         POPULAR DESTINATIONS
+    ════════════════════════════════════════════════════════ -->
+    <section id="section-destinations">
+      <div class="container">
 
-                    <span class="text-primary fw-bold">
+        <div class="text-center mb-5 gsap-fade-up">
+          <span class="tb-section-eyebrow green">Top Picks</span>
+          <h2 class="tb-section-title">Popular <em>Destinations</em></h2>
+          <p class="tb-section-sub mx-auto">Handpicked places loved by travellers.</p>
+        </div>
 
-                        PREMIUM STAYS
+        <div class="tb-divider gsap-fade-in"><span class="tb-divider-icon">✦</span></div>
 
-                    </span>
-
-                    <h2 class="fw-bold display-6 mb-2">
-
-                        Featured Hotels
-
-                    </h2>
-
-                    <p class="text-muted">
-
-                        Discover luxury hotels and comfortable stays.
-
-                    </p>
-
-                </div>
-
-                <a href="{% url 'hotel_list' %}"
-                class="btn btn-outline-primary rounded-pill px-4">
-
-                    View All Hotels
-
+        <div class="owl-carousel owl-theme carousel_4 gsap-fade-up">
+          {% for d in destinations %}
+          <div class="item">
+            <div class="strip">
+              <figure>
+                {% if d.ribbon_text %}
+                <span class="ribbon off">{{ d.ribbon_text }}</span>
+                {% endif %}
+                <img src="{{ d.image.url }}" alt="{{ d.title }}">
+                <a href="{{ d.url }}" class="strip_info">
+                  <small>{{ d.country_category }}</small>
+                  <div class="item_title">
+                    <h3>{{ d.title }}</h3>
+                    <small>{{ d.price_text }}</small>
+                  </div>
                 </a>
-
+              </figure>
+              <ul>
+                <li><span class="loc_open">{{ d.open_text }}</span></li>
+                <li>
+                  <div class="score">
+                    <span>{{ d.reviews_text }}</span>
+                    <strong>{{ d.rating }}</strong>
+                  </div>
+                </li>
+              </ul>
             </div>
-
-            <div class="row">
-
-                {% for hotel in hotels %}
-
-                <div class="col-lg-4 col-md-6 mb-4">
-
-                    <div class="card hotel-card border-0 shadow rounded-4 h-100">
-
-                        {% with image=hotel.images.first %}
-
-                        {% if image %}
-
-                        <div class="overflow-hidden rounded-top-4">
-
-                            <img src="{{ image.image.url }}"
-                                class="card-img-top hotel-img"
-                                style="height:260px;object-fit:cover;">
-
-                        </div>
-
-                        {% else %}
-
-                        <img src="{% static 'img/hotel_1.jpg' %}"
-                            class="card-img-top hotel-img"
-                            style="height:260px;object-fit:cover;">
-
-                        {% endif %}
-
-                        {% endwith %}
-
-                        <div class="card-body">
-
-                            <span class="badge bg-success mb-3">
-
-                                Best Choice
-
-                            </span>
-
-                            <h4 class="fw-bold">
-
-                                {{ hotel.hotel_name }}
-
-                            </h4>
-
-                            <p class="text-muted">
-
-                                <i class="icon_pin_alt"></i>
-
-                                {{ hotel.location }}
-
-                            </p>
-
-                            <div class="d-flex justify-content-between align-items-center">
-
-                                <h3 class="text-success fw-bold mb-0">
-
-                                    ₹{{ hotel.price }}
-
-                                </h3>
-
-                                <small class="text-muted">
-
-                                    / Night
-
-                                </small>
-
-                            </div>
-
-                        </div>
-
-                        <div class="card-footer bg-white border-0 pb-4">
-
-                            <a href="{% url 'hotel_detail' hotel.id %}"
-                            class="btn btn-success rounded-pill w-100">
-
-                                View Hotel
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {% endfor %}
-
-            </div>
-
+          </div>
+          {% endfor %}
         </div>
 
-
-        <div class="container margin_60_40">
-            <div class="main_title">
-                <span><em></em></span>
-                <h2>Popular Destinations</h2>
-                <p>Handpicked places loved by travellers.</p>
-                <a href="grid-destinations.html">View All</a>
+        <!-- Middle banner with parallax -->
+        <div class="banner lazy gsap-scale-in"
+          data-bg="url({{ middle_banner.background_image.url }})" id="mid-banner">
+          <div class="wrapper d-flex align-items-center opacity-mask"
+            data-opacity-mask="rgba(0, 0, 0, 0.2)">
+            <div>
+              {% if middle_banner.small_title %}
+              <small>{{ middle_banner.small_title }}</small>
+              {% endif %}
+              <h3>{{ middle_banner.main_title }}</h3>
+              {% if middle_banner.subtitle %}
+              <p>{{ middle_banner.subtitle }}</p>
+              {% endif %}
+              <a href="{{ middle_banner.button_url }}" class="btn_1">
+                {{ middle_banner.button_text }}
+              </a>
             </div>
-
-            <div class="owl-carousel owl-theme carousel_4">
-                {% for d in destinations %}
-                <div class="item">
-                    <div class="strip">
-                        <figure>
-                            {% if d.ribbon_text %}
-                            <span class="ribbon off">{{ d.ribbon_text }}</span>
-                            {% endif %}
-
-                            <img src="{{ d.image.url }}" alt="{{ d.title }}">
-
-                            <a href="{{ d.url }}" class="strip_info">
-                                <small>{{ d.country_category }}</small>
-                                <div class="item_title">
-                                    <h3>{{ d.title }}</h3>
-                                    <small>{{ d.price_text }}</small>
-                                </div>
-                            </a>
-                        </figure>
-
-                        <ul>
-                            <li><span class="loc_open">{{ d.open_text }}</span></li>
-                            <li>
-                                <div class="score">
-                                    <span>{{ d.reviews_text }}</span>
-                                    <strong>{{ d.rating }}</strong>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <!-- /carousel -->
-
-            <div class="banner lazy" data-bg="url({{ middle_banner.background_image.url }})">
-
-                <div class="wrapper d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.2)">
-                    <div>
-                        {% if middle_banner.small_title %}
-                        <small>{{ middle_banner.small_title }}</small>
-                        {% endif %}
-
-                        <h3>{{ middle_banner.main_title }}</h3>
-
-                        {% if middle_banner.subtitle %}
-                        <p>{{ middle_banner.subtitle }}</p>
-                        {% endif %}
-
-                        <a href="{{ middle_banner.button_url }}" class="btn_1">
-                            {{ middle_banner.button_text }}
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- /banner -->
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="main_title version_2">
-                        <span><em></em></span>
-                        <h2>Top Deals & Packages</h2>
-                        <p>Special offers for families, couples and solo travellers.</p>
-                        <a href="#0">View All</a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="list_home">
-                        <ul>
-                            {% for d in deals|slice:":3" %}
-                            <li>
-                                <a href="{{ d.url }}">
-                                    <figure>
-                                        <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
-                                    </figure>
-                                    <div class="score"><strong>{{ d.rating }}</strong></div>
-                                    <em>{{ d.category }}</em>
-                                    <h3>{{ d.title }}</h3>
-                                    <small>{{ d.subtitle }}</small>
-                                    <ul>
-                                        {% if d.discount %}
-                                        <li><span class="ribbon off">{{ d.discount }}</span></li>
-                                        {% endif %}
-                                        <li>{{ d.person_type }}</li>
-                                    </ul>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="list_home">
-                        <ul>
-                            {% for d in deals|slice:"3:6" %}
-                            <li>
-                                <a href="{{ d.url }}">
-                                    <figure>
-                                        <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
-                                    </figure>
-                                    <div class="score"><strong>{{ d.rating }}</strong></div>
-                                    <em>{{ d.category }}</em>
-                                    <h3>{{ d.title }}</h3>
-                                    <small>{{ d.subtitle }}</small>
-                                    <ul>
-                                        {% if d.discount %}
-                                        <li><span class="ribbon off">{{ d.discount }}</span></li>
-                                        {% endif %}
-                                        <li>{{ d.person_type }}</li>
-                                    </ul>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /row -->
-            <p class="text-center d-block d-md-block d-lg-none"><a href="grid-destinations.html" class="btn_1">View
-                    All</a></p>
-            <!-- /button visibile on tablet/mobile only -->
-        </div>
-        <!-- /container -->
-
-
-
-        <div class="container margin_60_40">
-            <div class="main_title">
-                <span><em></em></span>
-                <h2>Top Verified Vendors</h2>
-                <p>Trusted travel partners with top quality services.</p>
-            </div>
-
-            <div class="row">
-                {% for v in vendors %}
-                <div class="col-lg-4 col-md-6">
-                    <div class="strip">
-                        <figure>
-                            {% if v.logo %}
-                            <img src="{{ v.logo.url }}" alt="{{ v.business_name }}"
-                                style="height:200px; object-fit:cover;">
-                            {% else %}
-                            <img src="{% static 'img/vendor_default.jpg' %}" alt="Vendor">
-                            {% endif %}
-                        </figure>
-                        <ul>
-                            <li><strong>{{ v.business_name }}</strong></li>
-                            <li>{{ v.city }}, {{ v.country }}</li>
-                            <li>
-                                <div class="score">
-                                    <strong>{{ v.rating }}</strong>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
+          </div>
         </div>
 
-
-
-        <div class="call_section lazy" data-bg="url({{ call_section.background_image.url }})">
-
-            <div class="container clearfix">
-                <div class="col-lg-5 col-md-6 float-end wow">
-                    <div class="box_1">
-                        <h3>{{ call_section.title }}</h3>
-                        <p>{{ call_section.description }}</p>
-                        <a href="{{ call_section.button_url }}" class="btn_1">
-                            {{ call_section.button_text }}
-                        </a>
-                    </div>
-                </div>
+        <!-- TOP DEALS & PACKAGES -->
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="main_title version_2 gsap-fade-up">
+              <span><em></em></span>
+              <h2>Top Deals &amp; Packages</h2>
+              <p>Special offers for families, couples and solo travellers.</p>
+              <a href="#0">View All</a>
             </div>
-        </div>
+          </div>
 
-        <!--/call_section-->
-
-    </main>
-    <!-- /main -->
-
-    <footer>
-        <div class="container">
-            <div class="row">
-
-                <!-- QUICK LINKS -->
-                <div class="col-lg-3 col-md-6">
-                    <h3 data-bs-target="#collapse_1">Quick Links</h3>
-                    <div class="collapse dont-collapse-sm links" id="collapse_1">
-                        <ul>
-                            <li><a href="{% url 'become_driver' %}">Become a Rider</a></li>
-                            <li><a href="{% url 'help' %}">Help</a></li>
-                            <li><a href="{% url 'my_account' %}">My account</a></li>
-                            <li><a href="{% url 'blog_list' %}">Blog</a></li>
-                            <li><a href="{% url 'contact' %}">Contacts</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- CATEGORIES -->
-                <div class="col-lg-3 col-md-6">
-                    <h3 data-bs-target="#collapse_2">Categories</h3>
-                    <div class="collapse dont-collapse-sm links" id="collapse_2">
-                        <ul>
-                            <li><a href="#">Top Categories</a></li>
-                            <li><a href="#">Best Rated</a></li>
-                            <li><a href="#">Best Price</a></li>
-                            <li><a href="#">Latest Submissions</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- CONTACTS -->
-                <div class="col-lg-3 col-md-6">
-                    <h3 data-bs-target="#collapse_3">Contacts</h3>
-                    <div class="collapse dont-collapse-sm contacts" id="collapse_3">
-                        <ul>
-                            <li>
-                                <i class="icon_house_alt"></i>
-                                TravelBiz HQ, India
-                            </li>
-                            <li>
-                                <i class="icon_mobile"></i>
-                                +91 98794 77399
-                            </li>
-                            <li>
-                                <i class="icon_mail_alt"></i>
-                                <a href="mailto:support@travelbiz.com">
-                                    support@travelbiz.com
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- KEEP IN TOUCH -->
-                <div class="col-lg-3 col-md-6">
-                    <h3 data-bs-target="#collapse_4">Keep in touch</h3>
-                    <div class="collapse dont-collapse-sm" id="collapse_4">
-
-                        <!-- NEWSLETTER -->
-                        <div id="newsletter">
-                            <div id="message-newsletter"></div>
-                            <form>
-                                <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Your email">
-                                    <button type="submit">
-                                        <i class="arrow_carrot-right"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- SOCIAL -->
-                        <div class="follow_us">
-                            <h5>Follow Us</h5>
-                            <ul>
-                                <li><a href="https://www.facebook.com/"><i class="bi bi-facebook"></i></a></li>
-                                <li><a href=https://twitter.com/"><i class="bi bi-twitter-x"></i></a></li>
-                                <li><a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a></li>
-                                <li><a href="https://www.tiktok.com/"><i class="bi bi-tiktok"></i></a></li>
-                                <li><a href="https://wa.me/919879477399"><i class="bi bi-whatsapp"></i></a></li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <!-- /row -->
-
-            <hr>
-
-            <div class="row add_bottom_25">
-                <div class="col-lg-6">
-                    <ul class="footer-selector clearfix">
-                        <li>
-                            <div class="styled-select lang-selector">
-                                <select>
-                                    <option selected>English</option>
-                                    <option>French</option>
-                                    <option>Spanish</option>
-                                    <option>Russian</option>
-                                </select>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="styled-select currency-selector">
-                                <select>
-                                    <option selected>INR</option>
-                                    <option>USD</option>
-                                    <option>EUR</option>
-                                </select>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="{% static 'img/cards_all.svg' %}" width="198" height="30" alt="">
-                        </li>
+          <div class="col-md-6">
+            <div class="list_home">
+              <ul>
+                {% for d in deals|slice:":3" %}
+                <li class="gsap-fade-up">
+                  <a href="{{ d.url }}">
+                    <figure>
+                      <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
+                    </figure>
+                    <div class="score"><strong>{{ d.rating }}</strong></div>
+                    <em>{{ d.category }}</em>
+                    <h3>{{ d.title }}</h3>
+                    <small>{{ d.subtitle }}</small>
+                    <ul>
+                      {% if d.discount %}<li><span class="ribbon off">{{ d.discount }}</span></li>{% endif %}
+                      <li>{{ d.person_type }}</li>
                     </ul>
-                </div>
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
 
-                <div class="col-lg-6">
-                    <ul class="additional_links">
-                        <li><a href="#">Terms and conditions</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><span>© TravelBiz</span></li>
+          <div class="col-md-6">
+            <div class="list_home">
+              <ul>
+                {% for d in deals|slice:"3:6" %}
+                <li class="gsap-fade-up">
+                  <a href="{{ d.url }}">
+                    <figure>
+                      <img src="{{ d.image.url }}" alt="{{ d.title }}" class="lazy">
+                    </figure>
+                    <div class="score"><strong>{{ d.rating }}</strong></div>
+                    <em>{{ d.category }}</em>
+                    <h3>{{ d.title }}</h3>
+                    <small>{{ d.subtitle }}</small>
+                    <ul>
+                      {% if d.discount %}<li><span class="ribbon off">{{ d.discount }}</span></li>{% endif %}
+                      <li>{{ d.person_type }}</li>
                     </ul>
-                </div>
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
             </div>
+          </div>
+
+        </div><!-- /row deals -->
+        <p class="text-center d-block d-md-block d-lg-none">
+          <a href="grid-destinations.html" class="btn_1">View All</a>
+        </p>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         TOP VERIFIED VENDORS
+    ════════════════════════════════════════════════════════ -->
+    <section id="section-vendors">
+      <div class="container">
+
+        <div class="text-center mb-5 gsap-fade-up">
+          <span class="tb-section-eyebrow">Trusted Partners</span>
+          <h2 class="tb-section-title">Top Verified <em>Vendors</em></h2>
+          <p class="tb-section-sub mx-auto">Trusted travel partners with top quality services.</p>
         </div>
-    </footer>
-    <!-- /footer -->
-    <!--/footer-->
-    <div id="toTop"></div><!-- Back to top button -->
 
-    <div class="layer"></div><!-- Opacity Mask Menu Mobile -->
-
-    <!-- Sign In Modal -->
-    <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
-        <div class="modal_header">
-            <h3>Sign In</h3>
-        </div>
-
-        <form method="post" action="{% url 'vendor_login' %}">
-            {% csrf_token %}
-            <div class="sign-in-wrapper">
-
-                <div class="divider"><span>Or sign in with email</span></div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" name="email" required>
-                    <i class="icon_mail_alt"></i>
-                </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" name="password" required>
-                    <i class="icon_lock_alt"></i>
-                </div>
-
-                <div class="clearfix add_bottom_15">
-                    <div class="checkboxes float-start">
-                        <label class="container_check">Remember me
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="float-end">
-                        <a href="javascript:void(0);" id="forgot">Forgot Password?</a>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <input type="submit" value="Log In" class="btn_1 full-width mb_5">
-                    Don’t have an account?
-                    <a href="{% url 'vendor_register' %}">Sign up</a>
-                </div>
-
-                <div id="forgot_pw">
-                    <div class="form-group">
-                        <label>Please confirm login email below</label>
-                        <input type="email" class="form-control" name="email_forgot">
-                        <i class="icon_mail_alt"></i>
-                    </div>
-                    <p>You will receive an email with a reset password link.</p>
-                    <div class="text-center">
-                        <input type="submit" value="Reset Password" class="btn_1">
-                    </div>
-                </div>
-
+        <div class="row vendor-strip">
+          {% for v in vendors %}
+          <div class="col-lg-4 col-md-6 mb-4 gsap-fade-up">
+            <div class="strip">
+              <figure>
+                {% if v.logo %}
+                <img src="{{ v.logo.url }}" alt="{{ v.business_name }}"
+                  style="height:200px;object-fit:cover;width:100%;">
+                {% else %}
+                <img src="{% static 'img/vendor_default.jpg' %}" alt="Vendor">
+                {% endif %}
+              </figure>
+              <ul>
+                <li><strong>{{ v.business_name }}</strong></li>
+                <li>{{ v.city }}, {{ v.country }}</li>
+                <li>
+                  <div class="score"><strong>{{ v.rating }}</strong></div>
+                </li>
+              </ul>
             </div>
-        </form>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         CALL TO ACTION
+    ════════════════════════════════════════════════════════ -->
+    <div id="section-cta" class="call_section lazy"
+      data-bg="url({{ call_section.background_image.url }})">
+      <div class="container clearfix">
+        <div class="col-lg-5 col-md-6 float-end gsap-fade-left">
+          <div class="box_1">
+            <h3>{{ call_section.title }}</h3>
+            <p>{{ call_section.description }}</p>
+            <a href="{{ call_section.button_url }}" class="btn_1">
+              {{ call_section.button_text }}
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- /Sign In Modal -->
 
-    <!-- COMMON SCRIPTS -->
-    <script src="{% static 'js/common_scripts.min.js' %}"></script>
-    <script src="{% static 'js/common_func.js' %}"></script>
-    <script src="{% static 'assets/validate.js' %}"></script>
-
-    <!-- Bootstrap Dropdown -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </main>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="container">
+      <div class="row">
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            flatpickr(".datepicker", {
-                dateFormat: "d M Y",   // 12 Jan 2025
-                minDate: "today",
-                disableMobile: true
-            });
+        <div class="col-lg-3 col-md-6">
+          <h3 data-bs-target="#collapse_1">Quick Links</h3>
+          <div class="collapse dont-collapse-sm links" id="collapse_1">
+            <ul>
+              <li><a href="{% url 'become_driver' %}">Become a Rider</a></li>
+              <li><a href="{% url 'help' %}">Help</a></li>
+              <li><a href="{% url 'my_account' %}">My account</a></li>
+              <li><a href="{% url 'blog_list' %}">Blog</a></li>
+              <li><a href="{% url 'contact' %}">Contacts</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h3 data-bs-target="#collapse_2">Categories</h3>
+          <div class="collapse dont-collapse-sm links" id="collapse_2">
+            <ul>
+              <li><a href="#">Top Categories</a></li>
+              <li><a href="#">Best Rated</a></li>
+              <li><a href="#">Best Price</a></li>
+              <li><a href="#">Latest Submissions</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h3 data-bs-target="#collapse_3">Contacts</h3>
+          <div class="collapse dont-collapse-sm contacts" id="collapse_3">
+            <ul>
+              <li><i class="icon_house_alt"></i> TravelBiz HQ, India</li>
+              <li><i class="icon_mobile"></i> +91 98794 77399</li>
+              <li>
+                <i class="icon_mail_alt"></i>
+                <a href="mailto:support@travelbiz.com">support@travelbiz.com</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h3 data-bs-target="#collapse_4">Keep in touch</h3>
+          <div class="collapse dont-collapse-sm" id="collapse_4">
+            <div id="newsletter">
+              <div id="message-newsletter"></div>
+              <form>
+                <div class="form-group">
+                  <input type="email" class="form-control" placeholder="Your email">
+                  <button type="submit"><i class="arrow_carrot-right"></i></button>
+                </div>
+              </form>
+            </div>
+            <div class="follow_us">
+              <h5>Follow Us</h5>
+              <ul>
+                <li><a href="https://www.facebook.com/"><i class="bi bi-facebook"></i></a></li>
+                <li><a href="https://twitter.com/"><i class="bi bi-twitter-x"></i></a></li>
+                <li><a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a></li>
+                <li><a href="https://www.tiktok.com/"><i class="bi bi-tiktok"></i></a></li>
+                <li><a href="https://wa.me/919879477399"><i class="bi bi-whatsapp"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+      <hr>
+      <div class="row add_bottom_25">
+        <div class="col-lg-6">
+          <ul class="footer-selector clearfix">
+            <li>
+              <div class="styled-select lang-selector">
+                <select>
+                  <option selected>English</option>
+                  <option>French</option>
+                  <option>Spanish</option>
+                  <option>Russian</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="styled-select currency-selector">
+                <select>
+                  <option selected>INR</option>
+                  <option>USD</option>
+                  <option>EUR</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <img src="{% static 'img/cards_all.svg' %}" width="198" height="30" alt="">
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <ul class="additional_links">
+            <li><a href="#">Terms and conditions</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><span>© TravelBiz</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toTop"></div>
+  <div class="layer"></div>
+
+  <!-- Sign In Modal -->
+  <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+    <div class="modal_header"><h3>Sign In</h3></div>
+    <form method="post" action="{% url 'vendor_login' %}">
+      {% csrf_token %}
+      <div class="sign-in-wrapper">
+        <div class="divider"><span>Or sign in with email</span></div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" name="email" required>
+          <i class="icon_mail_alt"></i>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" name="password" required>
+          <i class="icon_lock_alt"></i>
+        </div>
+        <div class="clearfix add_bottom_15">
+          <div class="checkboxes float-start">
+            <label class="container_check">Remember me
+              <input type="checkbox">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="float-end">
+            <a href="javascript:void(0);" id="forgot">Forgot Password?</a>
+          </div>
+        </div>
+        <div class="text-center">
+          <input type="submit" value="Log In" class="btn_1 full-width mb_5">
+          Don't have an account? <a href="{% url 'vendor_register' %}">Sign up</a>
+        </div>
+        <div id="forgot_pw">
+          <div class="form-group">
+            <label>Please confirm login email below</label>
+            <input type="email" class="form-control" name="email_forgot">
+            <i class="icon_mail_alt"></i>
+          </div>
+          <p>You will receive an email with a reset password link.</p>
+          <div class="text-center">
+            <input type="submit" value="Reset Password" class="btn_1">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- ═══ COMMON SCRIPTS ═══ -->
+  <script src="{% static 'js/common_scripts.min.js' %}"></script>
+  <script src="{% static 'js/common_func.js' %}"></script>
+  <script src="{% static 'assets/validate.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      flatpickr(".datepicker", {
+        dateFormat: "d M Y",
+        minDate: "today",
+        disableMobile: true
+      });
+    });
+  </script>
+
+  <!-- Dailymotion video embed -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const videoContainer = document.getElementById("hero-dailymotion");
+      if (!videoContainer) return;
+      const dailymotionUrl = "{{ hero.background_video_url|escapejs }}";
+      if (!dailymotionUrl) return;
+
+      function getVideoId(url) {
+        try {
+          if (url.indexOf('/') === -1 && url.length > 0) return url;
+          const shortMatch = url.match(/dai\.ly\/([a-zA-Z0-9]+)/);
+          if (shortMatch && shortMatch[1]) return shortMatch[1];
+          const videoMatch = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+          if (videoMatch && videoMatch[1]) return videoMatch[1];
+          const embedMatch = url.match(/dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/);
+          if (embedMatch && embedMatch[1]) return embedMatch[1];
+          const parsed = new URL(url);
+          const video = parsed.searchParams.get("video");
+          if (video) return video;
+        } catch (e) { console.error("DM URL error:", e); }
+        return null;
+      }
+
+      const videoId = getVideoId(dailymotionUrl);
+      if (!videoId) { console.error("Invalid Dailymotion URL:", dailymotionUrl); return; }
+
+      const iframe = document.createElement("iframe");
+      iframe.className = "hero-video-frame";
+      iframe.src = "https://www.dailymotion.com/embed/video/" +
+        encodeURIComponent(videoId) +
+        "?autoplay=1&mute=1&loop=1&playlist=" + encodeURIComponent(videoId) +
+        "&ui-start-screen-info=0&ui-logo=0&controls=0";
+      iframe.frameBorder = "0";
+      iframe.allowFullscreen = true;
+      iframe.setAttribute("allow", "autoplay; fullscreen");
+      iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+      videoContainer.appendChild(iframe);
+    });
+  </script>
+
+
+  <!-- ★══════════════════════════════════════════════════════
+       GSAP + SCROLLTRIGGER — PREMIUM ANIMATIONS
+  ═══════════════════════════════════════════════════════════ -->
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+  (function () {
+    // Bail on prefers-reduced-motion
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      document.querySelectorAll('.gsap-fade-up,.gsap-fade-left,.gsap-fade-right,.gsap-fade-in,.gsap-scale-in').forEach(function(el){
+        el.style.opacity = 1;
+        el.style.transform = 'none';
+      });
+      document.getElementById('hero-scroll-hint').style.opacity = 1;
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ─── 0. SCROLL PROGRESS BAR ─── */
+    const progressBar = document.getElementById('tb-scroll-progress');
+    ScrollTrigger.create({
+      start: 'top top',
+      end: 'max',
+      onUpdate: function(self) {
+        progressBar.style.width = (self.progress * 100) + '%';
+      }
+    });
+
+
+    /* ─── 1. HERO BACKGROUND PINNED ZOOM ─── */
+    // Only on desktop (wider than 768px) for true cinematic pin
+    ScrollTrigger.matchMedia({
+
+      '(min-width: 769px)': function () {
+
+        // Pin the whole hero while we zoom
+        ScrollTrigger.create({
+          trigger: '#tb-hero-pinned',
+          start: 'top top',
+          end: '+=80%',
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
         });
-    </script>
 
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const videoContainer = document.getElementById("hero-dailymotion");
-
-            if (!videoContainer) return;
-
-            const dailymotionUrl = "{{ hero.background_video_url|escapejs }}";
-
-            if (!dailymotionUrl) return;
-
-            // ------------------------------------------------
-            // Extract Dailymotion Video ID (કોઈપણ લિંક સપોર્ટ કરશે)
-            // ------------------------------------------------
-            function getVideoId(url) {
-                try {
-                    // જો એડમિનમાં ડાયરેક્ટ આઈડી જ લખી દીધો હોય (જેમ કે xb2npze)
-                    if (url.indexOf('/') === -1 && url.length > 0) {
-                        return url;
-                    }
-
-                    // dai.ly/xXXXXXX
-                    const shortMatch = url.match(/dai\.ly\/([a-zA-Z0-9]+)/);
-                    if (shortMatch && shortMatch[1]) {
-                        return shortMatch[1];
-                    }
-
-                    // ://dailymotion.com
-                    const videoMatch = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-                    if (videoMatch && videoMatch[1]) {
-                        return videoMatch[1];
-                    }
-
-                    // ://dailymotion.com (આ તમારી લિંક માટે છે)
-                    const embedMatch = url.match(/dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/);
-                    if (embedMatch && embedMatch[1]) {
-                        return embedMatch[1];
-                    }
-
-                    // ://dailymotion.com
-                    const parsed = new URL(url);
-                    const video = parsed.searchParams.get("video");
-                    if (video) {
-                        return video;
-                    }
-
-                } catch (error) {
-                    console.error("Dailymotion URL error:", error);
-                }
-                return null;
-            }
-
-            const videoId = getVideoId(dailymotionUrl);
-
-            if (!videoId) {
-                console.error("Invalid Dailymotion video URL:", dailymotionUrl);
-                return;
-            }
-
-            // ------------------------------------------------
-            // STANDARD DAILYMOTION PLAYER (WITHOUT PLAYER ID)
-            // ------------------------------------------------
-            const iframe = document.createElement("iframe");
-            iframe.className = "hero-video-frame";
-
-            // પ્લેયર આઈડી વગર ચાલતી પરફેક્ટ લીંક
-            iframe.src =
-                "https://www.dailymotion.com/embed/video/" +
-                encodeURIComponent(videoId) +
-                "?autoplay=1" +
-                "&mute=1" +
-                "&loop=1" +
-                "&playlist=" + encodeURIComponent(videoId) +
-                "&ui-start-screen-info=0" +
-                "&ui-logo=0" +
-                "&controls=0";
-
-            iframe.frameBorder = "0";
-            iframe.allowFullscreen = true;
-
-            iframe.setAttribute("allow", "autoplay; fullscreen");
-            iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
-
-            videoContainer.appendChild(iframe);
+        // Zoom the background in slowly
+        gsap.to('#tb-hero-bg', {
+          scale: 1.20,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#tb-hero-pinned',
+            start: 'top top',
+            end: '+=80%',
+            scrub: 2,
+          }
         });
-    </script>
+
+        // Fade & lift hero content as you scroll INTO the pin
+        gsap.to('.hero-content-layer', {
+          y: -60,
+          opacity: 0.2,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#tb-hero-pinned',
+            start: 'top top',
+            end: '+=60%',
+            scrub: 1.5,
+          }
+        });
+      },
+
+      '(max-width: 768px)': function () {
+        // On mobile: simple parallax, no pin (too disorienting)
+        gsap.to('#tb-hero-bg', {
+          y: 80,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#tb-hero-pinned',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1,
+          }
+        });
+      }
+
+    });
 
 
-    {% block extra_js %}{% endblock %}
+    /* ─── 2. HERO ENTRANCE ANIMATIONS (page load) ─── */
+    var heroTl = gsap.timeline({ delay: 0.4 });
 
+    heroTl
+      .to('#hero-eyebrow', {
+        opacity: 1, y: 0, duration: 1.0, ease: 'power3.out'
+      })
+      .to('#hero-title', {
+        opacity: 1, y: 0, duration: 1.1, ease: 'power3.out'
+      }, '-=0.6')
+      .to('#hero-sub', {
+        opacity: 1, y: 0, duration: 1.0, ease: 'power3.out'
+      }, '-=0.7')
+      .to('#hero-search', {
+        opacity: 1, y: 0, duration: 0.9, ease: 'power3.out'
+      }, '-=0.6')
+      .to('#hero-scroll-hint', {
+        opacity: 1, duration: 0.8, ease: 'power2.out'
+      }, '-=0.3');
+
+
+    /* ─── 3. GENERIC SECTION REVEAL HELPER ─── */
+    function revealOnScroll(targets, extra) {
+      extra = extra || {};
+      gsap.utils.toArray(targets).forEach(function(el, i) {
+        gsap.to(el, Object.assign({
+          opacity: 1,
+          y: 0,
+          x: 0,
+          scale: 1,
+          duration: 1.1,
+          ease: 'power3.out',
+          delay: (i % 3) * 0.12,  // stagger within each row of 3
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            once: true,
+          }
+        }, extra));
+      });
+    }
+
+    // Fade-up elements
+    revealOnScroll('.gsap-fade-up');
+
+    // Fade-in elements
+    gsap.utils.toArray('.gsap-fade-in').forEach(function(el) {
+      gsap.to(el, {
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+      });
+    });
+
+    // Fade-left
+    revealOnScroll('.gsap-fade-left');
+
+    // Scale-in (banner, etc.)
+    revealOnScroll('.gsap-scale-in');
+
+
+    /* ─── 4. STATS COUNTER ─── */
+    document.querySelectorAll('.counter').forEach(function(counter) {
+      var target = parseInt(counter.getAttribute('data-target'), 10);
+      var obj = { val: 0 };
+
+      ScrollTrigger.create({
+        trigger: '#section-stats',
+        start: 'top 80%',
+        once: true,
+        onEnter: function() {
+          gsap.to(obj, {
+            val: target,
+            duration: 2.2,
+            ease: 'power2.out',
+            onUpdate: function() {
+              counter.textContent = Math.round(obj.val).toLocaleString('en-IN');
+            }
+          });
+        }
+      });
+    });
+
+
+    /* ─── 5. MIDDLE BANNER PARALLAX ─── */
+    gsap.to('#mid-banner', {
+      backgroundPositionY: '25%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#mid-banner',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1,
+      }
+    });
+
+
+    /* ─── 6. CTA SECTION PARALLAX BG ─── */
+    gsap.to('#section-cta', {
+      backgroundPositionY: '30%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#section-cta',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1,
+      }
+    });
+
+
+    /* ─── 7. SECTION HORIZONTAL LINES (gold dividers) ─── */
+    gsap.utils.toArray('.tb-divider').forEach(function(divider) {
+      gsap.from(divider, {
+        scaleX: 0,
+        transformOrigin: 'center center',
+        duration: 1.4,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: divider, start: 'top 90%', once: true }
+      });
+    });
+
+
+    /* ─── 8. WHY CARDS STAGGER ─── */
+    gsap.utils.toArray('#section-why .why-card').forEach(function(card, i) {
+      gsap.from(card, {
+        opacity: 0,
+        y: 50,
+        duration: 1.0,
+        delay: i * 0.18,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '#section-why', start: 'top 75%', once: true }
+      });
+    });
+
+
+    /* ─── 9. FOOTER REVEAL ─── */
+    gsap.from('footer', {
+      opacity: 0,
+      y: 40,
+      duration: 1.0,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: 'footer', start: 'top 95%', once: true }
+    });
+
+  })();
+  </script>
+
+
+  {% block extra_js %}{% endblock %}
 
 </body>
-
 </html>
