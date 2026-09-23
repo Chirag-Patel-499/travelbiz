@@ -724,45 +724,155 @@
     });
   </script>
 
-  <!-- Dailymotion video embed -->
+  <!-- ═══════════════════════════════════════════════
+      DAILYMOTION HERO VIDEO
+  ════════════════════════════════════════════════ -->
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
+
       const videoContainer = document.getElementById("hero-dailymotion");
+
       if (!videoContainer) return;
+
       const dailymotionUrl = "{{ hero.background_video_url|escapejs }}";
+
       if (!dailymotionUrl) return;
 
+
+      /* ---------------------------------------------
+        Extract Dailymotion Video ID
+      --------------------------------------------- */
       function getVideoId(url) {
-        try {
-          if (url.indexOf('/') === -1 && url.length > 0) return url;
-          const shortMatch = url.match(/dai\.ly\/([a-zA-Z0-9]+)/);
-          if (shortMatch && shortMatch[1]) return shortMatch[1];
-          const videoMatch = url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-          if (videoMatch && videoMatch[1]) return videoMatch[1];
-          const embedMatch = url.match(/dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/);
-          if (embedMatch && embedMatch[1]) return embedMatch[1];
-          const parsed = new URL(url);
-          const video = parsed.searchParams.get("video");
-          if (video) return video;
-        } catch (e) { console.error("DM URL error:", e); }
-        return null;
+
+          try {
+
+              url = url.trim();
+
+              // Direct ID
+              if (
+                  !url.includes("/") &&
+                  !url.includes(".") &&
+                  url.length > 0
+              ) {
+                  return url;
+              }
+
+              // dai.ly/xb2npze
+              const shortMatch = url.match(
+                  /dai\.ly\/([a-zA-Z0-9]+)/
+              );
+
+              if (shortMatch && shortMatch[1]) {
+                  return shortMatch[1];
+              }
+
+              // dailymotion.com/video/xb2npze
+              const videoMatch = url.match(
+                  /dailymotion\.com\/video\/([a-zA-Z0-9]+)/
+              );
+
+              if (videoMatch && videoMatch[1]) {
+                  return videoMatch[1];
+              }
+
+              // dailymotion.com/embed/video/xb2npze
+              const embedMatch = url.match(
+                  /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/
+              );
+
+              if (embedMatch && embedMatch[1]) {
+                  return embedMatch[1];
+              }
+
+              // geo.dailymotion.com/player.html?video=xb2npze
+              const parsedUrl = new URL(url);
+
+              const videoParam = parsedUrl.searchParams.get("video");
+
+              if (videoParam) {
+                  return videoParam;
+              }
+
+          } catch (error) {
+
+              console.error(
+                  "Dailymotion URL error:",
+                  error
+              );
+
+          }
+
+          return null;
       }
 
-      const videoId = getVideoId(dailymotionUrl);
-      if (!videoId) { console.error("Invalid Dailymotion URL:", dailymotionUrl); return; }
 
+      const videoId = getVideoId(dailymotionUrl);
+
+
+      if (!videoId) {
+
+          console.error(
+              "Invalid Dailymotion URL:",
+              dailymotionUrl
+          );
+
+          return;
+      }
+
+
+      /* ---------------------------------------------
+        Prevent duplicate iframe
+      --------------------------------------------- */
+      videoContainer.innerHTML = "";
+
+
+      /* ---------------------------------------------
+        New Dailymotion Player URL
+        No legacy /embed/video/ endpoint
+      --------------------------------------------- */
       const iframe = document.createElement("iframe");
+
       iframe.className = "hero-video-frame";
-      iframe.src = "https://www.dailymotion.com/embed/video/" +
-        encodeURIComponent(videoId) +
-        "?autoplay=1&mute=1&loop=1&playlist=" + encodeURIComponent(videoId) +
-        "&ui-start-screen-info=0&ui-logo=0&controls=0";
-      iframe.frameBorder = "0";
-      iframe.allowFullscreen = true;
-      iframe.setAttribute("allow", "autoplay; fullscreen");
-      iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+
+      iframe.src =
+          "https://geo.dailymotion.com/player.html" +
+          "?video=" + encodeURIComponent(videoId) +
+          "&mute=true" +
+          "&loop=true";
+
+
+      /* ---------------------------------------------
+        iframe attributes
+      --------------------------------------------- */
+      iframe.setAttribute("frameborder", "0");
+
+      iframe.setAttribute("allowfullscreen", "");
+
+      iframe.setAttribute(
+          "allow",
+          "autoplay; fullscreen; picture-in-picture; web-share"
+      );
+
+      iframe.setAttribute(
+          "referrerpolicy",
+          "strict-origin-when-cross-origin"
+      );
+
+
+      /* ---------------------------------------------
+        Full background sizing
+      --------------------------------------------- */
+      iframe.style.position = "absolute";
+      iframe.style.top = "0";
+      iframe.style.left = "0";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.border = "0";
+
+
       videoContainer.appendChild(iframe);
-    });
+
+  });
   </script>
 
 

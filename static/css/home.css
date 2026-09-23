@@ -971,3 +971,42 @@ a.btn_explore:hover {
     position: relative;
     z-index: 2;
 }
+
+
+/* =========================================
+   TRAVELBIZ HERO DAILYMOTION VIDEO
+========================================= */
+
+#tb-hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+#hero-dailymotion {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.hero-video-frame {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+
+    width: 100vw !important;
+    height: 56.25vw !important;
+
+    min-width: 177.78vh !important;
+    min-height: 100vh !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    border: 0 !important;
+    pointer-events: none;
+}
