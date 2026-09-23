@@ -952,3 +952,68 @@ footer hr { border-color: rgba(255,255,255,0.08) !important; }
   .hero-scroll-hint { opacity: 1; }
 }
 
+
+/* =========================================================
+   HERO — BREAK OUT OF PARENT WIDTH
+   FORCE TRUE FULL BROWSER WIDTH
+========================================================= */
+
+main > #tb-hero-pinned {
+    width: 100vw !important;
+    max-width: none !important;
+
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    height: 100vh !important;
+    min-height: 100vh !important;
+
+    overflow: hidden !important;
+}
+
+
+/* Background must follow full hero */
+main > #tb-hero-pinned > #tb-hero-bg {
+    width: 100% !important;
+    height: 100% !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+}
+
+
+/* Dailymotion container */
+main > #tb-hero-pinned #hero-dailymotion {
+    width: 100% !important;
+    height: 100% !important;
+
+    top: 0 !important;
+    left: 0 !important;
+}
+
+
+/* Dailymotion video */
+main > #tb-hero-pinned iframe.hero-video-frame {
+    position: absolute !important;
+
+    top: 50% !important;
+    left: 50% !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    min-width: 100vw !important;
+    min-height: 100vh !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    border: 0 !important;
+}
