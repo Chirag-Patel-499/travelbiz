@@ -904,14 +904,56 @@
 
       '(min-width: 769px)': function () {
 
-        // Pin the whole hero while we zoom
-        ScrollTrigger.create({
-          trigger: '#tb-hero-pinned',
-          start: 'top top',
-          end: '+=80%',
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
+        /* ─── 1. HERO BACKGROUND ZOOM — NO PIN ─── */
+
+        ScrollTrigger.matchMedia({
+
+          '(min-width: 769px)': function () {
+
+            // Background zoom follows the normal hero scroll.
+            // No pin = no extra/double scroll.
+            gsap.to('#tb-hero-bg', {
+              scale: 1.12,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: '#tb-hero-pinned',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1.5
+              }
+            });
+
+            // Fade content while naturally scrolling out of hero
+            gsap.to('.hero-content-layer', {
+              y: -60,
+              opacity: 0.2,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: '#tb-hero-pinned',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1.2
+              }
+            });
+
+          },
+
+          '(max-width: 768px)': function () {
+
+            // Mobile: normal parallax, no pin
+            gsap.to('#tb-hero-bg', {
+              y: 60,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: '#tb-hero-pinned',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1
+              }
+            });
+
+          }
+
         });
 
         // Zoom the background in slowly
